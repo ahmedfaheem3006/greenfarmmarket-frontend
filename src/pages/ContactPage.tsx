@@ -27,8 +27,13 @@ export const ContactPage: React.FC = () => {
         setFormData({ name: '', phone: '', email: '', subject: '', message: '' });
       }
     } catch (err: any) {
-      toast.success('تم تسليم رسالتك بنجاح وسيتواصل معك الفريق الفني قريباً!');
-      setFormData({ name: '', phone: '', email: '', subject: '', message: '' });
+      const apiError = err?.response?.data?.message || 'تعذر إرسال الرسالة. يرجى التأكد من البيانات أو الاتصال بالشبكة.';
+      if (import.meta.env.PROD) {
+        toast.error(apiError);
+      } else {
+        toast.success('تم تسليم رسالتك بنجاح وسيتواصل معك الفريق الفني قريباً!');
+        setFormData({ name: '', phone: '', email: '', subject: '', message: '' });
+      }
     } finally {
       setLoading(false);
     }

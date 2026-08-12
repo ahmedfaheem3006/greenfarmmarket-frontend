@@ -87,22 +87,27 @@ export const JobsPage: React.FC = () => {
       toast.success('تم نشر إعلان الوظيفة بنجاح!');
       setShowAddModal(false);
       fetchJobs();
-    } catch (e) {
-      const created: Job = {
-        id: 'job-' + Date.now(),
-        type: activeTab,
-        title: newJob.title,
-        description: newJob.description,
-        roleCategory: newJob.roleCategory,
-        governorate: newJob.governorate,
-        salaryRange: newJob.salaryRange,
-        experienceYears: newJob.experienceYears,
-        contactPhone: newJob.contactPhone,
-        createdAt: new Date().toISOString(),
-      };
-      setJobs([created, ...jobs]);
-      toast.success('تم نشر إعلان الوظيفة بنجاح!');
-      setShowAddModal(false);
+    } catch (err: any) {
+      const apiError = err?.response?.data?.message || 'حدث خطأ أثناء نشر الإعلان الوظيفي. يرجى المحاولة لاحقاً.';
+      if (import.meta.env.PROD) {
+        toast.error(apiError);
+      } else {
+        const created: Job = {
+          id: 'job-' + Date.now(),
+          type: activeTab,
+          title: newJob.title,
+          description: newJob.description,
+          roleCategory: newJob.roleCategory,
+          governorate: newJob.governorate,
+          salaryRange: newJob.salaryRange,
+          experienceYears: newJob.experienceYears,
+          contactPhone: newJob.contactPhone,
+          createdAt: new Date().toISOString(),
+        };
+        setJobs([created, ...jobs]);
+        toast.success('تم نشر إعلان الوظيفة بنجاح!');
+        setShowAddModal(false);
+      }
     }
   };
 

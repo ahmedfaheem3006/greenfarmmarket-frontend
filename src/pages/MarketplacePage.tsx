@@ -118,26 +118,31 @@ export const MarketplacePage: React.FC = () => {
         setShowAddModal(false);
         fetchProducts();
       }
-    } catch (err) {
-      const created: Product = {
-        id: 'product-' + Date.now(),
-        sellerId: user?.id || 'demo-user',
-        seller: { name: user?.name || 'مزارع مسجل', phone: user?.phone || '01012345678', governorate: newProduct.governorate, city: newProduct.city },
-        title: newProduct.title,
-        description: newProduct.description,
-        categorySlug: newProduct.categorySlug,
-        price: parseFloat(newProduct.price) || 1000,
-        priceUnit: newProduct.priceUnit,
-        governorate: newProduct.governorate,
-        city: newProduct.city,
-        quantity: parseInt(newProduct.quantity) || 1,
-        condition: newProduct.condition,
-        images: [newProduct.image || 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=600&auto=format&fit=crop'],
-        status: 'ACTIVE',
-      };
-      setProducts([created, ...products]);
-      toast.success('تمت إضافة المنتج بالسوق بنجاح!');
-      setShowAddModal(false);
+    } catch (err: any) {
+      const apiError = err?.response?.data?.message || 'تعذر إضافة المنتج بالسوق. يرجى التأكد من البيانات أو الاتصال بالشبكة.';
+      if (import.meta.env.PROD) {
+        toast.error(apiError);
+      } else {
+        const created: Product = {
+          id: 'product-' + Date.now(),
+          sellerId: user?.id || 'demo-user',
+          seller: { name: user?.name || 'مزارع مسجل', phone: user?.phone || '01012345678', governorate: newProduct.governorate, city: newProduct.city },
+          title: newProduct.title,
+          description: newProduct.description,
+          categorySlug: newProduct.categorySlug,
+          price: parseFloat(newProduct.price) || 1000,
+          priceUnit: newProduct.priceUnit,
+          governorate: newProduct.governorate,
+          city: newProduct.city,
+          quantity: parseInt(newProduct.quantity) || 1,
+          condition: newProduct.condition,
+          images: [newProduct.image || 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=600&auto=format&fit=crop'],
+          status: 'ACTIVE',
+        };
+        setProducts([created, ...products]);
+        toast.success('تمت إضافة المنتج بالسوق بنجاح!');
+        setShowAddModal(false);
+      }
     }
   };
 

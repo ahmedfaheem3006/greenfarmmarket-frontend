@@ -77,22 +77,27 @@ export const AiDoctorPage: React.FC = () => {
         toast.success('تم تحليل وتشخيص الحالة بنجاح!');
       }
     } catch (err: any) {
-      setTimeout(() => {
-        setResult({
-          id: 'diag-' + Date.now(),
-          mode,
-          symptomsText,
-          detectedDisease: mode === 'VIDEO'
-            ? 'تحليل الحركة: إجهاد حراري مع عرج خفيف في القائمة الخلفية'
-            : 'مرض النمش البكتيري (Bacterial Speck) والتبقع الورقي',
-          confidenceScore: 0.94,
-          severityLevel: 'درجة الخطورة: متوسطة (تأثير على 12% من المزرعة)',
-          recommendedTreatment: 'الرش بمبيد هيدروكسيد النحاس بمعدل 250جم/100 لتر ماء مع تقليل ساعات الري السطحي وإضافة مخصب عضوي محفز للجذور.',
-          satelliteTemp: 'درجة حرارة المزرعة عبر الأقمار الصناعية: 31°م - رطوبة 45%',
-          createdAt: new Date().toISOString(),
-        });
-        toast.success('تم إجراء الفحص وتشخيص الحالة!');
-      }, 1200);
+      const apiError = err?.response?.data?.message || 'تعذر تشخيص الحالة عبر خادم الذكاء الاصطناعي. يرجى المحاولة لاحقاً.';
+      if (import.meta.env.PROD) {
+        toast.error(apiError);
+      } else {
+        setTimeout(() => {
+          setResult({
+            id: 'diag-' + Date.now(),
+            mode,
+            symptomsText,
+            detectedDisease: mode === 'VIDEO'
+              ? 'تحليل الحركة: إجهاد حراري مع عرج خفيف في القائمة الخلفية'
+              : 'مرض النمش البكتيري (Bacterial Speck) والتبقع الورقي',
+            confidenceScore: 0.94,
+            severityLevel: 'درجة الخطورة: متوسطة (تأثير على 12% من المزرعة)',
+            recommendedTreatment: 'الرش بمبيد هيدروكسيد النحاس بمعدل 250جم/100 لتر ماء مع تقليل ساعات الري السطحي وإضافة مخصب عضوي محفز للجذور.',
+            satelliteTemp: 'درجة حرارة المزرعة عبر الأقمار الصناعية: 31°م - رطوبة 45%',
+            createdAt: new Date().toISOString(),
+          });
+          toast.success('تم إجراء الفحص وتشخيص الحالة!');
+        }, 1200);
+      }
     } finally {
       setAnalyzing(false);
     }

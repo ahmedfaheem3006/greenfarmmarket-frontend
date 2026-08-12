@@ -209,7 +209,6 @@ export const AuthModal: React.FC = () => {
                   <option value="AGRI_ENGINEER">مهندس زراعي</option>
                   <option value="DRIVER">سائق شاحنة نقل</option>
                   <option value="BUYER">تاجر / مشتري</option>
-                  <option value="ADMIN">مدير النظام</option>
                 </select>
               </div>
 
