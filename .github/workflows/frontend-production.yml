@@ -69,12 +69,23 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -euo pipefail
+
+          cd dist
+
+          git init
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          cd dist
-          git init
           git checkout -b hostinger-production
-          git add .
+
+          git add -A
+
           git commit -m "deploy: static production build from ${GITHUB_SHA}"
-          git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git hostinger-production --force
+
+          git push \
+            "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+            HEAD:hostinger-production \
+            --force
+
