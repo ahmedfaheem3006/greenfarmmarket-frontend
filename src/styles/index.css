@@ -1,0 +1,204 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root,
+[data-theme="light"],
+html.light {
+  --background: #F8FAFC;
+  --surface: #FFFFFF;
+  --surface-muted: #F1F5F9;
+  --surface-secondary: #FFFFFF;
+
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --border-color: #E2E8F0;
+
+  --brand-green: #059669;
+  --brand-green-dark: #047857;
+  --brand-green-soft: #D1FAE5;
+
+  --brand-red: #E11D48;
+  --brand-red-dark: #BE123C;
+  --brand-red-soft: #FFE4E6;
+
+  --brand-blue: #0284C7;
+  --brand-blue-dark: #0369A1;
+  --brand-blue-soft: #E0F2FE;
+
+  --header-bg: rgba(255, 255, 255, 0.95);
+  --header-scrolled: rgba(255, 255, 255, 0.98);
+  --shadow-header: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+[data-theme="dark"],
+html.dark {
+  /* Rich Dark Agricultural Green Palette */
+  --background: #051C12;
+  --surface: #0A291B;
+  --surface-muted: #103826;
+  --surface-secondary: #0E3120;
+
+  --text-primary: #F0FDF4;
+  --text-secondary: #A7F3D0;
+  --border-color: #1A5336;
+
+  --brand-green: #10B981;
+  --brand-green-dark: #34D399;
+  --brand-green-soft: rgba(16, 185, 129, 0.22);
+
+  --brand-red: #F43F5E;
+  --brand-red-dark: #FB7185;
+  --brand-red-soft: rgba(244, 63, 94, 0.22);
+
+  --brand-blue: #38BDF8;
+  --brand-blue-dark: #7DD3FC;
+  --brand-blue-soft: rgba(56, 189, 248, 0.22);
+
+  --header-bg: rgba(10, 41, 27, 0.95);
+  --header-scrolled: rgba(10, 41, 27, 0.98);
+  --shadow-header: 0 16px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* Global Border Color Enforcement - Guarantees ZERO white borders in Dark Mode */
+*,
+::before,
+::after {
+  border-color: var(--border-color);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-primary);
+  font-family: 'Cairo', sans-serif;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Custom Soft Chromatic Shadows */
+.shadow-soft-green {
+  box-shadow: 0 20px 45px rgba(5, 150, 105, 0.25);
+}
+
+.shadow-soft-red {
+  box-shadow: 0 20px 45px rgba(225, 29, 72, 0.25);
+}
+
+.shadow-soft-blue {
+  box-shadow: 0 20px 45px rgba(2, 132, 199, 0.25);
+}
+
+.shadow-soft-card {
+  box-shadow: var(--shadow-header);
+}
+
+.shadow-soft-hover {
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.shadow-soft-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 50px rgba(5, 150, 105, 0.2);
+}
+
+/* Global Sleek Subtle Card Border Radius Enforcement (14px) */
+.card-modern,
+[class*="bg-surface"],
+.rounded-3xl,
+.rounded-4xl,
+.rounded-5xl,
+[class*="rounded-3xl"],
+[class*="rounded-4xl"],
+[class*="rounded-5xl"] {
+  border-radius: 14px !important; /* Subtle, sleek 14px radius */
+}
+
+/* Tricolor RGB Title Gradient (Green -> Blue -> Red) */
+.text-gradient-rgb {
+  background: linear-gradient(135deg, #10B981 0%, #38BDF8 50%, #F43F5E 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: block;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.45 !important;
+  padding-top: 0.15em;
+  padding-bottom: 0.15em;
+  margin-bottom: 0.4rem;
+}
+
+/* Glassmorphic Navbar Background */
+.glass-header {
+  background-color: var(--header-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-color);
+  transition: padding 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-header-scrolled {
+  background-color: var(--header-scrolled);
+  box-shadow: var(--shadow-header);
+}
+
+/* RTL Underline Hover Animation */
+.nav-link-hover {
+  position: relative;
+}
+.nav-link-hover::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  right: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--brand-green);
+  transition: width 0.3s ease-in-out;
+  border-radius: 999px;
+}
+.nav-link-hover:hover::after {
+  width: 100%;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* Continuous Circular Queue Marquee */
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee-scroll 22s linear infinite;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface-muted);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-green);
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

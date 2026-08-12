@@ -1,0 +1,16 @@
+# Node dependencies
+node_modules/
+*.log
+
+# Environment configuration
+.env
+.env.*
+!.env.example
+
+# Build output
+dist/
+build/
+
+# System
+.DS_Store
+Thumbs.db
