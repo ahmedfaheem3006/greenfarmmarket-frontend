@@ -91,7 +91,7 @@ export const WorkflowCard: React.FC<WorkflowCardProps> = ({
           ? { duration: 4.2, repeat: Infinity, ease: 'easeInOut' }
           : undefined,
       }}
-      className="w-full bg-surface border-2 border-borderColor dark:border-[#1A5336] rounded-2xl sm:rounded-3xl p-4 sm:p-4.5 shadow-2xl isolate select-none will-change-transform text-right opacity-100"
+      className="w-full bg-surface border border-borderColor rounded-2xl sm:rounded-3xl p-4 sm:p-4.5 shadow-2xl isolate select-none will-change-transform text-right opacity-100"
       style={{ backgroundColor: 'var(--surface)' }}
     >
       <div className="flex items-center justify-between gap-3">

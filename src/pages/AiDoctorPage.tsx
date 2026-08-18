@@ -106,14 +106,14 @@ export const AiDoctorPage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10 space-y-8">
       {/* Header Banner */}
-      <div className="bg-surface border-2 border-brand-red/50 dark:border-rose-900/80 p-8 sm:p-10 rounded-4xl sm:rounded-5xl shadow-2xl shadow-brand-red/10 space-y-6 relative overflow-hidden isolate">
+      <div className="bg-surface border-2 border-brand-red/50 p-8 sm:p-10 rounded-4xl sm:rounded-5xl shadow-2xl shadow-brand-red/10 space-y-6 relative overflow-hidden isolate">
         {/* Glowing Ambient Red Decoration */}
         <div className="absolute -top-20 -right-20 w-52 h-52 bg-brand-red-soft/60 rounded-full blur-3xl pointer-events-none" />
 
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="space-y-1">
             <Badge variant="red" className="py-1 px-4 text-xs font-black shadow-sm">
-              <Stethoscope className="w-3.5 h-3.5 text-brand-red animate-pulse" /> صيدلية AI الطبية والاستجابة السريعة
+              <Stethoscope className="w-3.5 h-3.5 text-brand-red animate-pulse" /> بروتوكول AI Doctor للفحص الذكي
             </Badge>
             <h1 className="text-2xl sm:text-4xl font-black text-text-primary flex items-center gap-3 mt-2">
               <Stethoscope className="w-8 h-8 text-brand-red animate-pulse" />
@@ -129,7 +129,7 @@ export const AiDoctorPage: React.FC = () => {
               <Info className="w-4 h-4" /> سياسة الاستخدام والرسوم:
             </span>
             <p className="text-text-primary font-bold leading-relaxed">
-              الاستفسار النصي والصور <strong>مجانية 100%</strong>. فحص الفيديوهات يتيح <strong>1 فيديو مجاني شهرياً</strong> للمسجلين.
+              الاستفسار النصي الفوري <strong>مجاني</strong>. يتوفر كذلك مسار مستقل لتحليل الصور ومسار لفحص مقاطع الفيديو وفق سياسة الاستخدام.
             </p>
           </div>
         </div>
@@ -141,7 +141,7 @@ export const AiDoctorPage: React.FC = () => {
             size="sm"
             onClick={() => { setMode('TEXT'); setSelectedFile(null); setFilePreview(null); }}
           >
-            <PenSquare className="w-4 h-4" /> سؤال نصي (مجاني)
+            <PenSquare className="w-4 h-4" /> استفسار نصي فوري (مجاني)
           </Button>
 
           <Button
@@ -149,7 +149,7 @@ export const AiDoctorPage: React.FC = () => {
             size="sm"
             onClick={() => { setMode('IMAGE'); setSelectedFile(null); setFilePreview(null); }}
           >
-            <Camera className="w-4 h-4" /> رفع صورة (مجاني)
+            <Camera className="w-4 h-4" /> فحص وتحليل الصور
           </Button>
 
           <Button
@@ -157,7 +157,7 @@ export const AiDoctorPage: React.FC = () => {
             size="sm"
             onClick={() => { setMode('VIDEO'); setSelectedFile(null); setFilePreview(null); }}
           >
-            <Video className="w-4 h-4" /> رفع فيديو توضيحي
+            <Video className="w-4 h-4" /> فحص مقاطع الفيديو
           </Button>
         </div>
 

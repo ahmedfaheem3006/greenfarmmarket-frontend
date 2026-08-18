@@ -69,7 +69,7 @@ export const HeroWorkflowAnimation: React.FC = () => {
   // Reduced motion static fallback
   if (prefersReducedMotion) {
     return (
-      <div className="relative w-full h-[420px] sm:h-[460px] lg:h-[500px] rounded-5xl bg-surface-muted/60 border border-borderColor dark:border-[#1A5336] p-4 sm:p-6 flex flex-col justify-center space-y-4 shadow-soft-card overflow-hidden select-none">
+      <div className="relative w-full h-[420px] sm:h-[460px] lg:h-[500px] rounded-5xl bg-surface-muted/60 border border-borderColor p-4 sm:p-6 flex flex-col justify-center space-y-4 shadow-soft-card overflow-hidden select-none">
         <WorkflowConnectionLines />
         {WORKFLOW_CARDS.map((card) => (
           <WorkflowCard key={card.id} card={card} isVisible={true} isFloating={false} />
@@ -81,7 +81,7 @@ export const HeroWorkflowAnimation: React.FC = () => {
   return (
     <div
       aria-label="رسوم بيانية حية لمنظومة المزرعة الذكية - zig.ai style"
-      className="relative w-full h-[420px] sm:h-[460px] lg:h-[500px] rounded-5xl bg-surface-muted/60 border border-borderColor dark:border-[#1A5336] shadow-soft-card overflow-hidden select-none flex flex-col justify-center p-4 sm:p-6"
+      className="relative w-full h-[420px] sm:h-[460px] lg:h-[500px] rounded-5xl bg-surface-muted/60 border border-borderColor shadow-soft-card overflow-hidden select-none flex flex-col justify-center p-4 sm:p-6"
     >
       {/* Ambient background glows */}
       <div className="absolute -top-10 -right-10 w-64 h-64 bg-brand-green-soft/50 rounded-full blur-3xl pointer-events-none" />

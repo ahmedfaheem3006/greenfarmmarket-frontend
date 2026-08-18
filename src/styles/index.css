@@ -33,31 +33,34 @@ html.light {
 
 [data-theme="dark"],
 html.dark {
-  /* Rich Dark Agricultural Green Palette */
-  --background: #051C12;
-  --surface: #0A291B;
-  --surface-muted: #103826;
-  --surface-secondary: #0E3120;
+  /* Green Farm Market 2026 — approved energy-saving dark palette */
+  --background: #030D08;
+  --surface: #081C13;
+  --surface-muted: #0B2519;
+  --surface-secondary: #0E2B1E;
 
-  --text-primary: #F0FDF4;
-  --text-secondary: #A7F3D0;
-  --border-color: #1A5336;
+  --text-primary: #F1FFF7;
+  --text-secondary: #A8C9B7;
+  --border-color: #17452F;
 
-  --brand-green: #10B981;
-  --brand-green-dark: #34D399;
-  --brand-green-soft: rgba(16, 185, 129, 0.22);
+  --brand-green: #00FF66;
+  --brand-green-dark: #56FF98;
+  --brand-green-soft: rgba(0, 255, 102, 0.12);
 
-  --brand-red: #F43F5E;
-  --brand-red-dark: #FB7185;
-  --brand-red-soft: rgba(244, 63, 94, 0.22);
+  --brand-red: #FF3366;
+  --brand-red-dark: #FF6B90;
+  --brand-red-soft: rgba(255, 51, 102, 0.13);
 
-  --brand-blue: #38BDF8;
-  --brand-blue-dark: #7DD3FC;
-  --brand-blue-soft: rgba(56, 189, 248, 0.22);
+  --brand-blue: #00E5FF;
+  --brand-blue-dark: #5EEFFF;
+  --brand-blue-soft: rgba(0, 229, 255, 0.13);
 
-  --header-bg: rgba(10, 41, 27, 0.95);
-  --header-scrolled: rgba(10, 41, 27, 0.98);
-  --shadow-header: 0 16px 40px rgba(0, 0, 0, 0.6);
+  --accent-gold: #FFB703;
+  --accent-purple: #A855F7;
+
+  --header-bg: rgba(3, 13, 8, 0.88);
+  --header-scrolled: rgba(3, 13, 8, 0.97);
+  --shadow-header: 0 16px 44px rgba(0, 0, 0, 0.52);
 }
 
 /* Global Border Color Enforcement - Guarantees ZERO white borders in Dark Mode */
@@ -73,19 +76,38 @@ body {
   font-family: 'Cairo', sans-serif;
   overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
+  background-image:
+    radial-gradient(circle at 88% 10%, rgba(0, 255, 102, 0.055), transparent 27rem),
+    radial-gradient(circle at 8% 42%, rgba(0, 229, 255, 0.04), transparent 24rem);
+  background-attachment: fixed;
+}
+
+main {
+  isolation: isolate;
+}
+
+html.dark input,
+html.dark select,
+html.dark textarea {
+  color-scheme: dark;
+}
+
+::placeholder {
+  color: #6F9781;
+  opacity: 1;
 }
 
 /* Custom Soft Chromatic Shadows */
 .shadow-soft-green {
-  box-shadow: 0 20px 45px rgba(5, 150, 105, 0.25);
+  box-shadow: 0 14px 34px rgba(0, 255, 102, 0.14);
 }
 
 .shadow-soft-red {
-  box-shadow: 0 20px 45px rgba(225, 29, 72, 0.25);
+  box-shadow: 0 14px 34px rgba(255, 51, 102, 0.15);
 }
 
 .shadow-soft-blue {
-  box-shadow: 0 20px 45px rgba(2, 132, 199, 0.25);
+  box-shadow: 0 14px 34px rgba(0, 229, 255, 0.14);
 }
 
 .shadow-soft-card {
@@ -97,7 +119,7 @@ body {
 }
 .shadow-soft-hover:hover {
   transform: translateY(-4px);
-  box-shadow: 0 24px 50px rgba(5, 150, 105, 0.2);
+  box-shadow: 0 24px 50px rgba(0, 255, 102, 0.12);
 }
 
 /* Global Sleek Subtle Card Border Radius Enforcement (14px) */
@@ -114,7 +136,7 @@ body {
 
 /* Tricolor RGB Title Gradient (Green -> Blue -> Red) */
 .text-gradient-rgb {
-  background: linear-gradient(135deg, #10B981 0%, #38BDF8 50%, #F43F5E 100%);
+  background: linear-gradient(135deg, #00FF66 0%, #00E5FF 52%, #A855F7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -126,6 +148,44 @@ body {
   padding-top: 0.15em;
   padding-bottom: 0.15em;
   margin-bottom: 0.4rem;
+}
+
+/* Reusable dark-first page rhythm and neon service treatment. */
+.page-shell {
+  width: min(100%, 90rem);
+  margin-inline: auto;
+  padding: clamp(1.5rem, 3vw, 3rem) clamp(1rem, 4vw, 3rem);
+}
+
+.service-gate-card {
+  border-color: color-mix(in srgb, var(--service-accent) 30%, transparent);
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--service-accent) 7%, var(--surface)), var(--surface) 58%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.035), 0 18px 42px rgba(0,0,0,.28);
+}
+
+.service-gate-card:hover,
+.service-gate-card:focus-visible {
+  border-color: var(--service-accent);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--service-accent) 32%, transparent),
+    0 0 34px color-mix(in srgb, var(--service-accent) 18%, transparent),
+    0 24px 54px rgba(0,0,0,.38);
+}
+
+.neon-rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--service-accent), transparent);
+  opacity: .65;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
 }
 
 /* Glassmorphic Navbar Background */

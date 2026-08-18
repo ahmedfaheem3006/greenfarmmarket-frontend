@@ -6,7 +6,7 @@ import { api } from '../services/api';
 import { Job } from '../types';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
-import { Briefcase, PlusCircle, UserCheck, MapPin, Phone, X } from 'lucide-react';
+import { Briefcase, PlusCircle, UserCheck, MapPin, Phone, X, Star, Clock3 } from 'lucide-react';
 
 export const JobsPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -28,6 +28,7 @@ export const JobsPage: React.FC = () => {
     governorate: 'البحيرة',
     salaryRange: '8,000 - 10,000 ج.م',
     experienceYears: '3 سنوات',
+    workType: 'FULL_TIME' as 'FULL_TIME' | 'TASK',
     contactPhone: '01012345678',
   });
 
@@ -83,29 +84,15 @@ export const JobsPage: React.FC = () => {
     }
 
     try {
-      await api.post('/jobs', { ...newJob, type: activeTab.toLowerCase() });
-      toast.success('تم نشر إعلان الوظيفة بنجاح!');
+      await api.post('/jobs', { ...newJob, type: activeTab.toLowerCase(), status: 'PENDING' });
+      toast.success('تم إرسال الإعلان: قيد المراجعة والاعتماد ⏳ ومعاينته متاحة في لوحة التحكم.');
       setShowAddModal(false);
-      fetchJobs();
     } catch (err: any) {
       const apiError = err?.response?.data?.message || 'حدث خطأ أثناء نشر الإعلان الوظيفي. يرجى المحاولة لاحقاً.';
       if (import.meta.env.PROD) {
         toast.error(apiError);
       } else {
-        const created: Job = {
-          id: 'job-' + Date.now(),
-          type: activeTab,
-          title: newJob.title,
-          description: newJob.description,
-          roleCategory: newJob.roleCategory,
-          governorate: newJob.governorate,
-          salaryRange: newJob.salaryRange,
-          experienceYears: newJob.experienceYears,
-          contactPhone: newJob.contactPhone,
-          createdAt: new Date().toISOString(),
-        };
-        setJobs([created, ...jobs]);
-        toast.success('تم نشر إعلان الوظيفة بنجاح!');
+        toast.success('تم حفظ الإعلان: قيد المراجعة والاعتماد ⏳ ولن يظهر للعامة قبل موافقة الإدارة.');
         setShowAddModal(false);
       }
     }
@@ -114,14 +101,14 @@ export const JobsPage: React.FC = () => {
   const filteredJobs = jobs.filter((j) => j.type === activeTab);
 
   return (
-    <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-12 py-10 space-y-8">
+    <div className="page-shell space-y-10">
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-4 bg-surface p-8 rounded-5xl border border-borderColor shadow-soft-card">
         <div className="space-y-1">
           <Badge variant="amber">التوظيف والعمالة</Badge>
           <h1 className="text-2xl sm:text-4xl font-black text-text-primary flex items-center gap-3">
             <Briefcase className="w-8 h-8 text-amber-500" />
-            ملتقى الوظائف والعمالة الزراعية
+            ملتقى التوظيف والفرص الزراعية
           </h1>
           <p className="text-xs sm:text-sm text-text-secondary">
             منصة مفتوحة مجاناً لطلب المهندسين والفنيين وعمال المزارع أو الإعلان عن البحث عن عمل.
@@ -147,14 +134,14 @@ export const JobsPage: React.FC = () => {
           size="sm"
           onClick={() => setActiveTab('HIRING')}
         >
-          <Briefcase className="w-4 h-4" /> وظائف خالية (مطلوب موظف)
+          <Briefcase className="w-4 h-4" /> مطلوب للتوظيف
         </Button>
         <Button
           variant={activeTab === 'SEEKING' ? 'dark' : 'white'}
           size="sm"
           onClick={() => setActiveTab('SEEKING')}
         >
-          <UserCheck className="w-4 h-4" /> الباحثون عن عمل (طلب وظيفة)
+          <UserCheck className="w-4 h-4" /> صاحب مهنة وطالب عمل
         </Button>
       </div>
 
@@ -168,7 +155,7 @@ export const JobsPage: React.FC = () => {
             <div className="space-y-2.5 max-w-2xl">
               <div className="flex items-center gap-2">
                 <Badge variant="amber">
-                  {job.type === 'HIRING' ? '💼 مطلوب موظف' : '👤 باحث عن عمل'}
+                  {job.type === 'HIRING' ? '💼 مطلوب للتوظيف' : '👤 صاحب مهنة وطالب عمل'}
                 </Badge>
                 <span className="text-xs text-text-secondary font-bold flex items-center gap-1">
                   <MapPin className="w-3.5 h-3.5 text-brand-green" /> {job.governorate}
@@ -184,6 +171,10 @@ export const JobsPage: React.FC = () => {
                 <span>الخبرة: {job.experienceYears || 'غير محدد'}</span>
                 <span>•</span>
                 <span className="text-amber-800 font-extrabold">{job.salaryRange || 'حسب الاتفاق'}</span>
+                <span>•</span>
+                <span className="inline-flex items-center gap-1 text-[#FFB703]"><Clock3 className="w-3.5 h-3.5" /> {job.workType === 'TASK' ? 'مهمة محددة - Task' : 'دوام كامل'}</span>
+                <span>•</span>
+                <span className="inline-flex items-center gap-1 text-[#FFB703]" aria-label={`التقييم ${job.rating || 5} من 5`}><Star className="w-3.5 h-3.5 fill-current" /> {job.rating || 5}/5</span>
               </div>
             </div>
 
@@ -266,6 +257,18 @@ export const JobsPage: React.FC = () => {
               </div>
 
               <div className="space-y-1.5">
+                <label className="text-text-primary font-bold">نمط العمل *</label>
+                <select
+                  value={newJob.workType}
+                  onChange={(e) => setNewJob({ ...newJob, workType: e.target.value as 'FULL_TIME' | 'TASK' })}
+                  className="w-full bg-surface-muted border border-borderColor rounded-2xl p-3.5 text-text-primary focus:border-[#FFB703] outline-none font-semibold"
+                >
+                  <option value="FULL_TIME">دوام كامل</option>
+                  <option value="TASK">مهمة محددة - Task</option>
+                </select>
+              </div>
+
+              <div className="space-y-1.5">
                 <label className="text-text-primary font-bold">رقم الهاتف للتواصل *</label>
                 <input
                   type="tel"
@@ -277,8 +280,11 @@ export const JobsPage: React.FC = () => {
               </div>
 
               <Button type="submit" variant="dark" size="md" fullWidth>
-                نشر الإعلان الآن
+                إرسال الإعلان للمراجعة
               </Button>
+              <p className="text-[11px] text-text-secondary text-center leading-relaxed">
+                يظهر الإعلان لصاحبه في لوحة التحكم بحالة <strong className="text-[#FFB703]">قيد المراجعة والاعتماد ⏳</strong> حتى موافقة الإدارة.
+              </p>
             </form>
           </div>
         </div>

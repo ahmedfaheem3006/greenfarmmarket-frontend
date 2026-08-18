@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { CSSProperties, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { LucideIcon, ChevronLeft } from 'lucide-react';
-import { Badge } from './Badge';
 
 export interface HoverEffectItem {
   id: string;
@@ -26,44 +25,19 @@ export const HoverEffect: React.FC<HoverEffectProps> = ({ items, className = '' 
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-6 ${className}`}>
+    <div className={`grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4 lg:gap-5 py-4 ${className}`} dir="rtl">
       {items.map((item, idx) => {
         const Icon = item.icon;
         const isHovered = hoveredIndex === idx;
-
-        // Custom accent color map for subtle glow borders and matching title color
-        let borderGlowClass = 'border-borderColor hover:border-brand-green/60';
-        let backgroundHoverGlow = 'bg-brand-green/10 dark:bg-emerald-950/40';
-        let actionBtnHoverClass = 'group-hover:bg-brand-green group-hover:text-white group-hover:border-brand-green shadow-brand-green/20';
-        let titleColor = 'text-brand-green';
-
-        if (item.badgeVariant === 'red') {
-          borderGlowClass = 'border-borderColor hover:border-brand-red/60';
-          backgroundHoverGlow = 'bg-brand-red/10 dark:bg-rose-950/40';
-          actionBtnHoverClass = 'group-hover:bg-brand-red group-hover:text-white group-hover:border-brand-red shadow-brand-red/20';
-          titleColor = 'text-brand-red';
-        } else if (item.badgeVariant === 'blue') {
-          borderGlowClass = 'border-borderColor hover:border-brand-blue/60';
-          backgroundHoverGlow = 'bg-brand-blue/10 dark:bg-sky-950/40';
-          actionBtnHoverClass = 'group-hover:bg-brand-blue group-hover:text-white group-hover:border-brand-blue shadow-brand-blue/20';
-          titleColor = 'text-brand-blue';
-        } else if (item.badgeVariant === 'amber') {
-          borderGlowClass = 'border-borderColor hover:border-amber-500/60';
-          backgroundHoverGlow = 'bg-amber-500/10 dark:bg-amber-950/40';
-          actionBtnHoverClass = 'group-hover:bg-amber-600 group-hover:text-white group-hover:border-amber-600 shadow-amber-600/20';
-          titleColor = 'text-amber-600 dark:text-amber-400';
-        } else if (item.badgeVariant === 'neutral') {
-          borderGlowClass = 'border-borderColor hover:border-purple-500/60';
-          backgroundHoverGlow = 'bg-purple-500/10 dark:bg-purple-950/40';
-          actionBtnHoverClass = 'group-hover:bg-purple-600 group-hover:text-white group-hover:border-purple-600 shadow-purple-600/20';
-          titleColor = 'text-purple-600 dark:text-purple-400';
-        }
+        const accent = item.glowColor || '#00FF66';
+        const accentStyle = { '--service-accent': accent } as CSSProperties;
 
         return (
           <Link
             to={item.link}
             key={item.id}
-            className="relative group block p-2 h-full w-full select-none"
+            className="relative group block h-full w-full select-none rounded-[18px] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            style={{ ...accentStyle, color: accent }}
             onMouseEnter={() => setHoveredIndex(idx)}
             onMouseLeave={() => setHoveredIndex(null)}
           >
@@ -71,8 +45,8 @@ export const HoverEffect: React.FC<HoverEffectProps> = ({ items, className = '' 
             <AnimatePresence>
               {isHovered && (
                 <motion.span
-                  className={`absolute inset-0 h-full w-full ${backgroundHoverGlow} block -z-0 backdrop-blur-sm border border-borderColor/40`}
-                  style={{ borderRadius: '14px' }}
+                  className="absolute inset-0 h-full w-full block -z-0 rounded-[18px]"
+                  style={{ background: `radial-gradient(circle at 50% 0%, ${accent}18, transparent 64%)` }}
                   layoutId="hoverBackground"
                   initial={{ opacity: 0, scale: 0.96 }}
                   animate={{
@@ -91,38 +65,44 @@ export const HoverEffect: React.FC<HoverEffectProps> = ({ items, className = '' 
 
             {/* Main Ultra-Modern Glass Card Container */}
             <div
-              className={`relative z-10 bg-surface/90 backdrop-blur-md border-2 ${borderGlowClass} p-7 h-full w-full overflow-hidden flex flex-col justify-between space-y-6 transition-all duration-300 shadow-xl group-hover:shadow-2xl group-hover:-translate-y-1.5`}
-              style={{ borderRadius: '14px' }}
+              className="service-gate-card relative z-10 border p-5 lg:p-5 h-full min-h-[310px] w-full overflow-hidden flex flex-col justify-between gap-5 transition-all duration-300 group-hover:-translate-y-1.5 rounded-[18px]"
+              style={accentStyle}
             >
+              <div className="absolute top-0 right-5 left-5 neon-rule" style={accentStyle} />
               {/* Top Card Section */}
-              <div className="space-y-5 text-right">
+              <div className="space-y-4 text-right">
                 {/* Header Badge & Icon Badge */}
                 <div className="flex items-center justify-between gap-3">
                   <div
-                    className={`w-13 h-13 rounded-2xl flex items-center justify-center border-2 transition-transform duration-300 group-hover:scale-110 shadow-md ${item.accentBg}`}
+                    className="w-12 h-12 rounded-2xl flex items-center justify-center border transition-transform duration-300 group-hover:scale-110"
+                    style={{ color: accent, borderColor: `${accent}55`, backgroundColor: `${accent}12`, boxShadow: `0 0 22px ${accent}18` }}
                   >
                     <Icon className="w-6 h-6" />
                   </div>
-                  <Badge variant={item.badgeVariant} className="py-1 px-3.5 text-[11px] font-black shadow-sm">
+                  <span
+                    className="inline-flex items-center px-3 py-1 rounded-full border text-[10px] font-black shadow-sm"
+                    style={{ color: accent, borderColor: `${accent}4d`, backgroundColor: `${accent}12` }}
+                  >
                     {item.subtitle}
-                  </Badge>
+                  </span>
                 </div>
 
                 {/* Card Title (Reverted to distinct brand accent color) */}
-                <h3 className={`text-xl sm:text-2xl font-black ${titleColor} tracking-tight leading-relaxed py-1 mb-2 transition-colors duration-200`}>
+                <h3 className="text-lg lg:text-xl font-black tracking-tight leading-[1.65] py-1 transition-colors duration-200" style={{ color: accent }}>
                   {item.title}
                 </h3>
 
                 {/* Description */}
-                <p className="text-xs sm:text-sm text-text-secondary font-bold leading-relaxed mt-2.5">
+                <p className="text-xs text-text-secondary font-semibold leading-[1.9]">
                   {item.description}
                 </p>
               </div>
 
               {/* Bottom CTA Button */}
-              <div className="pt-3 border-t border-borderColor/80">
+              <div className="pt-3 border-t border-borderColor/70">
                 <div
-                  className={`w-full py-3 px-5 rounded-2xl border-2 border-borderColor bg-surface-muted/80 text-text-primary text-xs font-black flex items-center justify-between transition-all duration-300 shadow-sm ${actionBtnHoverClass}`}
+                  className="w-full py-3 px-4 rounded-xl border bg-black/10 text-text-primary text-[11px] font-black flex items-center justify-between transition-all duration-300"
+                  style={{ borderColor: `${accent}3d` }}
                 >
                   <span className="font-extrabold">{item.actionText}</span>
                   <ChevronLeft className="w-4 h-4 transition-transform duration-300 group-hover:-translate-x-1.5" />

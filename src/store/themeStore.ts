@@ -3,12 +3,13 @@ import { useState, useEffect } from 'react';
 export type ThemeMode = 'light' | 'dark';
 
 const getInitialTheme = (): ThemeMode => {
-  if (typeof window === 'undefined') return 'light';
+  if (typeof window === 'undefined') return 'dark';
   const saved = localStorage.getItem('gfm_theme') as ThemeMode | null;
   if (saved === 'light' || saved === 'dark') {
     return saved;
   }
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  // Green Farm Market is designed dark-first to reduce glare and energy use.
+  return 'dark';
 };
 
 const applyThemeToDocument = (theme: ThemeMode) => {

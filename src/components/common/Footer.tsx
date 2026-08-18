@@ -6,7 +6,7 @@ import { Leaf, ShieldCheck, Phone, Mail, MapPin, ArrowLeft, Sparkles, Handshake 
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-[#051C12] text-slate-300 text-xs mt-24 border-t border-emerald-950">
+    <footer className="bg-[#030D08] text-slate-300 text-xs mt-24 border-t border-[#17452F]">
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-12 py-16 grid grid-cols-1 md:grid-cols-4 gap-10">
         {/* Brand Overview */}
         <div className="space-y-4">

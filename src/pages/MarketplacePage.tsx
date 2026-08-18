@@ -112,11 +112,10 @@ export const MarketplacePage: React.FC = () => {
     }
 
     try {
-      const res = await api.post('/products', newProduct);
+      const res = await api.post('/products', { ...newProduct, status: 'PENDING' });
       if (res.data.success) {
-        toast.success('تم نشر إعلان المنتج بنجاح بالسوق!');
+        toast.success('تم إرسال الإعلان: قيد المراجعة والاعتماد ⏳ ويمكنك معاينته من لوحة التحكم.');
         setShowAddModal(false);
-        fetchProducts();
       }
     } catch (err: any) {
       const apiError = err?.response?.data?.message || 'تعذر إضافة المنتج بالسوق. يرجى التأكد من البيانات أو الاتصال بالشبكة.';
@@ -137,10 +136,10 @@ export const MarketplacePage: React.FC = () => {
           quantity: parseInt(newProduct.quantity) || 1,
           condition: newProduct.condition,
           images: [newProduct.image || 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=600&auto=format&fit=crop'],
-          status: 'ACTIVE',
+          status: 'PENDING',
         };
         setProducts([created, ...products]);
-        toast.success('تمت إضافة المنتج بالسوق بنجاح!');
+        toast.success('تم حفظ الإعلان: قيد المراجعة والاعتماد ⏳ ومعاينته متاحة لك من لوحة التحكم فقط.');
         setShowAddModal(false);
       }
     }
@@ -154,7 +153,7 @@ export const MarketplacePage: React.FC = () => {
   });
 
   return (
-    <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-12 py-10 space-y-8">
+    <div className="page-shell space-y-10">
       {/* Header Bar */}
       <div className="flex flex-wrap items-center justify-between gap-4 bg-surface p-8 rounded-5xl border border-borderColor shadow-soft-card">
         <div className="space-y-1">
@@ -401,8 +400,11 @@ export const MarketplacePage: React.FC = () => {
               </div>
 
               <Button type="submit" variant="green" size="md" fullWidth>
-                نشر الإعلان بالسوق الآن
+                إرسال الإعلان للمراجعة
               </Button>
+              <p className="text-[11px] text-text-secondary text-center leading-relaxed">
+                سيظهر الإعلان في لوحة تحكمك فوراً بحالة <strong className="text-[#FFB703]">قيد المراجعة والاعتماد ⏳</strong>، ولن يُنشر للعامة قبل موافقة الإدارة.
+              </p>
             </form>
           </div>
         </div>

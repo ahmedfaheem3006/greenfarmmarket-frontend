@@ -40,7 +40,7 @@ export const ContactPage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-12 py-10 space-y-12 select-none">
+    <div className="page-shell space-y-12 select-none">
       {/* Header Banner */}
       <div className="bg-surface p-8 sm:p-12 rounded-4xl sm:rounded-5xl border-2 border-borderColor text-center space-y-3 shadow-2xl">
         <Badge variant="green" className="py-1 px-4 text-xs font-black">

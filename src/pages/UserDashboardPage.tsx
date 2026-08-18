@@ -14,6 +14,9 @@ import {
   Activity,
   Calendar,
   ChevronLeft,
+  Eye,
+  Hourglass,
+  Briefcase,
 } from 'lucide-react';
 
 export const UserDashboardPage: React.FC = () => {
@@ -33,7 +36,7 @@ export const UserDashboardPage: React.FC = () => {
   const farm = user.farms && user.farms.length > 0 ? user.farms[0] : null;
 
   return (
-    <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-12 py-10 space-y-8">
+    <div className="page-shell space-y-10">
       {/* Welcome Banner */}
       <div className="bg-surface border border-borderColor p-8 rounded-5xl flex flex-wrap items-center justify-between gap-4 shadow-soft-card">
         <div className="space-y-1">
@@ -93,8 +96,8 @@ export const UserDashboardPage: React.FC = () => {
         </div>
 
         {/* Live Weather Widget */}
-        <div className="bg-surface border border-amber-200 p-8 rounded-5xl space-y-4 text-xs shadow-soft-card">
-          <h3 className="text-base font-black text-amber-800 flex items-center gap-2 border-b border-borderColor pb-3">
+        <div className="bg-surface border border-[#FFB703]/30 p-8 rounded-5xl space-y-4 text-xs shadow-soft-card">
+          <h3 className="text-base font-black text-[#FFB703] flex items-center gap-2 border-b border-borderColor pb-3">
             <ThermometerSun className="w-5 h-5 text-amber-600" /> طقس المزرعة الحي (EOSDA)
           </h3>
           <div className="space-y-2.5 font-semibold">
@@ -110,12 +113,45 @@ export const UserDashboardPage: React.FC = () => {
               <span>سرعة الرياح:</span>
               <span className="text-text-primary font-bold">14 كم/س</span>
             </div>
-            <div className="p-3 rounded-2xl bg-amber-50 text-amber-900 border border-amber-200 text-[11px] mt-2">
+            <div className="p-3 rounded-2xl bg-[#FFB703]/10 text-[#FFE08A] border border-[#FFB703]/25 text-[11px] mt-2">
               توصية المناخ: طقس مناسب للري الصباحي بدون مخاطر إجهاد حراري حاد.
             </div>
           </div>
         </div>
       </div>
+
+      {/* Private preview for submissions awaiting admin approval */}
+      <section className="bg-surface border border-[#FFB703]/30 p-6 sm:p-8 rounded-5xl space-y-6 shadow-soft-card" aria-labelledby="pending-listings-title">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-borderColor pb-4">
+          <div>
+            <h3 id="pending-listings-title" className="text-lg font-black text-text-primary flex items-center gap-2">
+              <Eye className="w-5 h-5 text-[#FFB703]" /> معاينة إعلاناتي قبل النشر
+            </h3>
+            <p className="text-xs text-text-secondary mt-1">هذه المعاينة خاصة بك فقط ولا تظهر لزوار المنصة حتى موافقة الإدارة.</p>
+          </div>
+          <Badge variant="amber"><Hourglass className="w-3.5 h-3.5" /> قيد المراجعة والاعتماد ⏳</Badge>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          {[
+            { icon: Store, title: 'إعلان بيع منتج زراعي', detail: 'تظهر هنا معاينة إعلانات السوق الجديدة', color: 'text-brand-green bg-brand-green-soft' },
+            { icon: Truck, title: 'طلب نقل أو شاحنة', detail: 'تظهر هنا طلبات النقل قبل اعتمادها', color: 'text-brand-blue bg-brand-blue-soft' },
+            { icon: Briefcase, title: 'إعلان توظيف أو طلب عمل', detail: 'تظهر هنا فرص العمل والمهن الجديدة', color: 'text-[#FFB703] bg-[#FFB703]/10' },
+          ].map((item) => {
+            const Icon = item.icon;
+            return (
+              <div key={item.title} className="rounded-3xl bg-surface-muted border border-borderColor p-4 flex items-start gap-3">
+                <div className={`w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 ${item.color}`}><Icon className="w-5 h-5" /></div>
+                <div className="space-y-1">
+                  <h4 className="text-text-primary font-black">{item.title}</h4>
+                  <p className="text-text-secondary leading-relaxed">{item.detail}</p>
+                  <span className="inline-block text-[#FFB703] font-black pt-1">قيد المراجعة</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
 
       {/* Activity Timeline */}
       <div className="bg-surface border border-borderColor p-8 rounded-5xl space-y-6 shadow-soft-card">

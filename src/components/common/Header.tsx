@@ -42,8 +42,8 @@ export const Header: React.FC = () => {
     { path: '/ai-doctor', label: 'صيدلية AI', icon: Stethoscope, color: 'text-brand-red' },
     { path: '/marketplace', label: 'السوق الزراعي', icon: Store, color: 'text-brand-green' },
     { path: '/transport', label: 'النقل', icon: Truck, color: 'text-brand-blue' },
-    { path: '/jobs', label: 'الوظائف', icon: Briefcase, color: 'text-amber-600' },
-    { path: '/news', label: 'الأخبار', icon: Newspaper, color: 'text-purple-600' },
+    { path: '/jobs', label: 'الوظائف', icon: Briefcase, color: 'text-[#FFB703]' },
+    { path: '/news', label: 'البورصة والأخبار', icon: Newspaper, color: 'text-[#A855F7]' },
     { path: '/contact', label: 'تواصل معنا', icon: PhoneCall, color: 'text-brand-green' },
   ];
 
@@ -114,8 +114,8 @@ export const Header: React.FC = () => {
             let activeBg = 'bg-brand-green text-white shadow-brand-green/30';
             if (link.path === '/ai-doctor') activeBg = 'bg-brand-red text-white shadow-brand-red/30';
             else if (link.path === '/transport' || link.path === '/about') activeBg = 'bg-brand-blue text-white shadow-brand-blue/30';
-            else if (link.path === '/jobs') activeBg = 'bg-amber-600 text-white shadow-amber-600/30';
-            else if (link.path === '/news') activeBg = 'bg-purple-600 text-white shadow-purple-600/30';
+            else if (link.path === '/jobs') activeBg = 'bg-[#FFB703] text-[#030D08] shadow-[#FFB703]/30';
+            else if (link.path === '/news') activeBg = 'bg-[#A855F7] text-white shadow-[#A855F7]/30';
 
             return (
               <Link
@@ -160,7 +160,7 @@ export const Header: React.FC = () => {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 8, scale: 0.98 }}
                     transition={{ duration: 0.2, ease: 'easeOut' }}
-                    className="absolute left-0 top-full mt-2 w-72 bg-[#FFFFFF] dark:bg-[#0A291B] border-2 border-borderColor rounded-3xl shadow-2xl p-4 z-[100] text-xs space-y-3 text-right overflow-hidden isolate"
+                    className="absolute left-0 top-full mt-2 w-72 bg-surface border-2 border-borderColor rounded-3xl shadow-2xl p-4 z-[100] text-xs space-y-3 text-right overflow-hidden isolate"
                     style={{ backgroundColor: 'var(--surface)', opacity: 1 }}
                   >
                     {/* User Card Header */}

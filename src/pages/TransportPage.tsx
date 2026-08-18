@@ -43,7 +43,7 @@ export const TransportPage: React.FC = () => {
 
   const pricePerKm = 12;
   const baseCost = distanceKm * pricePerKm;
-  const platformFee = Math.round(baseCost * 0.05);
+  const platformFee = 0;
   const totalEstimatedCost = baseCost + platformFee;
 
   const transportAds = [
@@ -85,7 +85,7 @@ export const TransportPage: React.FC = () => {
   });
 
   return (
-    <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-12 py-10 space-y-8 select-none">
+    <div className="page-shell space-y-10 select-none">
       {/* Header Banner */}
       <div className="bg-surface p-8 sm:p-10 rounded-4xl border-2 border-brand-blue/30 shadow-2xl space-y-6">
         <div>
@@ -131,10 +131,10 @@ export const TransportPage: React.FC = () => {
           <div className="space-y-1.5">
             <h3 className="font-black text-brand-red text-sm">تنبيه قانوني وإداري هام (Legal Notice)</h3>
             <p className="text-xs font-bold leading-relaxed text-text-primary">
-              الشركة غير مسؤولة فنياً أو إدارياً عن المعاملة بين الطالب والعارض من الجانبين من حيث التسعير أو الاتفاق على النقل وخطوط السير.
+              الشركة منصة تكنولوجية وسيطة للربط المباشر، وتتم الاتفاقات والمعاملات المالية بين الطرفين مباشرة.
             </p>
             <p className="text-[11px] font-semibold text-text-secondary leading-relaxed">
-              المنصة لا تؤمن البضاعة المنقولة ولا تضمن حق السائق حالياً، والمعاملات المالية وتحديد التكلفة تتم مباشرة خارج نطاق مسؤولية المنصة والموقع.
+              في المرحلة الأولى لا تكون المنصة طرفاً في التسعير أو التحصيل أو الاتفاق على خط السير، ويجب على الطرفين مراجعة البيانات والوثائق قبل إتمام التعامل.
             </p>
           </div>
         </div>
@@ -266,8 +266,8 @@ export const TransportPage: React.FC = () => {
                   <span className="text-text-primary font-black">{baseCost.toLocaleString()} ج.م</span>
                 </div>
                 <div className="flex justify-between text-text-secondary">
-                  <span>عمولة خدمات المنصة (5%):</span>
-                  <span className="text-brand-blue font-black">{platformFee.toLocaleString()} ج.م</span>
+                  <span>عمولة المنصة (المرحلة الأولى):</span>
+                  <span className="text-brand-blue font-black">بدون عمولة</span>
                 </div>
                 <div className="border-t border-borderColor pt-3 flex justify-between text-sm font-black text-text-primary">
                   <span>الإجمالي المتوقع:</span>
@@ -276,9 +276,12 @@ export const TransportPage: React.FC = () => {
               </div>
             </div>
 
-            <Button variant="blue" size="lg" fullWidth onClick={() => toast.success('تم تسجيل طلبك بنجاح!')}>
-              حجز وتأكيد سيارة النقل
+            <Button variant="blue" size="lg" fullWidth onClick={() => toast.success('تم حفظ الطلب: قيد المراجعة والاعتماد ⏳ ويمكنك معاينته من لوحة التحكم.')}>
+              إرسال طلب النقل للمراجعة
             </Button>
+            <p className="text-[11px] text-center text-text-secondary leading-relaxed">
+              المعاينة الفورية متاحة لك من لوحة التحكم فقط حتى موافقة الإدارة.
+            </p>
           </div>
         </div>
       )}

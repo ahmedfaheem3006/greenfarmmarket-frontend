@@ -66,7 +66,7 @@ export const NewsPage: React.FC = () => {
   const filtered = articles.filter((a) => selectedCategory === 'all' || a.category === selectedCategory);
 
   return (
-    <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-12 py-10 space-y-8">
+    <div className="page-shell space-y-10">
       {/* Header */}
       <div className="bg-surface p-8 rounded-5xl border border-borderColor shadow-soft-card space-y-4">
         <Badge variant="neutral">الإرشاد والمحتوى العلمي</Badge>

@@ -71,19 +71,19 @@ export const HomePage: React.FC = () => {
   const coreServices: HoverEffectItem[] = [
     {
       id: 'market',
-      title: 'سوق البيع والشراء',
+      title: 'سوق البيع والشراء الزراعي',
       subtitle: 'الشاشة الأولى',
-      description: 'سوق مفتوح ومباشر لبيع المواشي، الأشجار، المحاصيل، الألبان، وقطع الغيار بدون وسطاء.',
+      description: 'بوابة مباشرة لبيع وشراء المحاصيل والمواشي والشتلات ومستلزمات الإنتاج دون حلقات وسيطة.',
       actionText: 'دخول السوق المباشر',
       link: '/marketplace',
       icon: Store,
       badgeVariant: 'green',
       accentBg: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20',
-      glowColor: '#00ffc3',
+      glowColor: '#00FF66',
     },
     {
       id: 'transport',
-      title: 'النقل الذكي',
+      title: 'النقل واللوجستيات الذكية',
       subtitle: 'الشاشة الثانية',
       description: 'توصيل الشحنات الزراعية والمواشي بخيارات: نقل فقط | نقل ودفع | نقل وكشف جودة.',
       actionText: 'طلب شاحنة نقل',
@@ -91,11 +91,11 @@ export const HomePage: React.FC = () => {
       icon: Truck,
       badgeVariant: 'blue',
       accentBg: 'bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/20',
-      glowColor: '#0095ff',
+      glowColor: '#00E5FF',
     },
     {
       id: 'jobs',
-      title: 'فرص العمل',
+      title: 'ملتقى التوظيف والفرص الزراعية',
       subtitle: 'الشاشة الثالثة',
       description: 'ملتقى مجاني يعرض وظائف المزارع والمهندسين الزراعيين والعمالة الماهرة والخبرات.',
       actionText: 'استعراض الفرص المتاحة',
@@ -103,11 +103,11 @@ export const HomePage: React.FC = () => {
       icon: Briefcase,
       badgeVariant: 'amber',
       accentBg: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20',
-      glowColor: '#f59e0b',
+      glowColor: '#FFB703',
     },
     {
       id: 'ai-doctor',
-      title: 'دكتور AI صيدلية النبات والحيوان',
+      title: 'صيدلية دكتور النبات والحيوان',
       subtitle: 'الشاشة الرابعة',
       description: 'فحص وتشخيص أمراض النباتات والمواشي بالذكاء الاصطناعي والرؤية البصرية عبر الكاميرا.',
       actionText: 'بدء الفحص واستشارة AI',
@@ -115,11 +115,11 @@ export const HomePage: React.FC = () => {
       icon: Stethoscope,
       badgeVariant: 'red',
       accentBg: 'bg-brand-red-soft text-brand-red dark:text-rose-400 border-brand-red/30',
-      glowColor: '#ff1c52',
+      glowColor: '#FF3366',
     },
     {
       id: 'news',
-      title: 'الأخبار والبورصة والمعرفة',
+      title: 'البورصة الزراعية والنشرة الإخبارية',
       subtitle: 'الشاشة الخامسة',
       description: 'تحديثات لحظية بأسعار المحاصيل، التحذيرات المناخية الاستباقية، والنشرات التوعوية.',
       actionText: 'متابعة السوق',
@@ -127,6 +127,7 @@ export const HomePage: React.FC = () => {
       icon: Newspaper,
       badgeVariant: 'neutral' as const,
       accentBg: 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20',
+      glowColor: '#A855F7',
     },
   ];
 
@@ -142,59 +143,59 @@ export const HomePage: React.FC = () => {
       iconBg: 'bg-brand-blue-soft text-brand-blue dark:text-sky-400 border-brand-blue/30',
       checkColor: 'text-brand-blue dark:text-sky-400',
       points: [
+        'ترشيد استهلاك الموارد عبر البيانات الزراعية والمناخية الدقيقة.',
         'تشخيص أمراض النباتات والحيوانات فورياً عبر كاميرا الهاتف والذكاء الاصطناعي.',
-        'ربط المزارع بالبيانات المناخية للأقمار الاصطناعية للتحذير الاستباقي من الآفات.',
-        'أتمتة الاستشارات الإرشادية لتقليل تكاليف المبيدات والأدوية المستوردة.',
+        'خفض تكاليف التشخيص والاستشارات الإرشادية والمبيدات غير الضرورية.',
       ],
     },
     {
-      id: 'trade',
-      title: 'التجارة المباشرة وتكسير الوساطة',
-      icon: Store,
+      id: 'supply-chain',
+      title: 'كفاءة سلاسل التوريد',
+      icon: Truck,
       badgeVariant: 'green' as const,
       colorClass: 'text-brand-green dark:text-emerald-400',
       activeTabBg: 'bg-brand-green text-white border-brand-green shadow-lg shadow-brand-green/30',
       iconBg: 'bg-brand-green-soft text-brand-green dark:text-emerald-400 border-brand-green/30',
       checkColor: 'text-brand-green dark:text-emerald-400',
       points: [
-        'رفع هامش ربح المزارع المباشر بنسبة 15% إلى 25% من خلال إلغاء حلقة الوسطاء.',
-        'تغطية كافة قطاعات الأسواق: المواشي والتسمين، الشتلات، الخضار، قطع الغيار.',
-        'إمكانية إضافة تصنيفات مخصصة مرنة تلبي احتياجات الأسواق المختلفة.',
+        'تقليل الحلقات الوسيطة بين المنتج والمشتري عبر قنوات اتصال وتداول مباشرة.',
+        'رفع هامش ربح المزارع المستهدف بنسبة تتراوح من 10% إلى 25%.',
+        'دعم النقل والتتبع لتقليل زمن التوريد والفاقد في المحاصيل والشحنات.',
       ],
     },
     {
-      id: 'logistics',
-      title: 'سلاسل التوريد والنقل الذكي',
-      icon: Truck,
+      id: 'enablement',
+      title: 'تمكين المزارعين ومربي التسمين',
+      icon: Users,
       badgeVariant: 'blue' as const,
       colorClass: 'text-brand-blue dark:text-sky-400',
       activeTabBg: 'bg-brand-blue text-white border-brand-blue shadow-lg shadow-brand-blue/30',
       iconBg: 'bg-brand-blue-soft text-brand-blue dark:text-sky-400 border-brand-blue/30',
       checkColor: 'text-brand-blue dark:text-sky-400',
       points: [
-        'منظومة نقل وتوصيل سهلة وآمنة تضمن الحفاظ على جودة الشحنات والمحاصيل.',
-        'تتبع جغرافي وتسهيل التواصل والتأمين بين طالبي الخدمة وسائقي الشاحنات.',
-        'خيارات متعددة تشمل النقل المباشر، تحصيل المبالغ، وكشف الجودة الفني.',
+        'تقديم خدمات إرشادية وتدريبية شاملة للمزارعين ومربي الثروة الحيوانية.',
+        'إتاحة أدوات رقمية مبسطة تساعد على تحسين الإنتاج واتخاذ القرار.',
+        'ربط الخبرات والعمالة المتخصصة باحتياجات المزارع الفعلية.',
       ],
     },
     {
-      id: 'jobs',
-      title: 'التمكين المجتمعي وخلق الفرص',
-      icon: Users,
+      id: 'esg',
+      title: 'الاستدامة البيئية (ESG)',
+      icon: Leaf,
       badgeVariant: 'red' as const,
       colorClass: 'text-brand-red dark:text-rose-400',
       activeTabBg: 'bg-brand-red text-white border-brand-red shadow-lg shadow-brand-red/30',
       iconBg: 'bg-brand-red-soft text-brand-red dark:text-rose-400 border-brand-red/30',
       checkColor: 'text-brand-red dark:text-rose-400',
       points: [
-        'بوابة توظيف مجانية تجمع أصحاب المزارع والعمالة والمهندسين والأطباء.',
-        'نظام تقييم يومي شفاف يضمن جودة الأداء ومصداقية التعاقدات بالمزرعة.',
-        'دعم سائقي أسطول النقل بخلق فرص عمل وإيرادات مستدامة.',
+        'ترشيد مياه الري عبر التوصيات المناخية والبيانات التشغيلية الدقيقة.',
+        'خفض الاعتماد غير الرشيد على الأسمدة والمبيدات الكيميائية.',
+        'تقليل الفاقد والانبعاثات الناتجة عن النقل والتخزين غير الكفء.',
       ],
     },
     {
-      id: 'sustainability',
-      title: 'الاستدامة البيئية والأمن الغذائي',
+      id: 'food-security',
+      title: 'الأمن الغذائي القومي',
       icon: Globe,
       badgeVariant: 'amber' as const,
       colorClass: 'text-amber-600 dark:text-amber-400',
@@ -202,9 +203,9 @@ export const HomePage: React.FC = () => {
       iconBg: 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/30',
       checkColor: 'text-amber-500 dark:text-amber-400',
       points: [
-        'التشجيع على مشاريع التسمين والزراعة المنزلية والعضوية لتحقيق الاكتفاء الذاتي.',
-        'ترشيد استهلاك مياه الري وتقليل الهدر الغذائي المولد للانبعاثات الكربونية.',
-        'المساهمة في المبادرات الوطنية والإقليمية للتحول التنموي للأخضر بحلول 2028.',
+        'دعم جهود ترقيم وتوثيق الثروة الزراعية والحيوانية بصورة منظمة.',
+        'تحسين إتاحة البيانات اللازمة للتخطيط والإنتاج والتوزيع.',
+        'تعزيز استقرار الإمدادات المحلية ومساندة جهود تحقيق الاكتفاء الغذائي.',
       ],
     },
   ];
@@ -436,11 +437,11 @@ export const HomePage: React.FC = () => {
             className="lg:col-span-7 space-y-7 text-right"
           >
             <motion.div variants={itemFadeUp} className="inline-block">
-              <div className="inline-flex items-center gap-3 px-6 sm:px-7 py-3 rounded-full bg-surface/85 dark:bg-[#0E3120]/95 border border-brand-green/40 dark:border-[#1A5336] text-xs sm:text-sm font-black text-brand-green dark:text-emerald-400 shadow-md backdrop-blur-md hover:shadow-lg transition-all duration-300 group cursor-default leading-relaxed">
+              <div className="inline-flex items-center gap-3 px-6 sm:px-7 py-3 rounded-full bg-surface/90 border border-brand-green/40 text-xs sm:text-sm font-black text-brand-green shadow-md backdrop-blur-md hover:shadow-lg transition-all duration-300 group cursor-default leading-relaxed">
                 <span className="flex items-center justify-center w-5.5 h-5.5 rounded-full bg-amber-400/20 text-amber-400 animate-pulse flex-shrink-0">
                   <Award className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
                 </span>
-                <span>أول منصة بالشرق الأوسط تجمع التكنولوجيا والزراعة والتسمين</span>
+                <span>Green Farm Market 2026 · المنظومة الزراعية الرقمية المتكاملة</span>
               </div>
             </motion.div>
 
@@ -459,7 +460,7 @@ export const HomePage: React.FC = () => {
               className="text-text-secondary text-base sm:text-lg leading-[1.95] sm:leading-[2] max-w-2xl font-bold bg-surface/60 p-6 sm:p-7 lg:p-8 rounded-2xl border border-borderColor/60 backdrop-blur-md shadow-md"
               style={{ borderRadius: '14px' }}
             >
-              نربط المزارعين، المستثمرين، أصحاب المواشي، والسائقين عبر الذكاء الاصطناعي وسلاسل التوريد المباشرة لتعظيم الربحية وتقليل الفاقد.
+              أول منصة بالشرق الأوسط تجمع التكنولوجيا والزراعة والتسمين، تربط المزارعين والمستثمرين وأصحاب المواشي عبر الذكاء الاصطناعي وسلاسل التوريد المباشرة.
             </motion.p>
 
             <motion.div variants={itemFadeUp} className="pt-2 flex flex-wrap gap-4">
@@ -489,17 +490,17 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* Wrapper for remaining sections with vertical spacing */}
-      <div className="space-y-12 lg:space-y-16">
+      <div className="space-y-16 lg:space-y-24">
 
       {/* ==================================================
           SECTION 4: The 5 Core Services (Aceternity UI HoverEffect Animation)
       ================================================== */}
       <section className="relative">
-        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-12 space-y-8">
+        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-12 space-y-7">
           <SectionHeading
             eyebrow="خدمات المنصة الشاملة"
             title="منظومة الخدمات الرئيسية"
-            description="خمس شاشات تفاعلية متكاملة تغطي كافة احتياجات المزارع، المستثمر، والسائق بالذكاء الاصطناعي."
+            description="خمس بوابات واضحة ومرتبة من اليمين إلى اليسار، لكل بوابة لون تشغيلي يسهّل الوصول السريع للخدمة."
           />
 
           <HoverEffect items={coreServices} />

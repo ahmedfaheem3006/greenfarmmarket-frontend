@@ -65,7 +65,7 @@ export const AdminDashboardPage: React.FC = () => {
   }
 
   return (
-    <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-12 py-10 space-y-8">
+    <div className="page-shell space-y-10">
       {/* Admin Title */}
       <div className="bg-surface border border-brand-red/30 p-8 rounded-5xl space-y-2 shadow-soft-card">
         <Badge variant="red">الإدارة المركزية</Badge>

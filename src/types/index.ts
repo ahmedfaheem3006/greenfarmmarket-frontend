@@ -54,7 +54,7 @@ export interface Product {
   quantity: number;
   condition: string;
   images: string[];
-  status: 'ACTIVE' | 'SOLD' | 'ARCHIVED';
+  status: 'PENDING' | 'ACTIVE' | 'SOLD' | 'ARCHIVED';
   createdAt?: string;
 }
 
@@ -117,6 +117,9 @@ export interface Job {
   salaryRange?: string;
   experienceYears?: string;
   contactPhone: string;
+  workType?: 'FULL_TIME' | 'TASK';
+  rating?: number;
+  status?: 'PENDING' | 'ACTIVE' | 'ARCHIVED';
   publisher?: {
     name: string;
     phone: string;

@@ -28,12 +28,13 @@ import {
   Sparkles,
 } from 'lucide-react';
 
-type UserRoleOption = 'FARMER' | 'LIVESTOCK_TRADER' | 'TRANSPORT_DRIVER' | 'VENDOR';
+type UserRoleOption = 'FARMER' | 'LIVESTOCK_TRADER' | 'TRANSPORT_DRIVER' | 'WORKER' | 'VENDOR';
 
 const backendRoleMap: Record<UserRoleOption, string> = {
   FARMER: 'FARMER',
   LIVESTOCK_TRADER: 'SELLER',
   TRANSPORT_DRIVER: 'DRIVER',
+  WORKER: 'WORKER',
   VENDOR: 'SELLER',
 };
 
@@ -83,8 +84,18 @@ export const RegisterPage: React.FC = () => {
     setErrorMsg('');
 
     // Validation
-    if (!name.trim() || !email.trim() || !phone.trim() || !password || !governorate || !city) {
+    if (!name.trim() || !email.trim() || !phone.trim() || !password || !governorate || !city || !role) {
       setErrorMsg('جميع الحقول الأساسية مطلوبة!');
+      return;
+    }
+
+    if (name.trim().split(/\s+/).length < 3) {
+      setErrorMsg('يرجى إدخال الاسم الثلاثي كاملاً كما هو مسجل في بطاقة الرقم القومي.');
+      return;
+    }
+
+    if (!/^01[0125]\d{8}$/.test(phone.trim())) {
+      setErrorMsg('يرجى إدخال رقم هاتف مصري صحيح ومفعّل عليه واتساب.');
       return;
     }
 
@@ -96,14 +107,6 @@ export const RegisterPage: React.FC = () => {
     if (password !== confirmPassword) {
       setErrorMsg('كلمة المرور وتأكيدها غير متطابقين!');
       return;
-    }
-
-    // MANDATORY DRIVER FILE VALIDATION
-    if (role === 'TRANSPORT_DRIVER') {
-      if (!nationalIdFile || !licenseFile) {
-        setErrorMsg('برجاء رفع صورة البطاقة الشخصية وصورة رخصة القيادة كشرط أساسي لتوثيق حساب سائق النقل!');
-        return;
-      }
     }
 
     setLoading(true);
@@ -236,13 +239,14 @@ export const RegisterPage: React.FC = () => {
           {/* Section 1: Role Selection Cards */}
           <div className="space-y-3">
             <label className="text-xs font-black text-text-primary block">
-              اختيار صفة وتخصص الحساب <span className="text-brand-red">*</span>
+              الصفة داخل قطاع الزراعة <span className="text-brand-red">*</span>
             </label>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
               {[
                 { id: 'FARMER', label: 'مزارع / منتج', icon: Tractor, color: 'text-brand-green' },
                 { id: 'LIVESTOCK_TRADER', label: 'تاجر مواشي', icon: Beef, color: 'text-amber-600' },
                 { id: 'TRANSPORT_DRIVER', label: 'سائق نقل ذكي', icon: Truck, color: 'text-brand-blue' },
+                { id: 'WORKER', label: 'عامل / صاحب مهنة', icon: User, color: 'text-[#FFB703]' },
                 { id: 'VENDOR', label: 'موزع / مشتري', icon: Store, color: 'text-purple-600' },
               ].map((item) => {
                 const Icon = item.icon;
@@ -271,7 +275,7 @@ export const RegisterPage: React.FC = () => {
             {/* Name */}
             <div className="space-y-1.5">
               <label className="text-xs font-black text-text-primary block">
-                الاسم بالكامل <span className="text-brand-red">*</span>
+                الاسم الثلاثي <span className="text-brand-red">*</span>
               </label>
               <div className="relative">
                 <input
@@ -279,7 +283,7 @@ export const RegisterPage: React.FC = () => {
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="مثال: المهندس أحمد زكي"
+                  placeholder="الاسم الثلاثي كما هو بالبطاقة"
                   className="w-full bg-surface-muted border-2 border-borderColor rounded-2xl py-3 pr-10 pl-4 text-xs font-bold text-text-primary focus:outline-none focus:border-brand-green transition"
                 />
                 <User className="w-4.5 h-4.5 text-text-secondary absolute right-3.5 top-1/2 -translate-y-1/2" />
@@ -307,7 +311,7 @@ export const RegisterPage: React.FC = () => {
             {/* Phone */}
             <div className="space-y-1.5">
               <label className="text-xs font-black text-text-primary block">
-                رقم الهاتف (الواتساب) <span className="text-brand-red">*</span>
+                رقم الهاتف (مفعّل عليه واتساب) <span className="text-brand-red">*</span>
               </label>
               <div className="relative">
                 <input
@@ -387,9 +391,9 @@ export const RegisterPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Section 3: MANDATORY DRIVER FILE UPLOADS (ظهر فقط عند اختيار سائق نقل) */}
+          {/* Optional identity verification for drivers and workers */}
           <AnimatePresence>
-            {role === 'TRANSPORT_DRIVER' && (
+            {(role === 'TRANSPORT_DRIVER' || role === 'WORKER') && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
@@ -400,7 +404,7 @@ export const RegisterPage: React.FC = () => {
                 <div className="flex items-center gap-2 text-brand-blue dark:text-sky-400">
                   <Truck className="w-5 h-5" />
                   <h4 className="text-xs sm:text-sm font-black">
-                    وثائق إثبات الشخصية والتراخيص لـ (سائق النقل الذكي) <span className="text-brand-red">* مطلوبة مؤكدة</span>
+                    توثيق الحساب وزيادة موثوقية الملف الشخصي 🔒 <span className="text-text-secondary">(اختياري)</span>
                   </h4>
                 </div>
 
@@ -408,7 +412,7 @@ export const RegisterPage: React.FC = () => {
                   {/* File Upload 1: National ID */}
                   <div className="space-y-2">
                     <label className="text-xs font-black text-text-primary block">
-                      1. رفع صورة الرقم القومي / البطاقة الشخصية <span className="text-brand-red">*</span>
+                      1. رفع صورة الرقم القومي / البطاقة الشخصية
                     </label>
                     <div className="relative border-2 border-dashed border-borderColor hover:border-brand-blue rounded-2xl p-4 text-center bg-surface transition cursor-pointer group">
                       <input
@@ -441,7 +445,7 @@ export const RegisterPage: React.FC = () => {
                   {/* File Upload 2: Driver License */}
                   <div className="space-y-2">
                     <label className="text-xs font-black text-text-primary block">
-                      2. رفع صورة رخصة القيادة / رخصة السيارة <span className="text-brand-red">*</span>
+                      2. رفع صورة رخصة القيادة / رخصة السيارة {role === 'WORKER' && '(إن وجدت)'}
                     </label>
                     <div className="relative border-2 border-dashed border-borderColor hover:border-brand-blue rounded-2xl p-4 text-center bg-surface transition cursor-pointer group">
                       <input
