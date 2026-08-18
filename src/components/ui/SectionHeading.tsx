@@ -28,17 +28,17 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
         </div>
       )}
       <div className="w-full">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight leading-[1.5] py-1 text-text-primary">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-relaxed sm:leading-[1.4] py-1 text-gradient-rgb">
           {title}{' '}
           {highlightText && (
-            <span className="text-brand-green-dark">
+            <span>
               {highlightText}
             </span>
           )}
         </h2>
       </div>
       {description && (
-        <p className={`text-text-secondary text-sm md:text-base leading-[1.85] max-w-2xl font-medium mt-3 ${centered ? 'mx-auto' : ''}`}>
+        <p className="text-text-secondary text-sm md:text-base leading-[1.85] max-w-2xl mx-auto font-medium mt-3">
           {description}
         </p>
       )}

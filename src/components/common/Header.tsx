@@ -42,8 +42,8 @@ export const Header: React.FC = () => {
     { path: '/ai-doctor', label: 'صيدلية AI', icon: Stethoscope, color: 'text-brand-red' },
     { path: '/marketplace', label: 'السوق الزراعي', icon: Store, color: 'text-brand-green' },
     { path: '/transport', label: 'النقل', icon: Truck, color: 'text-brand-blue' },
-    { path: '/jobs', label: 'الوظائف', icon: Briefcase, color: 'text-[#D3A84E]' },
-    { path: '/news', label: 'البورصة والأخبار', icon: Newspaper, color: 'text-[#9A7AC2]' },
+    { path: '/jobs', label: 'الوظائف', icon: Briefcase, color: 'text-[#FFB703]' },
+    { path: '/news', label: 'البورصة والأخبار', icon: Newspaper, color: 'text-[#A855F7]' },
     { path: '/contact', label: 'تواصل معنا', icon: PhoneCall, color: 'text-brand-green' },
   ];
 
@@ -111,11 +111,11 @@ export const Header: React.FC = () => {
           {navLinks.map((link) => {
             const Icon = link.icon;
             const active = isActive(link.path);
-            let activeBg = 'bg-brand-green text-[#06110C] shadow-brand-green/20';
-            if (link.path === '/ai-doctor') activeBg = 'bg-brand-red text-[#06110C] shadow-brand-red/20';
-            else if (link.path === '/transport' || link.path === '/about') activeBg = 'bg-brand-blue text-[#06110C] shadow-brand-blue/20';
-            else if (link.path === '/jobs') activeBg = 'bg-[#D3A84E] text-[#06110C] shadow-[#D3A84E]/20';
-            else if (link.path === '/news') activeBg = 'bg-[#9A7AC2] text-white shadow-[#9A7AC2]/20';
+            let activeBg = 'bg-brand-green text-white shadow-brand-green/30';
+            if (link.path === '/ai-doctor') activeBg = 'bg-brand-red text-white shadow-brand-red/30';
+            else if (link.path === '/transport' || link.path === '/about') activeBg = 'bg-brand-blue text-white shadow-brand-blue/30';
+            else if (link.path === '/jobs') activeBg = 'bg-[#FFB703] text-[#030D08] shadow-[#FFB703]/30';
+            else if (link.path === '/news') activeBg = 'bg-[#A855F7] text-white shadow-[#A855F7]/30';
 
             return (
               <Link
@@ -128,7 +128,7 @@ export const Header: React.FC = () => {
                     : 'text-text-primary hover:text-brand-green hover:bg-surface/80'
                 }`}
               >
-                <Icon className={`w-4 h-4 ${active ? 'text-current' : link.color}`} />
+                <Icon className={`w-4 h-4 ${active ? 'text-white' : link.color}`} />
                 <span>{link.label}</span>
               </Link>
             );

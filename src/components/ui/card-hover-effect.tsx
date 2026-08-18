@@ -29,7 +29,7 @@ export const HoverEffect: React.FC<HoverEffectProps> = ({ items, className = '' 
       {items.map((item, idx) => {
         const Icon = item.icon;
         const isHovered = hoveredIndex === idx;
-        const accent = item.glowColor || '#4FCB7A';
+        const accent = item.glowColor || '#00FF66';
         const accentStyle = { '--service-accent': accent } as CSSProperties;
 
         return (
@@ -46,7 +46,7 @@ export const HoverEffect: React.FC<HoverEffectProps> = ({ items, className = '' 
               {isHovered && (
                 <motion.span
                   className="absolute inset-0 h-full w-full block -z-0 rounded-[18px]"
-                  style={{ background: `radial-gradient(circle at 50% 0%, ${accent}0d, transparent 64%)` }}
+                  style={{ background: `radial-gradient(circle at 50% 0%, ${accent}18, transparent 64%)` }}
                   layoutId="hoverBackground"
                   initial={{ opacity: 0, scale: 0.96 }}
                   animate={{
@@ -65,7 +65,7 @@ export const HoverEffect: React.FC<HoverEffectProps> = ({ items, className = '' 
 
             {/* Main Ultra-Modern Glass Card Container */}
             <div
-              className="service-gate-card relative z-10 border p-5 h-full min-h-[280px] w-full overflow-hidden flex flex-col justify-between gap-5 transition-all duration-300 group-hover:-translate-y-1 rounded-[20px]"
+              className="service-gate-card relative z-10 border p-5 lg:p-5 h-full min-h-[310px] w-full overflow-hidden flex flex-col justify-between gap-5 transition-all duration-300 group-hover:-translate-y-1.5 rounded-[18px]"
               style={accentStyle}
             >
               <div className="absolute top-0 right-5 left-5 neon-rule" style={accentStyle} />
@@ -75,7 +75,7 @@ export const HoverEffect: React.FC<HoverEffectProps> = ({ items, className = '' 
                 <div className="flex items-center justify-between gap-3">
                   <div
                     className="w-12 h-12 rounded-2xl flex items-center justify-center border transition-transform duration-300 group-hover:scale-110"
-                    style={{ color: accent, borderColor: `${accent}3d`, backgroundColor: `${accent}0f` }}
+                    style={{ color: accent, borderColor: `${accent}55`, backgroundColor: `${accent}12`, boxShadow: `0 0 22px ${accent}18` }}
                   >
                     <Icon className="w-6 h-6" />
                   </div>

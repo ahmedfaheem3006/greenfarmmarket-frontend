@@ -5,7 +5,7 @@ export const WorkflowConnectionLines: React.FC = () => {
   return (
     <div
       aria-hidden="true"
-      className="absolute inset-0 pointer-events-none overflow-hidden z-0 select-none opacity-35"
+      className="absolute inset-0 pointer-events-none overflow-hidden z-0 select-none opacity-70"
     >
       <svg
         className="w-full h-full"

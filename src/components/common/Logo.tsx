@@ -10,9 +10,9 @@ export interface LogoProps {
 
 export const Logo: React.FC<LogoProps> = ({ size = 'md' }) => {
   const logoHeights = {
-    sm: 'h-10 sm:h-11',
-    md: 'h-12 sm:h-14 lg:h-16',
-    lg: 'h-14 sm:h-16 lg:h-20',
+    sm: 'h-12 sm:h-14 lg:h-16',
+    md: 'h-14 sm:h-16 lg:h-[88px]',
+    lg: 'h-16 sm:h-20 lg:h-[100px]',
   };
 
   return (
