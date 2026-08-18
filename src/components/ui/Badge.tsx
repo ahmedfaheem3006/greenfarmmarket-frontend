@@ -11,7 +11,7 @@ export const Badge: React.FC<BadgeProps> = ({ variant = 'green', children, class
     green: 'bg-brand-green-soft text-brand-green-dark border-brand-green/30',
     red: 'bg-brand-red-soft text-brand-red-dark border-brand-red/30',
     blue: 'bg-brand-blue-soft text-brand-blue-dark border-brand-blue/30',
-    amber: 'bg-[#FFB703]/10 text-[#FFB703] border-[#FFB703]/30',
+    amber: 'bg-[#D3A84E]/10 text-[#D3A84E] border-[#D3A84E]/25',
     neutral: 'bg-surface-muted text-text-secondary border-borderColor',
   };
 

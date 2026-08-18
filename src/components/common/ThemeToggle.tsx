@@ -26,7 +26,7 @@ export const ThemeToggle: React.FC = () => {
           layout
           transition={{ type: 'spring', stiffness: 500, damping: 28 }}
           className={`w-6 h-6 rounded-full flex items-center justify-center text-white shadow-md font-bold ${
-            isDark ? 'bg-amber-400 text-slate-950 translate-x-0' : 'bg-brand-green text-white -translate-x-8'
+            isDark ? 'bg-[#D3A84E] text-[#06110C] translate-x-0' : 'bg-brand-green text-white -translate-x-8'
           }`}
         >
           <motion.div
@@ -36,7 +36,7 @@ export const ThemeToggle: React.FC = () => {
             transition={{ duration: 0.3 }}
           >
             {isDark ? (
-              <Sun className="w-3.5 h-3.5 text-slate-950 fill-amber-400" />
+              <Sun className="w-3.5 h-3.5 text-[#06110C] fill-[#D3A84E]" />
             ) : (
               <Moon className="w-3.5 h-3.5 text-white fill-white" />
             )}

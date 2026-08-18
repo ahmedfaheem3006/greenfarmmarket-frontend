@@ -27,11 +27,11 @@ export const Button: React.FC<ButtonProps> = ({
 
   const variantStyles = {
     green:
-      'bg-brand-green text-white border-brand-green hover:bg-brand-green-dark shadow-soft-green hover:shadow-lg',
+      'bg-brand-green text-[#06110C] border-brand-green hover:bg-brand-green-dark shadow-soft-green hover:shadow-md',
     red:
-      'bg-brand-red text-white border-brand-red hover:bg-brand-red-dark shadow-soft-red hover:shadow-lg',
+      'bg-brand-red text-[#06110C] border-brand-red hover:bg-brand-red-dark shadow-soft-red hover:shadow-md',
     blue:
-      'bg-brand-blue text-white border-brand-blue hover:bg-brand-blue-dark shadow-soft-blue hover:shadow-lg',
+      'bg-brand-blue text-[#06110C] border-brand-blue hover:bg-brand-blue-dark shadow-soft-blue hover:shadow-md',
     dark:
       'bg-text-primary text-surface border-text-primary hover:opacity-90 shadow-soft-card',
     white:

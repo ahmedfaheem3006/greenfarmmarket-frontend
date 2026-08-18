@@ -34,32 +34,32 @@ html.light {
 [data-theme="dark"],
 html.dark {
   /* Green Farm Market 2026 — approved energy-saving dark palette */
-  --background: #030D08;
-  --surface: #081C13;
-  --surface-muted: #0B2519;
-  --surface-secondary: #0E2B1E;
+  --background: #06110C;
+  --surface: #0B1B13;
+  --surface-muted: #10251A;
+  --surface-secondary: #132C20;
 
-  --text-primary: #F1FFF7;
-  --text-secondary: #A8C9B7;
-  --border-color: #17452F;
+  --text-primary: #EDF7F0;
+  --text-secondary: #9DB6A6;
+  --border-color: #1D3A2B;
 
-  --brand-green: #00FF66;
-  --brand-green-dark: #56FF98;
-  --brand-green-soft: rgba(0, 255, 102, 0.12);
+  --brand-green: #43C978;
+  --brand-green-dark: #72D99A;
+  --brand-green-soft: rgba(67, 201, 120, 0.11);
 
-  --brand-red: #FF3366;
-  --brand-red-dark: #FF6B90;
-  --brand-red-soft: rgba(255, 51, 102, 0.13);
+  --brand-red: #D96C82;
+  --brand-red-dark: #E398A8;
+  --brand-red-soft: rgba(217, 108, 130, 0.11);
 
-  --brand-blue: #00E5FF;
-  --brand-blue-dark: #5EEFFF;
-  --brand-blue-soft: rgba(0, 229, 255, 0.13);
+  --brand-blue: #54B7C2;
+  --brand-blue-dark: #84CDD4;
+  --brand-blue-soft: rgba(84, 183, 194, 0.11);
 
-  --accent-gold: #FFB703;
-  --accent-purple: #A855F7;
+  --accent-gold: #D3A84E;
+  --accent-purple: #9A7AC2;
 
-  --header-bg: rgba(3, 13, 8, 0.88);
-  --header-scrolled: rgba(3, 13, 8, 0.97);
+  --header-bg: rgba(6, 17, 12, 0.88);
+  --header-scrolled: rgba(6, 17, 12, 0.97);
   --shadow-header: 0 16px 44px rgba(0, 0, 0, 0.52);
 }
 
@@ -77,8 +77,8 @@ body {
   overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
   background-image:
-    radial-gradient(circle at 88% 10%, rgba(0, 255, 102, 0.055), transparent 27rem),
-    radial-gradient(circle at 8% 42%, rgba(0, 229, 255, 0.04), transparent 24rem);
+    radial-gradient(circle at 88% 10%, rgba(67, 201, 120, 0.035), transparent 27rem),
+    radial-gradient(circle at 8% 42%, rgba(84, 183, 194, 0.025), transparent 24rem);
   background-attachment: fixed;
 }
 
@@ -99,15 +99,15 @@ html.dark textarea {
 
 /* Custom Soft Chromatic Shadows */
 .shadow-soft-green {
-  box-shadow: 0 14px 34px rgba(0, 255, 102, 0.14);
+  box-shadow: 0 12px 28px rgba(67, 201, 120, 0.11);
 }
 
 .shadow-soft-red {
-  box-shadow: 0 14px 34px rgba(255, 51, 102, 0.15);
+  box-shadow: 0 12px 28px rgba(217, 108, 130, 0.11);
 }
 
 .shadow-soft-blue {
-  box-shadow: 0 14px 34px rgba(0, 229, 255, 0.14);
+  box-shadow: 0 12px 28px rgba(84, 183, 194, 0.11);
 }
 
 .shadow-soft-card {
@@ -119,24 +119,17 @@ html.dark textarea {
 }
 .shadow-soft-hover:hover {
   transform: translateY(-4px);
-  box-shadow: 0 24px 50px rgba(0, 255, 102, 0.12);
+  box-shadow: 0 20px 44px rgba(21, 56, 37, 0.22);
 }
 
-/* Global Sleek Subtle Card Border Radius Enforcement (14px) */
-.card-modern,
-[class*="bg-surface"],
-.rounded-3xl,
-.rounded-4xl,
-.rounded-5xl,
-[class*="rounded-3xl"],
-[class*="rounded-4xl"],
-[class*="rounded-5xl"] {
-  border-radius: 14px !important; /* Subtle, sleek 14px radius */
+/* Shared radius for explicitly opted-in cards; Tailwind radius utilities remain respected. */
+.card-modern {
+  border-radius: 20px;
 }
 
 /* Tricolor RGB Title Gradient (Green -> Blue -> Red) */
 .text-gradient-rgb {
-  background: linear-gradient(135deg, #00FF66 0%, #00E5FF 52%, #A855F7 100%);
+  background: linear-gradient(135deg, #72D99A 0%, #84CDD4 55%, #B59BD4 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -166,17 +159,16 @@ html.dark textarea {
 
 .service-gate-card:hover,
 .service-gate-card:focus-visible {
-  border-color: var(--service-accent);
+  border-color: color-mix(in srgb, var(--service-accent) 62%, transparent);
   box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--service-accent) 32%, transparent),
-    0 0 34px color-mix(in srgb, var(--service-accent) 18%, transparent),
-    0 24px 54px rgba(0,0,0,.38);
+    0 0 0 1px color-mix(in srgb, var(--service-accent) 12%, transparent),
+    0 20px 44px rgba(0,0,0,.28);
 }
 
 .neon-rule {
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--service-accent), transparent);
-  opacity: .65;
+  opacity: .35;
 }
 
 @media (prefers-reduced-motion: reduce) {
