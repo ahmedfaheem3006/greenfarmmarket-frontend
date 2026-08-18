@@ -100,17 +100,17 @@ export const WorkflowCard: React.FC<WorkflowCardProps> = ({
           {renderIconBox()}
 
           <div className="space-y-0.5 min-w-0 flex-1">
-            <div className="flex items-center gap-2 text-[11px] font-bold">
-              <span className={`font-black ${getCategoryColor()}`}>{card.category}</span>
+            <div className="flex items-center gap-2 text-[11px] font-ibm font-bold">
+              <span className={`font-bold ${getCategoryColor()}`}>{card.category}</span>
               <span className="text-text-secondary opacity-60">•</span>
-              <span className="text-text-secondary">{card.time}</span>
+              <span className="text-text-secondary font-inter text-[10px]">{card.time}</span>
             </div>
 
-            <h4 className="font-black text-xs sm:text-sm text-text-primary tracking-tight leading-snug truncate">
+            <h4 className="font-cairo font-black text-xs sm:text-sm text-text-primary tracking-tight leading-snug truncate">
               {card.title}
             </h4>
 
-            <p className="text-[11px] sm:text-xs text-text-secondary font-bold leading-relaxed truncate">
+            <p className="text-[11px] sm:text-xs text-text-secondary font-noto font-medium leading-relaxed truncate">
               {card.subtitle}
             </p>
           </div>

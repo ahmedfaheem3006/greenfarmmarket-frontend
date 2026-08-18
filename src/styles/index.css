@@ -73,13 +73,66 @@ html.dark {
 body {
   background-color: var(--background);
   color: var(--text-primary);
-  font-family: 'Cairo', sans-serif;
+  font-family: 'Noto Sans Arabic', 'Cairo', sans-serif;
   overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
   background-image:
     radial-gradient(circle at 88% 10%, rgba(0, 255, 102, 0.055), transparent 27rem),
     radial-gradient(circle at 8% 42%, rgba(0, 229, 255, 0.04), transparent 24rem);
   background-attachment: fixed;
+}
+
+/* Default Heading Typography — Cairo for sharp geometric titles */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cairo', sans-serif;
+}
+
+/* Specific Font Utility Classes for Rich Typography */
+.font-noto {
+  font-family: 'Noto Sans Arabic', sans-serif !important;
+}
+
+.font-cairo {
+  font-family: 'Cairo', sans-serif !important;
+}
+
+.font-ibm {
+  font-family: 'IBM Plex Sans Arabic', sans-serif !important;
+}
+
+.font-bruno {
+  font-family: 'Bruno Ace SC', cursive, sans-serif !important;
+}
+
+.font-poppins {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.font-inter {
+  font-family: 'Inter', sans-serif !important;
+}
+
+.font-nunito {
+  font-family: 'Nunito', sans-serif !important;
+}
+
+/* Semantic Typography Roles */
+.text-tech {
+  font-family: 'IBM Plex Sans Arabic', sans-serif;
+  letter-spacing: -0.01em;
+}
+
+.text-futuristic {
+  font-family: 'Bruno Ace SC', cursive, sans-serif;
+  letter-spacing: 0.04em;
+}
+
+.text-metric {
+  font-family: 'Poppins', 'IBM Plex Sans Arabic', sans-serif;
+}
+
+.text-friendly {
+  font-family: 'Nunito', 'Noto Sans Arabic', sans-serif;
 }
 
 main {

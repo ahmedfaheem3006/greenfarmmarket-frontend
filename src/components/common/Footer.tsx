@@ -18,17 +18,17 @@ export const Footer: React.FC = () => {
               </h3>
             </div>
           </div>
-          <p className="leading-relaxed text-emerald-200/70 text-xs font-medium">
+          <p className="leading-relaxed text-emerald-200/70 text-xs font-noto font-normal">
             أول منصة بالشرق الأوسط تجمع التكنولوجيا والزراعة والتسمين، تربط المزارعين والمستثمرين وأصحاب المواشي عبر الذكاء الاصطناعي وسلاسل التوريد المباشرة.
           </p>
         </div>
 
         {/* Quick Navigation Links */}
         <div className="space-y-3">
-          <h4 className="text-sm font-bold text-white flex items-center gap-2">
+          <h4 className="text-sm font-cairo font-bold text-white flex items-center gap-2">
             <Leaf className="w-4 h-4 text-brand-green" /> أقسام المنصة الرئيسية
           </h4>
-          <ul className="space-y-2.5">
+          <ul className="space-y-2.5 font-noto font-medium">
             <li><Link to="/ai-doctor" className="hover:text-brand-red transition flex items-center gap-1.5"><ArrowLeft className="w-3 h-3 text-brand-red" /> صيدلية AI النبات والحيوان</Link></li>
             <li><Link to="/marketplace" className="hover:text-brand-green transition flex items-center gap-1.5"><ArrowLeft className="w-3 h-3 text-brand-green" /> سوق البيع والشراء الزراعي</Link></li>
             <li><Link to="/transport" className="hover:text-brand-blue transition flex items-center gap-1.5"><ArrowLeft className="w-3 h-3 text-brand-blue" /> خدمات النقل واللوجستيات الذكية</Link></li>
@@ -39,43 +39,43 @@ export const Footer: React.FC = () => {
 
         {/* Digital Guarantees & Platform Features */}
         <div className="space-y-3">
-          <h4 className="text-sm font-bold text-white flex items-center gap-2">
+          <h4 className="text-sm font-cairo font-bold text-white flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-brand-blue" /> الأمان والاعتمادية الرقمية
           </h4>
-          <ul className="space-y-2.5 text-emerald-200/80 text-xs font-bold">
+          <ul className="space-y-2.5 text-emerald-200/80 text-xs font-ibm font-medium">
             <li className="flex items-center gap-2.5 bg-emerald-950/80 p-2.5 rounded-xl border border-emerald-800/60">
               <ShieldCheck className="w-4 h-4 text-brand-green flex-shrink-0" />
-              <span>معاملات تجارية وشحن <strong className="text-white">مؤمن بالكامل</strong></span>
+              <span>معاملات تجارية وشحن <strong className="text-white font-bold">مؤمن بالكامل</strong></span>
             </li>
             <li className="flex items-center gap-2.5 bg-emerald-950/80 p-2.5 rounded-xl border border-emerald-800/60">
               <Sparkles className="w-4 h-4 text-brand-blue flex-shrink-0" />
-              <span>دعم وحلول بالذكاء الاصطناعي <strong className="text-white">على مدار 24 ساعة</strong></span>
+              <span>دعم وحلول بالذكاء الاصطناعي <strong className="text-white font-bold">على مدار 24 ساعة</strong></span>
             </li>
             <li className="flex items-center gap-2.5 bg-emerald-950/80 p-2.5 rounded-xl border border-emerald-800/60">
               <Handshake className="w-4 h-4 text-brand-red flex-shrink-0" />
-              <span>ربط مباشر <strong className="text-white">إلغاء حلقة الوسطاء</strong></span>
+              <span>ربط مباشر <strong className="text-white font-bold">إلغاء حلقة الوسطاء</strong></span>
             </li>
           </ul>
         </div>
 
         {/* Contact Info */}
         <div className="space-y-3">
-          <h4 className="text-sm font-bold text-white flex items-center gap-2">
+          <h4 className="text-sm font-cairo font-bold text-white flex items-center gap-2">
             <Phone className="w-4 h-4 text-brand-green" /> التغطية والتواصل
           </h4>
-          <p className="flex items-center gap-2 text-slate-300 font-bold">
+          <p className="flex items-center gap-2 text-slate-300 font-noto">
             <MapPin className="w-4 h-4 text-brand-red flex-shrink-0" /> بني سويف والقاهرة وباقي المحافظات
           </p>
-          <p className="flex items-center gap-2 text-slate-300 font-mono">
+          <p className="flex items-center gap-2 text-slate-300 font-poppins font-bold">
             <Phone className="w-4 h-4 text-brand-green flex-shrink-0" /> 01099856661
           </p>
-          <p className="flex items-center gap-2 text-slate-300">
+          <p className="flex items-center gap-2 text-slate-300 font-inter">
             <Mail className="w-4 h-4 text-brand-blue flex-shrink-0" /> info@greenfarmmarket.com
           </p>
         </div>
       </div>
 
-      <div className="border-t border-emerald-900/60 py-6 text-center text-slate-400 text-xs font-bold flex items-center justify-center gap-1">
+      <div className="border-t border-emerald-900/60 py-6 text-center text-slate-400 text-xs font-noto flex items-center justify-center gap-1">
         <BrandName lang="ar" /> <span>© 2026 - جميع الحقوق محفوظة.</span>
       </div>
     </footer>

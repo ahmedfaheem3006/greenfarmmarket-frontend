@@ -88,10 +88,10 @@ export const AboutPage: React.FC = () => {
         >
           <div className="flex items-center justify-between text-brand-green">
             <Store className="w-6 h-6" />
-            <span className="text-2xl font-black">100%</span>
+            <span className="text-2xl font-poppins font-black">100%</span>
           </div>
-          <h3 className="text-xs font-black text-text-primary">تجارة مباشرة</h3>
-          <p className="text-[11px] text-text-secondary font-bold">إلغاء حلقة الوسطاء وتعظيم الأرباح</p>
+          <h3 className="text-xs font-cairo font-black text-text-primary">تجارة مباشرة</h3>
+          <p className="text-[11px] text-text-secondary font-noto font-medium">إلغاء حلقة الوسطاء وتعظيم الأرباح</p>
         </div>
 
         <div
@@ -100,10 +100,10 @@ export const AboutPage: React.FC = () => {
         >
           <div className="flex items-center justify-between text-brand-blue">
             <Truck className="w-6 h-6" />
-            <span className="text-2xl font-black">27+</span>
+            <span className="text-2xl font-poppins font-black">27+</span>
           </div>
-          <h3 className="text-xs font-black text-text-primary">محافظة مغطاة</h3>
-          <p className="text-[11px] text-text-secondary font-bold">شحن لوجستي مؤمن وتتبع جغرافي</p>
+          <h3 className="text-xs font-cairo font-black text-text-primary">محافظة مغطاة</h3>
+          <p className="text-[11px] text-text-secondary font-noto font-medium">شحن لوجستي مؤمن وتتبع جغرافي</p>
         </div>
 
         <div
@@ -112,10 +112,10 @@ export const AboutPage: React.FC = () => {
         >
           <div className="flex items-center justify-between text-brand-red">
             <Stethoscope className="w-6 h-6" />
-            <span className="text-2xl font-black">AI 24/7</span>
+            <span className="text-2xl font-poppins font-black">24/7 AI</span>
           </div>
-          <h3 className="text-xs font-black text-text-primary">صيدلية ذكية</h3>
-          <p className="text-[11px] text-text-secondary font-bold">تشخيص فوري وعلاج من الكاميرا</p>
+          <h3 className="text-xs font-cairo font-black text-text-primary">صيدلية ذكية</h3>
+          <p className="text-[11px] text-text-secondary font-noto font-medium">تشخيص فوري وعلاج من الكاميرا</p>
         </div>
 
         <div
@@ -124,10 +124,10 @@ export const AboutPage: React.FC = () => {
         >
           <div className="flex items-center justify-between text-amber-600 dark:text-amber-400">
             <Briefcase className="w-6 h-6" />
-            <span className="text-2xl font-black">مجاني</span>
+            <span className="text-2xl font-cairo font-black">مجاني</span>
           </div>
-          <h3 className="text-xs font-black text-text-primary">سوق التوظيف</h3>
-          <p className="text-[11px] text-text-secondary font-bold">ربط المزارعين بالمهندسين والعمالة</p>
+          <h3 className="text-xs font-cairo font-black text-text-primary">سوق التوظيف</h3>
+          <p className="text-[11px] text-text-secondary font-noto font-medium">ربط المزارعين بالمهندسين والعمالة</p>
         </div>
       </div>
 

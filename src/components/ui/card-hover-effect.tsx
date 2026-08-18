@@ -80,7 +80,7 @@ export const HoverEffect: React.FC<HoverEffectProps> = ({ items, className = '' 
                     <Icon className="w-6 h-6" />
                   </div>
                   <span
-                    className="inline-flex items-center px-3 py-1 rounded-full border text-[10px] font-black shadow-sm"
+                    className="inline-flex items-center px-3 py-1 rounded-full border text-[10px] font-ibm font-bold shadow-sm tracking-wide"
                     style={{ color: accent, borderColor: `${accent}4d`, backgroundColor: `${accent}12` }}
                   >
                     {item.subtitle}
@@ -88,12 +88,12 @@ export const HoverEffect: React.FC<HoverEffectProps> = ({ items, className = '' 
                 </div>
 
                 {/* Card Title (Reverted to distinct brand accent color) */}
-                <h3 className="text-lg lg:text-xl font-black tracking-tight leading-[1.65] py-1 transition-colors duration-200" style={{ color: accent }}>
+                <h3 className="text-lg lg:text-xl font-cairo font-black tracking-tight leading-[1.65] py-1 transition-colors duration-200" style={{ color: accent }}>
                   {item.title}
                 </h3>
 
                 {/* Description */}
-                <p className="text-xs text-text-secondary font-semibold leading-[1.9]">
+                <p className="text-xs text-text-secondary font-noto font-medium leading-[1.9]">
                   {item.description}
                 </p>
               </div>
@@ -101,7 +101,7 @@ export const HoverEffect: React.FC<HoverEffectProps> = ({ items, className = '' 
               {/* Bottom CTA Button */}
               <div className="pt-3 border-t border-borderColor/70">
                 <div
-                  className="w-full py-3 px-4 rounded-xl border bg-black/10 text-text-primary text-[11px] font-black flex items-center justify-between transition-all duration-300"
+                  className="w-full py-3 px-4 rounded-xl border bg-black/10 text-text-primary text-[11px] font-cairo font-bold flex items-center justify-between transition-all duration-300"
                   style={{ borderColor: `${accent}3d` }}
                 >
                   <span className="font-extrabold">{item.actionText}</span>

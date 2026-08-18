@@ -382,7 +382,7 @@ export const HomePage: React.FC = () => {
       ================================================== */}
       <div className="bg-surface-muted/90 border-y border-borderColor py-2.5 overflow-hidden select-none relative z-20">
         <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-12 flex items-center gap-4">
-          <div className="flex items-center gap-2 bg-brand-green-soft text-brand-green border border-brand-green/30 px-3.5 py-1 rounded-full text-xs font-black flex-shrink-0 shadow-sm z-10">
+          <div className="flex items-center gap-2 bg-brand-green-soft text-brand-green border border-brand-green/30 px-3.5 py-1 rounded-full text-xs font-ibm font-bold flex-shrink-0 shadow-sm z-10">
             <TrendingUp className="w-3.5 h-3.5 animate-pulse" />
             <span>البورصة الزراعية المباشرة</span>
           </div>
@@ -390,9 +390,9 @@ export const HomePage: React.FC = () => {
           <div className="flex-1 overflow-hidden relative flex items-center select-none" dir="ltr">
             <div className="flex items-center gap-8 shrink-0 min-w-full justify-around animate-marquee py-0.5 pr-8">
               {stockTickerItems.map((item, idx) => (
-                <div key={idx} className="flex items-center gap-2" dir="rtl">
-                  <span className="text-text-secondary font-bold">{item.label}:</span>
-                  <span className="text-text-primary font-black">{item.price}</span>
+                <div key={idx} className="flex items-center gap-2 font-ibm" dir="rtl">
+                  <span className="text-text-secondary font-noto font-bold">{item.label}:</span>
+                  <span className="text-text-primary font-ibm font-black">{item.price}</span>
                   <span className="w-1.5 h-1.5 rounded-full bg-brand-green" />
                 </div>
               ))}
@@ -400,9 +400,9 @@ export const HomePage: React.FC = () => {
 
             <div className="flex items-center gap-8 shrink-0 min-w-full justify-around animate-marquee py-0.5 pr-8" aria-hidden="true">
               {stockTickerItems.map((item, idx) => (
-                <div key={`dup-${idx}`} className="flex items-center gap-2" dir="rtl">
-                  <span className="text-text-secondary font-bold">{item.label}:</span>
-                  <span className="text-text-primary font-black">{item.price}</span>
+                <div key={`dup-${idx}`} className="flex items-center gap-2 font-ibm" dir="rtl">
+                  <span className="text-text-secondary font-noto font-bold">{item.label}:</span>
+                  <span className="text-text-primary font-ibm font-black">{item.price}</span>
                   <span className="w-1.5 h-1.5 rounded-full bg-brand-green" />
                 </div>
               ))}
@@ -437,17 +437,19 @@ export const HomePage: React.FC = () => {
             className="lg:col-span-7 space-y-7 text-right"
           >
             <motion.div variants={itemFadeUp} className="inline-block">
-              <div className="inline-flex items-center gap-3 px-6 sm:px-7 py-3 rounded-full bg-surface/90 border border-brand-green/40 text-xs sm:text-sm font-black text-brand-green shadow-md backdrop-blur-md hover:shadow-lg transition-all duration-300 group cursor-default leading-relaxed">
+              <div className="inline-flex items-center gap-3 px-6 sm:px-7 py-3 rounded-full bg-surface/90 border border-brand-green/40 text-xs sm:text-sm text-brand-green shadow-md backdrop-blur-md hover:shadow-lg transition-all duration-300 group cursor-default leading-relaxed">
                 <span className="flex items-center justify-center w-5.5 h-5.5 rounded-full bg-amber-400/20 text-amber-400 animate-pulse flex-shrink-0">
                   <Award className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
                 </span>
-                <span>Green Farm Market 2026 · المنظومة الزراعية الرقمية المتكاملة</span>
+                <span className="font-poppins font-black tracking-tight" dir="ltr">Green Farm Market 2026</span>
+                <span className="text-text-secondary font-inter font-normal">·</span>
+                <span className="font-cairo font-bold">المنظومة الزراعية الرقمية المتكاملة</span>
               </div>
             </motion.div>
 
             <motion.h1
               variants={itemFadeUp}
-              className="text-3xl sm:text-5xl lg:text-6xl font-black text-text-primary tracking-tight leading-[1.3] sm:leading-[1.25] lg:leading-[1.2]"
+              className="text-3xl sm:text-5xl lg:text-6xl font-cairo font-black text-text-primary tracking-tight leading-[1.3] sm:leading-[1.25] lg:leading-[1.2]"
             >
               منظومة تقنية شاملة لتطوير{' '}
               <span className="bg-gradient-to-r from-brand-green via-teal-600 to-brand-blue bg-clip-text text-transparent">
@@ -457,7 +459,7 @@ export const HomePage: React.FC = () => {
 
             <motion.p
               variants={itemFadeUp}
-              className="text-text-secondary text-base sm:text-lg leading-[1.95] sm:leading-[2] max-w-2xl font-bold bg-surface/60 p-6 sm:p-7 lg:p-8 rounded-2xl border border-borderColor/60 backdrop-blur-md shadow-md"
+              className="text-text-secondary font-noto text-base sm:text-lg leading-[1.95] sm:leading-[2] max-w-2xl font-medium bg-surface/60 p-6 sm:p-7 lg:p-8 rounded-2xl border border-borderColor/60 backdrop-blur-md shadow-md"
               style={{ borderRadius: '14px' }}
             >
               أول منصة بالشرق الأوسط تجمع التكنولوجيا والزراعة والتسمين، تربط المزارعين والمستثمرين وأصحاب المواشي عبر الذكاء الاصطناعي وسلاسل التوريد المباشرة.
@@ -519,14 +521,14 @@ export const HomePage: React.FC = () => {
           {/* Header - Single Line Title & Spacing */}
           <div className="space-y-3 max-w-5xl mx-auto text-center">
             <div className="flex justify-center mb-3">
-              <Badge variant="green" className="py-1 px-4 text-xs font-black">رؤيتنا المستقبلية</Badge>
+              <Badge variant="green" className="py-1 px-4 text-xs font-ibm font-bold">رؤيتنا المستقبلية</Badge>
             </div>
             <div className="w-full overflow-hidden flex justify-center">
-              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[2.2rem] font-black tracking-tight leading-snug py-1 text-gradient-rgb whitespace-nowrap text-ellipsis max-w-full">
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[2.2rem] font-cairo font-black tracking-tight leading-snug py-1 text-gradient-rgb whitespace-nowrap text-ellipsis max-w-full">
                 المحاور الاستراتيجية الخمسة لمنصة جرين فارم
               </h2>
             </div>
-            <p className="text-text-secondary text-xs sm:text-sm md:text-base leading-relaxed max-w-2xl mx-auto font-bold pt-2">
+            <p className="text-text-secondary font-noto text-xs sm:text-sm md:text-base leading-relaxed max-w-2xl mx-auto font-medium pt-2">
               تكامل الأبعاد التقنية والاقتصادية والبيئية لتطوير سلاسل التوريد والتحول الرقمي
             </p>
           </div>
@@ -553,8 +555,8 @@ export const HomePage: React.FC = () => {
                       <Icon className="w-5 h-5" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <span className={`text-[10px] block font-black ${isActive ? 'text-white/80' : 'text-text-secondary'}`}>المحور {index + 1}</span>
-                      <h4 className={`text-xs sm:text-sm font-black truncate ${isActive ? 'text-white' : pillar.colorClass}`}>{pillar.title}</h4>
+                      <span className={`text-[10px] block font-ibm font-bold ${isActive ? 'text-white/80' : 'text-text-secondary'}`}>المحور {index + 1}</span>
+                      <h4 className={`text-xs sm:text-sm font-cairo font-bold truncate ${isActive ? 'text-white' : pillar.colorClass}`}>{pillar.title}</h4>
                     </div>
                     <ChevronLeft className={`w-4 h-4 shrink-0 transition-transform duration-300 ${isActive ? 'rotate-90 text-white' : 'text-text-secondary'}`} />
                   </button>
@@ -575,19 +577,19 @@ export const HomePage: React.FC = () => {
                   style={{ borderRadius: '14px' }}
                 >
                   <div className="flex flex-wrap items-center justify-between border-b border-borderColor pb-3.5 gap-3">
-                    <Badge variant={strategicPillars[activePillar].badgeVariant} className="py-1 px-3.5 text-xs font-black">
+                    <Badge variant={strategicPillars[activePillar].badgeVariant} className="py-1 px-3.5 text-xs font-ibm font-bold">
                       المحور الاستراتيجي {activePillar + 1}
                     </Badge>
-                    <h3 className={`text-lg sm:text-xl font-black ${strategicPillars[activePillar].colorClass}`}>
+                    <h3 className={`text-lg sm:text-xl font-cairo font-black ${strategicPillars[activePillar].colorClass}`}>
                       {strategicPillars[activePillar].title}
                     </h3>
                   </div>
 
-                  <ul className="space-y-3 text-xs sm:text-sm font-bold text-text-primary">
+                  <ul className="space-y-3 text-xs sm:text-sm font-noto font-medium text-text-primary">
                     {strategicPillars[activePillar].points.map((point, idx) => (
                       <li key={idx} className="flex items-start gap-3 bg-surface-muted/80 p-3.5 sm:p-4 rounded-xl border border-borderColor/80 shadow-sm transition hover:border-borderColor">
                         <CheckCircle2 className={`w-4.5 h-4.5 flex-shrink-0 mt-0.5 ${strategicPillars[activePillar].checkColor}`} />
-                        <span className="leading-relaxed font-bold">{point}</span>
+                        <span className="leading-relaxed">{point}</span>
                       </li>
                     ))}
                   </ul>
@@ -630,7 +632,7 @@ export const HomePage: React.FC = () => {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 rounded-full text-xs font-black transition border cursor-pointer whitespace-nowrap ${
+                className={`px-4 py-2 rounded-full text-xs font-ibm font-bold transition border cursor-pointer whitespace-nowrap ${
                   selectedCategory === cat
                     ? 'bg-brand-green text-white border-brand-green shadow-md shadow-brand-green/20'
                     : 'bg-surface border-borderColor text-text-primary hover:bg-surface-muted'
@@ -654,14 +656,14 @@ export const HomePage: React.FC = () => {
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className={`px-3 py-1 rounded-full text-[11px] font-black border ${prod.accentColor}`}>
+                    <span className={`px-3 py-1 rounded-full text-[11px] font-ibm font-bold border ${prod.accentColor}`}>
                       {prod.category}
                     </span>
-                    <span className="text-xs font-black text-brand-green">{prod.price}</span>
+                    <span className="text-xs font-ibm font-black text-brand-green">{prod.price}</span>
                   </div>
 
-                  <h4 className="text-lg font-black text-text-primary">{prod.name}</h4>
-                  <p className="text-xs text-text-secondary font-bold leading-relaxed bg-surface-muted p-3 rounded-2xl border border-borderColor">
+                  <h4 className="text-lg font-cairo font-black text-text-primary">{prod.name}</h4>
+                  <p className="text-xs text-text-secondary font-noto font-normal leading-relaxed bg-surface-muted p-3 rounded-2xl border border-borderColor">
                     {prod.details}
                   </p>
                 </div>
@@ -708,11 +710,11 @@ export const HomePage: React.FC = () => {
                       <div className="w-11 h-11 rounded-2xl bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20 flex items-center justify-center">
                         <Icon className="w-5.5 h-5.5" />
                       </div>
-                      <Badge variant="blue">{service.badge}</Badge>
+                      <Badge variant="blue" className="font-ibm font-bold">{service.badge}</Badge>
                     </div>
 
-                    <h4 className="text-lg font-black text-text-primary">{service.title}</h4>
-                    <p className="text-xs text-text-secondary font-bold leading-relaxed">
+                    <h4 className="text-lg font-cairo font-black text-text-primary">{service.title}</h4>
+                    <p className="text-xs text-text-secondary font-noto font-normal leading-relaxed">
                       {service.description}
                     </p>
                   </div>
@@ -757,15 +759,15 @@ export const HomePage: React.FC = () => {
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <Badge variant={job.badgeVariant}>{job.type}</Badge>
-                    <span className="text-xs font-black text-text-secondary">{job.workType}</span>
+                    <Badge variant={job.badgeVariant} className="font-ibm font-bold">{job.type}</Badge>
+                    <span className="text-xs font-ibm font-bold text-text-secondary">{job.workType}</span>
                   </div>
 
-                  <h4 className="text-xl font-black text-text-primary">{job.title}</h4>
+                  <h4 className="text-xl font-cairo font-black text-text-primary">{job.title}</h4>
 
-                  <div className="flex flex-wrap gap-4 text-xs font-bold text-text-secondary bg-surface-muted p-3.5 rounded-2xl border border-borderColor">
-                    <span className="flex items-center gap-1">📍 المكان: <strong className="text-text-primary">{job.location}</strong></span>
-                    <span className="flex items-center gap-1">💼 الخبرة: <strong className="text-text-primary">{job.experience}</strong></span>
+                  <div className="flex flex-wrap gap-4 text-xs font-noto text-text-secondary bg-surface-muted p-3.5 rounded-2xl border border-borderColor">
+                    <span className="flex items-center gap-1 font-noto">📍 المكان: <strong className="text-text-primary font-bold">{job.location}</strong></span>
+                    <span className="flex items-center gap-1 font-noto">💼 الخبرة: <strong className="text-text-primary font-bold">{job.experience}</strong></span>
                   </div>
                 </div>
 
@@ -792,7 +794,7 @@ export const HomePage: React.FC = () => {
 
           <div className="bg-surface border-2 border-borderColor rounded-4xl p-8 shadow-soft-card max-w-4xl mx-auto space-y-6 text-right">
             <div className="space-y-2">
-              <label className="text-sm font-black text-text-primary block flex items-center gap-2">
+              <label className="text-sm font-cairo font-black text-text-primary block flex items-center gap-2">
                 <Stethoscope className="w-5 h-5 text-brand-red" />
                 اكتب استفسارك أو وصف الأعراض:
               </label>
@@ -801,7 +803,7 @@ export const HomePage: React.FC = () => {
                 value={symptomInput}
                 onChange={(e) => setSymptomInput(e.target.value)}
                 placeholder="مثال: يوجد اصفرار في أطراف أوراق طماطم المزرعة مع بقع بنية..."
-                className="w-full bg-surface-muted border-2 border-borderColor rounded-3xl p-4 text-sm font-bold text-text-primary focus:border-brand-green outline-none"
+                className="w-full bg-surface-muted border-2 border-borderColor rounded-3xl p-4 text-sm font-noto font-medium text-text-primary focus:border-brand-green outline-none"
               />
             </div>
 
@@ -826,16 +828,16 @@ export const HomePage: React.FC = () => {
                   exit={{ opacity: 0 }}
                   className="bg-rose-500/10 border-2 border-rose-500/30 rounded-3xl p-6 space-y-4 text-right"
                 >
-                  <div className="flex items-center gap-2 text-rose-600 dark:text-rose-400 font-black">
+                  <div className="flex items-center gap-2 text-rose-600 dark:text-rose-400 font-cairo font-black">
                     <AlertTriangle className="w-5 h-5" />
                     <h4>النتيجة والتشخيص المبدئي:</h4>
                   </div>
 
-                  <p className="text-sm font-bold text-text-primary leading-relaxed">
-                    بناءً على الأعراض المدخلة، يُرجح إصابة النبات بـ <strong className="text-rose-600 dark:text-rose-400">اللفحة المبكرة (Early Blight)</strong> ناتجة عن ارتفاع الرطوبة.
+                  <p className="text-sm font-noto font-medium text-text-primary leading-relaxed">
+                    بناءً على الأعراض المدخلة، يُرجح إصابة النبات بـ <strong className="text-rose-600 dark:text-rose-400 font-bold">اللفحة المبكرة (Early Blight)</strong> ناتجة عن ارتفاع الرطوبة.
                   </p>
 
-                  <div className="bg-surface p-4 rounded-2xl border border-rose-500/20 text-xs font-extrabold text-text-primary leading-relaxed">
+                  <div className="bg-surface p-4 rounded-2xl border border-rose-500/20 text-xs font-ibm font-bold text-text-primary leading-relaxed">
                     💚 <strong>التوصية العلاجية:</strong> رش مادة ميثيل التوفانات أو هيدروكسيد النحاس مع تنظيم فترات الري خلال 48 ساعة.
                   </div>
                 </motion.div>
@@ -866,14 +868,14 @@ export const HomePage: React.FC = () => {
                 >
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className={`px-3 py-1 rounded-full text-[11px] font-black border ${news.color}`}>
+                      <span className={`px-3 py-1 rounded-full text-[11px] font-ibm font-bold border ${news.color}`}>
                         {news.category}
                       </span>
                       <Icon className="w-5 h-5 text-text-secondary" />
                     </div>
 
-                    <h4 className="text-lg font-black text-text-primary">{news.title}</h4>
-                    <p className="text-xs text-text-secondary font-bold leading-relaxed">
+                    <h4 className="text-lg font-cairo font-black text-text-primary">{news.title}</h4>
+                    <p className="text-xs text-text-secondary font-noto font-normal leading-relaxed">
                       {news.content}
                     </p>
                   </div>

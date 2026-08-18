@@ -41,7 +41,14 @@ export default {
         DEFAULT: 'var(--border-color)',
       },
       fontFamily: {
+        sans: ['"Noto Sans Arabic"', 'Noto Sans', 'sans-serif'],
+        noto: ['"Noto Sans Arabic"', 'sans-serif'],
         cairo: ['Cairo', 'sans-serif'],
+        ibm: ['"IBM Plex Sans Arabic"', 'sans-serif'],
+        bruno: ['"Bruno Ace SC"', 'cursive', 'sans-serif'],
+        poppins: ['Poppins', 'sans-serif'],
+        inter: ['Inter', 'sans-serif'],
+        nunito: ['Nunito', 'sans-serif'],
       },
       borderRadius: {
         '4xl': '2rem',

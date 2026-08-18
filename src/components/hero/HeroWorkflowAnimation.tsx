@@ -108,7 +108,7 @@ export const HeroWorkflowAnimation: React.FC = () => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="absolute bottom-3.5 left-4 z-30 flex items-center gap-2 bg-surface border border-borderColor px-3.5 py-1.5 rounded-full text-[11px] font-black text-text-primary shadow-sm"
+        className="absolute bottom-3.5 left-4 z-30 flex items-center gap-2 bg-surface border border-borderColor px-3.5 py-1.5 rounded-full text-[11px] font-ibm font-bold text-text-primary shadow-sm"
       >
         <span className="w-2 h-2 rounded-full bg-brand-green animate-pulse" />
         <span>منظومة العمليات الرقمية الحية</span>
