@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { WorkflowCardItem } from './workflowData';
-import logoImg from '../../assets/brand/green-farm-market-logo.jpeg';
+import logoImg from '../../assets/Final_logo.png';
 import {
   Stethoscope,
   Truck,

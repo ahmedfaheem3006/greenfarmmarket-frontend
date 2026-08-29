@@ -29,7 +29,7 @@ export const HoverEffect: React.FC<HoverEffectProps> = ({ items, className = '' 
       {items.map((item, idx) => {
         const Icon = item.icon;
         const isHovered = hoveredIndex === idx;
-        const accent = item.glowColor || '#00FF66';
+        const accent = item.glowColor || '#10B981';
         const accentStyle = { '--service-accent': accent } as CSSProperties;
 
         return (

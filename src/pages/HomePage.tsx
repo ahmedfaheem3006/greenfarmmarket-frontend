@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import heroBg from '../assets/Hero.png';
+import heroBg from '../assets/hero 5.png';
 import { useAuth } from '../store/authStore';
 import { toast } from '../store/toastStore';
-import { HeroWorkflowAnimation } from '../components/hero/HeroWorkflowAnimation';
+import { CoreServicesPanel } from '../components/home/CoreServicesPanel';
+import { TrustMetricsSection } from '../components/home/TrustMetricsSection';
+import { FaqSection } from '../components/home/FaqSection';
+import { TestimonialsSection } from '../components/home/TestimonialsSection';
+import { HowItWorksSection } from '../components/home/HowItWorksSection';
+import { BorderGlow } from '../components/ui/BorderGlow';
 import { SectionHeading } from '../components/ui/SectionHeading';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
-import { HoverEffect, HoverEffectItem } from '../components/ui/card-hover-effect';
 import {
   Sparkles,
   Award,
@@ -41,22 +45,25 @@ import {
   Droplets,
   Sun,
   Loader2,
+  RefreshCw,
+  FileText,
+  Microscope,
+  HeartPulse,
 } from 'lucide-react';
 
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const { user, isRegistered, toggleAuthModal } = useAuth();
 
-  // State for Marketplace category filter
-  const [selectedCategory, setSelectedCategory] = useState<string>('الكل');
-
   // State for Strategic Pillars active tab
   const [activePillar, setActivePillar] = useState<number>(0);
 
-  // State for AI Doctor Symptom Input
+  // State for AI Doctor
+  const [diagnosisMode, setDiagnosisMode] = useState<'plants' | 'livestock' | 'soil'>('plants');
   const [symptomInput, setSymptomInput] = useState<string>('');
   const [showAiResult, setShowAiResult] = useState<boolean>(false);
   const [aiLoading, setAiLoading] = useState<boolean>(false);
+  const [selectedImageName, setSelectedImageName] = useState<string | null>(null);
 
   // Stock Ticker Items
   const stockTickerItems = [
@@ -67,300 +74,162 @@ export const HomePage: React.FC = () => {
     { label: '🚛 النقل الذكي', price: 'انخفاض تكاليف الشحن اللوجستي بنسبة 18%', status: 'down' },
   ];
 
-  // Core 5 Services Data for Aceternity UI Card Hover Effect
-  const coreServices: HoverEffectItem[] = [
-    {
-      id: 'market',
-      title: 'سوق البيع والشراء الزراعي',
-      subtitle: 'الشاشة الأولى',
-      description: 'بوابة مباشرة لبيع وشراء المحاصيل والمواشي والشتلات ومستلزمات الإنتاج دون حلقات وسيطة.',
-      actionText: 'دخول السوق المباشر',
-      link: '/marketplace',
-      icon: Store,
-      badgeVariant: 'green',
-      accentBg: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20',
-      glowColor: '#00FF66',
-    },
-    {
-      id: 'transport',
-      title: 'النقل واللوجستيات الذكية',
-      subtitle: 'الشاشة الثانية',
-      description: 'توصيل الشحنات الزراعية والمواشي بخيارات: نقل فقط | نقل ودفع | نقل وكشف جودة.',
-      actionText: 'طلب شاحنة نقل',
-      link: '/transport',
-      icon: Truck,
-      badgeVariant: 'blue',
-      accentBg: 'bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/20',
-      glowColor: '#00E5FF',
-    },
-    {
-      id: 'jobs',
-      title: 'ملتقى التوظيف والفرص الزراعية',
-      subtitle: 'الشاشة الثالثة',
-      description: 'ملتقى مجاني يعرض وظائف المزارع والمهندسين الزراعيين والعمالة الماهرة والخبرات.',
-      actionText: 'استعراض الفرص المتاحة',
-      link: '/jobs',
-      icon: Briefcase,
-      badgeVariant: 'amber',
-      accentBg: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20',
-      glowColor: '#FFB703',
-    },
-    {
-      id: 'ai-doctor',
-      title: 'صيدلية دكتور النبات والحيوان',
-      subtitle: 'الشاشة الرابعة',
-      description: 'فحص وتشخيص أمراض النباتات والمواشي بالذكاء الاصطناعي والرؤية البصرية عبر الكاميرا.',
-      actionText: 'بدء الفحص واستشارة AI',
-      link: '/ai-doctor',
-      icon: Stethoscope,
-      badgeVariant: 'red',
-      accentBg: 'bg-brand-red-soft text-brand-red dark:text-rose-400 border-brand-red/30',
-      glowColor: '#FF3366',
-    },
-    {
-      id: 'news',
-      title: 'البورصة الزراعية والنشرة الإخبارية',
-      subtitle: 'الشاشة الخامسة',
-      description: 'تحديثات لحظية بأسعار المحاصيل، التحذيرات المناخية الاستباقية، والنشرات التوعوية.',
-      actionText: 'متابعة السوق',
-      link: '/news',
-      icon: Newspaper,
-      badgeVariant: 'neutral' as const,
-      accentBg: 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20',
-      glowColor: '#A855F7',
-    },
-  ];
-
-  // Strategic Pillars Data with Rich RGB Brand Colors
+  // Strategic Pillars Data with High-Contrast Emerald Green in Light Mode & Neon in Dark Mode
   const strategicPillars = [
     {
       id: 'ai',
       title: 'التحول الرقمي والذكاء الاصطناعي',
-      icon: Zap,
-      badgeVariant: 'blue' as const,
-      colorClass: 'text-brand-blue dark:text-sky-400',
-      activeTabBg: 'bg-brand-blue text-white border-brand-blue shadow-lg shadow-brand-blue/30',
-      iconBg: 'bg-brand-blue-soft text-brand-blue dark:text-sky-400 border-brand-blue/30',
-      checkColor: 'text-brand-blue dark:text-sky-400',
+      icon: Activity,
+      badgeText: 'تقنيات زراعية فائقة',
+      accentColor: 'text-emerald-700 dark:text-[#25D5AB]',
+      activeGradient: 'bg-gradient-to-r from-[#047857] via-[#059669] to-[#047857] dark:from-[#00C896] dark:via-[#25D5AB] dark:to-[#6EE7B7] text-white dark:text-slate-950 shadow-lg shadow-emerald-700/25 dark:shadow-[#25D5AB]/25',
+      iconBg: 'bg-emerald-500/10 dark:bg-[#25D5AB]/10 text-emerald-700 dark:text-[#25D5AB] border-emerald-600/25 dark:border-[#25D5AB]/30',
+      badgeBg: 'bg-emerald-500/10 dark:bg-[#25D5AB]/15 text-emerald-800 dark:text-[#25D5AB] border-emerald-600/30 dark:border-[#25D5AB]/30',
+      checkColor: 'text-emerald-700 dark:text-[#25D5AB]',
       points: [
-        'ترشيد استهلاك الموارد عبر البيانات الزراعية والمناخية الدقيقة.',
-        'تشخيص أمراض النباتات والحيوانات فورياً عبر كاميرا الهاتف والذكاء الاصطناعي.',
-        'خفض تكاليف التشخيص والاستشارات الإرشادية والمبيدات غير الضرورية.',
+        'ترشيد استهلاك الموارد عبر البيانات الزراعية والمناخية الدقيقة وتحليلات الأقمار الصناعية.',
+        'تشخيص أمراض النباتات والحيوانات فورياً عبر كاميرا الهاتف والرؤية الحاسوبية المتقدمة.',
+        'خفض تكاليف التشخيص والاستشارات الإرشادية والمبيدات غير الضرورية بنسبة تصل إلى 30%.',
       ],
     },
     {
       id: 'supply-chain',
-      title: 'كفاءة سلاسل التوريد',
+      title: 'كفاءة سلاسل التوريد المباشرة',
       icon: Truck,
-      badgeVariant: 'green' as const,
-      colorClass: 'text-brand-green dark:text-emerald-400',
-      activeTabBg: 'bg-brand-green text-white border-brand-green shadow-lg shadow-brand-green/30',
-      iconBg: 'bg-brand-green-soft text-brand-green dark:text-emerald-400 border-brand-green/30',
-      checkColor: 'text-brand-green dark:text-emerald-400',
+      badgeText: 'لوجستيات ذكية',
+      accentColor: 'text-[#be1622]',
+      isRedAccent: true,
+      activeGradient: 'bg-gradient-to-r from-[#be1622] via-[#e11d48] to-[#be1622] text-white shadow-lg shadow-[#be1622]/30',
+      iconBg: 'bg-[#be1622]/10 text-[#be1622] border-[#be1622]/30',
+      badgeBg: 'bg-[#be1622]/15 text-[#be1622] border-[#be1622]/30',
+      checkColor: 'text-[#be1622]',
       points: [
-        'تقليل الحلقات الوسيطة بين المنتج والمشتري عبر قنوات اتصال وتداول مباشرة.',
-        'رفع هامش ربح المزارع المستهدف بنسبة تتراوح من 10% إلى 25%.',
-        'دعم النقل والتتبع لتقليل زمن التوريد والفاقد في المحاصيل والشحنات.',
+        'تقليل الحلقات الوسيطة بين المنتج والمشتري عبر قنوات اتصال وتداول رقمية مباشرة.',
+        'رفع هامش ربح المزارع المستهدف بنسبة تتراوح من 15% إلى 25% مع أمان مدفوعات كامل.',
+        'دعم النقل والتتبع الذكي GPS لتقليل زمن التوريد والفاقد في المحاصيل والشحنات.',
       ],
     },
     {
       id: 'enablement',
       title: 'تمكين المزارعين ومربي التسمين',
       icon: Users,
-      badgeVariant: 'blue' as const,
-      colorClass: 'text-brand-blue dark:text-sky-400',
-      activeTabBg: 'bg-brand-blue text-white border-brand-blue shadow-lg shadow-brand-blue/30',
-      iconBg: 'bg-brand-blue-soft text-brand-blue dark:text-sky-400 border-brand-blue/30',
-      checkColor: 'text-brand-blue dark:text-sky-400',
+      badgeText: 'تنمية واستثمار',
+      accentColor: 'text-emerald-700 dark:text-[#25D5AB]',
+      activeGradient: 'bg-gradient-to-r from-[#047857] via-[#059669] to-[#047857] dark:from-[#00C896] dark:via-[#25D5AB] dark:to-[#6EE7B7] text-white dark:text-slate-950 shadow-lg shadow-emerald-700/25 dark:shadow-[#25D5AB]/25',
+      iconBg: 'bg-emerald-500/10 dark:bg-[#25D5AB]/10 text-emerald-700 dark:text-[#25D5AB] border-emerald-600/25 dark:border-[#25D5AB]/30',
+      badgeBg: 'bg-emerald-500/10 dark:bg-[#25D5AB]/15 text-emerald-800 dark:text-[#25D5AB] border-emerald-600/30 dark:border-[#25D5AB]/30',
+      checkColor: 'text-emerald-700 dark:text-[#25D5AB]',
       points: [
-        'تقديم خدمات إرشادية وتدريبية شاملة للمزارعين ومربي الثروة الحيوانية.',
-        'إتاحة أدوات رقمية مبسطة تساعد على تحسين الإنتاج واتخاذ القرار.',
-        'ربط الخبرات والعمالة المتخصصة باحتياجات المزارع الفعلية.',
+        'تقديم خدمات إرشادية وتدريبية شاملة واستشارات دورية للمزارعين ومربي الثروة الحيوانية.',
+        'إتاحة أدوات مالية ورقمية مبسطة تساعد على تحسين الإنتاج وتوجيه قرارات الزراعة والبيع.',
+        'ربط الخبرات والعمالة المتخصصة والمهندسين الزراعيين باحتياجات المزارع الفعلية فورياً.',
       ],
     },
     {
       id: 'esg',
-      title: 'الاستدامة البيئية (ESG)',
+      title: 'الاستدامة البيئية والمعايير الخضراء (ESG)',
       icon: Leaf,
-      badgeVariant: 'red' as const,
-      colorClass: 'text-brand-red dark:text-rose-400',
-      activeTabBg: 'bg-brand-red text-white border-brand-red shadow-lg shadow-brand-red/30',
-      iconBg: 'bg-brand-red-soft text-brand-red dark:text-rose-400 border-brand-red/30',
-      checkColor: 'text-brand-red dark:text-rose-400',
+      badgeText: 'أولولية استراتيجية',
+      accentColor: 'text-[#be1622]',
+      isRedAccent: true,
+      activeGradient: 'bg-gradient-to-r from-[#be1622] via-[#e11d48] to-[#be1622] text-white shadow-lg shadow-[#be1622]/30',
+      iconBg: 'bg-[#be1622]/10 text-[#be1622] border-[#be1622]/30',
+      badgeBg: 'bg-[#be1622]/15 text-[#be1622] border-[#be1622]/30',
+      checkColor: 'text-[#be1622]',
       points: [
-        'ترشيد مياه الري عبر التوصيات المناخية والبيانات التشغيلية الدقيقة.',
-        'خفض الاعتماد غير الرشيد على الأسمدة والمبيدات الكيميائية.',
-        'تقليل الفاقد والانبعاثات الناتجة عن النقل والتخزين غير الكفء.',
+        'ترشيد استهلاك مياه الري بنسبة 40% عبر التوصيات المناخية وجداول الري الذكية.',
+        'خفض الاعتماد غير الرشيد على الأسمدة والمبيدات الكيميائية وتشجيع الإنتاج العضوي المستدام.',
+        'تقليل الفاقد والانبعاثات الكربونية الناتجة عن عمليات النقل والتخزين التقليدية غير الكفؤة.',
       ],
     },
     {
       id: 'food-security',
-      title: 'الأمن الغذائي القومي',
+      title: 'الأمن الغذائي القومي والإنتاج المحلي',
       icon: Globe,
-      badgeVariant: 'amber' as const,
-      colorClass: 'text-amber-600 dark:text-amber-400',
-      activeTabBg: 'bg-amber-600 text-white border-amber-600 shadow-lg shadow-amber-600/30',
-      iconBg: 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/30',
-      checkColor: 'text-amber-500 dark:text-amber-400',
+      badgeText: 'سيادة وطنية',
+      accentColor: 'text-emerald-700 dark:text-[#6EE7B7]',
+      activeGradient: 'bg-gradient-to-r from-[#047857] via-[#059669] to-[#047857] dark:from-[#00C896] dark:via-[#25D5AB] dark:to-[#6EE7B7] text-white dark:text-slate-950 shadow-lg shadow-emerald-700/25 dark:shadow-[#25D5AB]/25',
+      iconBg: 'bg-emerald-500/10 dark:bg-[#6EE7B7]/15 text-emerald-700 dark:text-[#6EE7B7] border-emerald-600/30 dark:border-[#6EE7B7]/30',
+      badgeBg: 'bg-emerald-500/10 dark:bg-[#6EE7B7]/15 text-emerald-800 dark:text-[#6EE7B7] border-emerald-600/30 dark:border-[#6EE7B7]/30',
+      checkColor: 'text-emerald-700 dark:text-[#6EE7B7]',
       points: [
-        'دعم جهود ترقيم وتوثيق الثروة الزراعية والحيوانية بصورة منظمة.',
-        'تحسين إتاحة البيانات اللازمة للتخطيط والإنتاج والتوزيع.',
-        'تعزيز استقرار الإمدادات المحلية ومساندة جهود تحقيق الاكتفاء الغذائي.',
+        'دعم جهود ترقيم وتوثيق الثروة الزراعية والحيوانية وتتبع سلالات الإنتاج بصورة رقمية موحدة.',
+        'تحسين موثوقية وتدفق البيانات الحية للتخطيط الاستراتيجي لحركة الإنتاج والتوزيع الداخلي.',
+        'تعزيز استقرار الإمدادات للأسواق المركزية ومساندة خطط الدولة لتحقيق الاكتفاء الذاتي المستدام.',
       ],
     },
   ];
 
-  // Marketplace Featured Products
-  const marketplaceProducts = [
-    {
-      id: 'prod-1',
-      category: 'المواشي والتسمين',
-      name: 'عجول تسمين بقر هولشتاين',
-      details: 'العدد: 15 رأس • الوزن المتوسط: 320 كجم • المكان: البحيرة',
-      price: '175 ج / كجم',
-      badge: 'مواشي وتسمين',
-      accentColor: 'text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
-    },
-    {
-      id: 'prod-2',
-      category: 'الأشجار والشتلات',
-      name: 'شتلات مانجو كيت معتمدة',
-      details: 'الكمية: 1200 شتلة • العمر: سنة ونصف • المكان: الإسماعيلية',
-      price: '65 ج / شتلة',
-      badge: 'أشجار وشتلات',
-      accentColor: 'text-amber-600 dark:text-amber-400 bg-amber-500/10 border-amber-500/20',
-    },
-    {
-      id: 'prod-3',
-      category: 'قطع الغيار ومعدات الري',
-      name: 'طلمبة أعماق طاقة شمسية 10 حصان',
-      details: 'الحالة: ممتازة استعمال 3 أشهر • المكان: الوادي الجديد',
-      price: '42,000 جنيه',
-      badge: 'قطع غيار ومعدات',
-      accentColor: 'text-sky-600 dark:text-sky-400 bg-sky-500/10 border-sky-500/20',
-    },
-  ];
-
-  // Filtered Products
-  const filteredProducts = selectedCategory === 'الكل'
-    ? marketplaceProducts
-    : marketplaceProducts.filter((p) => p.category === selectedCategory || p.badge === selectedCategory);
-
-  // Transport Services Data
-  const transportServices = [
-    {
-      id: 't-1',
-      title: 'نقل فقط',
-      description: 'توصيل البضائع والمحاصيل من المزرعة إلى موقع التسليم مباشرة عبر سائقين موثوقين.',
-      icon: Truck,
-      badge: 'خدمة أساسية',
-    },
-    {
-      id: 't-2',
-      title: 'نقل ودفع آمن',
-      description: 'استلام قيمة البضاعة من المشتري وتسليمها للبائع فور وصول الشحنة بسلام.',
-      icon: ShieldCheck,
-      badge: 'أمان مالي',
-    },
-    {
-      id: 't-3',
-      title: 'نقل ودفع وكشف جودة',
-      description: 'معاينة الشحنة وفحص السلامة بواسطة فني الشركة قبل التحميل والنقل.',
-      icon: CheckCircle2,
-      badge: 'فحص شامل',
-    },
-  ];
-
-  // Jobs Listings Data
-  const jobListings = [
-    {
-      id: 'j-1',
-      type: 'مطلوب للتوظيف',
-      title: 'مهندس زراعي - إدارة مزرعة خضار',
-      location: 'السادات',
-      experience: '3-5 سنوات',
-      workType: 'دوام كامل',
-      badgeVariant: 'green' as const,
-    },
-    {
-      id: 'j-2',
-      type: 'باحث عن عمل',
-      title: 'فني صيانة شبكات ري وطلمبات',
-      location: 'الشرقية',
-      experience: '8 سنوات',
-      workType: 'مهمة محددة',
-      badgeVariant: 'blue' as const,
-    },
-  ];
-
-  // News Items Data
-  const newsItems = [
-    {
-      id: 'n-1',
-      category: 'تحذير مناخي',
-      title: 'موجة حارة متوقعة بنهاية الأسبوع',
-      content: 'توصيات بري المحاصيل في الساعات الصباحية المبكرة لتفادي الإجهاد الحراري.',
-      icon: Sun,
-      color: 'text-amber-500 bg-amber-500/10 border-amber-500/20',
-    },
-    {
-      id: 'n-2',
-      category: 'تقرير البورصة',
-      title: 'استقرار أسعار عجول التسمين',
-      content: 'سجل متوسط سعر الكيلو القائم 175 جنيهاً مع زيادة الإقبال على أسواق الماشية.',
-      icon: TrendingUp,
-      color: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20',
-    },
-    {
-      id: 'n-3',
-      category: 'تكنولوجيا',
-      title: 'اعتماد تقنيات المستشعرات المائية',
-      content: 'دراسات تؤكد توفير 30% من استهلاك المياه عند استخدام الحساسات الذكية.',
-      icon: Droplets,
-      color: 'text-sky-500 bg-sky-500/10 border-sky-500/20',
-    },
-  ];
-
-  // Navigation Action Handlers
-  const handleAddListingClick = () => {
-    navigate('/marketplace?action=add-listing');
+  // Quick symptom sample tags
+  const symptomPresets = {
+    plants: [
+      'اصفرار أطراف أوراق الطماطم مع بقع بنية حلقية',
+      'تساقط مفاجئ لأزهار المانجو مع ذبول العناقيد',
+      'بقع بيضاء دقيقة على أوراق الخيار والقرعيات',
+      'تقزم واصفرار عام في شتلات القمح بعد الري',
+    ],
+    livestock: [
+      'خمول وفقدان شهية وسعال متكرر في عجول التسمين',
+      'ارتفاع درجة حرارة مفاجئ وإفرازات أنفية في الأبقار',
+      'عرج في القوائم الخلفية مع احمرار الحوافر',
+      'انخفاض حاد في إدرار اللبن مع تورم الضرع',
+    ],
+    soil: [
+      'تراكم قشرة ملحية بيضاء على سطح التربة بعد الري',
+      'بطء تصريف المياه واختناق جذور الشتلات',
+      'اصفرار عروق الأوراق ناتج عن قلوية التربة المرتفعة',
+    ],
   };
 
-  const handlePostJobClick = () => {
-    navigate('/jobs?action=post-job');
-  };
-
-  const handleRequestTruckClick = () => {
-    navigate('/transport?action=request-truck');
-  };
-
-  const handleAiScanClick = () => {
-    navigate('/ai-doctor?action=scan');
-  };
-
-  const handleSellerContact = () => {
-    if (!isRegistered) {
-      toast.info('يرجى تسجيل الدخول للتواصل مع البائع');
-      toggleAuthModal(true);
-    } else {
-      toast.success('جاري فتح الاتصال المباشر مع البائع...');
-    }
+  // AI Diagnostic Presets
+  const diagnosticResultsData = {
+    plants: {
+      disease: 'اللفحة المبكرة (Early Blight)',
+      pathogen: 'الفطر المسبب: Alternaria solani',
+      confidence: '98.6%',
+      severity: 'متوسط الخطورة - يحتاج تدخلاً خلال 48 ساعة',
+      severityColor: 'text-amber-500 bg-amber-500/10 border-amber-500/30',
+      description: 'إصابة فطرية شائعة ناتجة عن ارتفاع نسبة الرطوبة ورذاذ مياه الري، تسبب بقعاً دائرية متحدة المركز تؤدي لجفاف الأوراق وتساقط المحصول.',
+      treatment: 'رش مبيد فطري معتمد بمادة (ديفينوكونازول 25% أو هيدروكسيد النحاس) بمعدل 50 سم / 100 لتر ماء.',
+      preventive: 'تنظيم فترات الري وتجنب الرش الرأسي في المساء، والتأكد من التهوية الجيدة وتطهير المقصات والأدوات.',
+    },
+    livestock: {
+      disease: 'الالتهاب الرئوي البقري (Bovine Respiratory Disease)',
+      pathogen: 'المسبب: Pasteurella multocida / Viral complex',
+      confidence: '97.4%',
+      severity: 'عالي الخطورة - عزل فوري وبدء المضاد الحيوي',
+      severityColor: 'text-rose-500 bg-rose-500/10 border-rose-500/30',
+      description: 'عدوى تنفسية تصيب الجهاز التنفسي لعجول التسمين ناتجة عن تغير درجات الحرارة وضعف التهوية في العنابر.',
+      treatment: 'حقن مضاد حيوي واسع المجال (تولاسرومايسين أو فلورفينيكول) مع خافض حرارة ومضاد التهاب غير ستيرويدي.',
+      preventive: 'تحسين تهوية العنبر وتجنب التيارات الهوائية المباشرة، وتوفير فرشة جافة ومياه شرب نظيفة بانتظام.',
+    },
+    soil: {
+      disease: 'ارتفاع الملوحة والقلوية (Soil Salinity & Sodicity)',
+      pathogen: 'المؤشر: EC > 4.2 dS/m | pH > 8.1',
+      confidence: '99.1%',
+      severity: 'تأثير تراكمي - يتطلب غسيل التربة ومعالجة الملوحة',
+      severityColor: 'text-sky-500 bg-sky-500/10 border-sky-500/30',
+      description: 'تراكم الأملاح في النطاق الجذري يعيق امتصاص العناصر الصغرى والنيتروجين ويسبب احتراق حواف الأوراق.',
+      treatment: 'إضافة طارد أملاح (حمض الهيوميك مع كبريتات الكالسيوم / الجبس الزراعي) بمعدل 5 كجم / فدان مع ري غسيل.',
+      preventive: 'تحليل دوري لمياه الآبار واستخدام فلاتر مغناطيسية لكسر جزيئات الملوحة قبل ضخها في شبكة التنقيط.',
+    },
   };
 
   const handleAiPhotoUpload = () => {
-    toast.info('يرجى السماح بفتح الكاميرا لالتقاط صورة النبات');
+    setSelectedImageName('sample_crop_scan_01.jpg');
+    toast.success('تم التقاط عينة الصورة بنجاح! جاهز للفحص الفوري');
   };
 
   const handleRunAiDiagnosis = () => {
-    if (!symptomInput.trim()) {
-      toast.info('يرجى كتابة الأعراض أولاً');
+    if (!symptomInput.trim() && !selectedImageName) {
+      toast.info('يرجى كتابة الأعراض أو اختيار إحدى العينات الجاهزة');
       return;
     }
     setAiLoading(true);
     setTimeout(() => {
       setAiLoading(false);
       setShowAiResult(true);
-      toast.success('تم تحليل الأعراض وإخراج النتيجة والتشخيص المبدئي!');
+      toast.success('تم الفحص بالذكاء الاصطناعي بنجاح وتوليد التقرير والبروتوكول العلاجي!');
     }, 900);
   };
 
@@ -412,487 +281,696 @@ export const HomePage: React.FC = () => {
       </div>
 
       {/* ==================================================
-          SECTION 3: Hero Section (Zero Gap + Clearer Hero.png)
+          SECTION 3: Premium AgTech SaaS Hero Section (hero 5.png)
       ================================================== */}
-      <section className="relative pt-6 sm:pt-8 lg:pt-10 pb-14 sm:pb-16 lg:pb-20 overflow-hidden isolate">
-        {/* Background Image with Crisp Image Clarity & Soft Atmosphere */}
+      <section className="relative pt-8 sm:pt-12 lg:pt-16 pb-16 sm:pb-20 lg:pb-24 overflow-hidden isolate">
+        {/* Background Image: hero 5.png with light subtle blur & dark transparent overlay */}
         <div className="absolute inset-0 -z-10 overflow-hidden select-none">
           <img
             src={heroBg}
             alt="Green Farm Market Hero Background"
-            className="w-full h-full object-cover object-center scale-105 filter blur-[2.5px] opacity-45 dark:opacity-50 transition-all duration-700 pointer-events-none"
+            className="w-full h-full object-cover object-center scale-105 filter blur-[1.5px] opacity-80 dark:opacity-65 transition-all duration-700 pointer-events-none"
           />
-          {/* Subtle Color Overlay so image is clear and text is 100% crisp */}
-          <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/65 to-background/95 backdrop-blur-[1px]" />
-          <div className="absolute top-1/4 -right-10 w-96 h-96 bg-brand-green-soft/40 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute bottom-1/4 -left-10 w-96 h-96 bg-brand-blue-soft/30 rounded-full blur-3xl pointer-events-none" />
+          {/* Dark Transparent Overlay for Maximum Crisp Text Legibility */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/85 backdrop-blur-[0.5px]" />
+          
+          {/* Subtle Ambient Tech Green Glowing Lights */}
+          <div className="absolute top-1/4 -right-16 w-96 h-96 bg-[#25D5AB]/15 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-1/4 -left-16 w-96 h-96 bg-[#00C896]/15 rounded-full blur-3xl pointer-events-none" />
         </div>
 
-        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center relative z-10">
-          {/* Hero Left Content */}
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          {/* Centered Hero Content */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="lg:col-span-7 space-y-7 text-right"
+            className="space-y-6 sm:space-y-7 flex flex-col items-center"
           >
+            {/* 1. Badge with authentic green agricultural seedling icon */}
             <motion.div variants={itemFadeUp} className="inline-block">
-              <div className="inline-flex items-center gap-3 px-6 sm:px-7 py-3 rounded-full bg-surface/90 border border-brand-green/40 text-xs sm:text-sm text-brand-green shadow-md backdrop-blur-md hover:shadow-lg transition-all duration-300 group cursor-default leading-relaxed">
-                <span className="flex items-center justify-center w-5.5 h-5.5 rounded-full bg-amber-400/20 text-amber-400 animate-pulse flex-shrink-0">
-                  <Award className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
+              <div className="inline-flex items-center gap-2.5 sm:gap-3 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-black/45 border border-[#25D5AB]/40 text-xs sm:text-sm text-[#25D5AB] shadow-lg shadow-[#25D5AB]/10 backdrop-blur-md hover:border-[#25D5AB]/70 transition-all duration-300 group cursor-default leading-relaxed">
+                <span className="flex items-center justify-center w-5 h-5 rounded-full bg-[#25D5AB]/20 text-[#25D5AB] animate-pulse flex-shrink-0">
+                  <Leaf className="w-3.5 h-3.5 text-[#25D5AB]" />
                 </span>
-                <span className="font-poppins font-black tracking-tight" dir="ltr">Green Farm Market 2026</span>
-                <span className="text-text-secondary font-inter font-normal">·</span>
-                <span className="font-cairo font-bold">المنظومة الزراعية الرقمية المتكاملة</span>
+                <span className="font-poppins font-black tracking-tight" dir="ltr">GreenFarm Market 2026</span>
+                <span className="text-white/40 font-normal">·</span>
+                <span className="font-cairo font-bold text-[#F4F7E8]">المنصة الرقمية المتكاملة لمستقبل الزراعة الذكية</span>
               </div>
             </motion.div>
 
-            <motion.h1
-              variants={itemFadeUp}
-              className="text-3xl sm:text-5xl lg:text-6xl font-cairo font-black text-text-primary tracking-tight leading-[1.3] sm:leading-[1.25] lg:leading-[1.2]"
-            >
-              منظومة تقنية شاملة لتطوير{' '}
-              <span className="bg-gradient-to-r from-brand-green via-teal-600 to-brand-blue bg-clip-text text-transparent">
-                الزراعة والتسمين والخدمات
-              </span>
-            </motion.h1>
+            {/* 2. Main Title with perfect leading & no clipping */}
+            <div className="w-full flex justify-center">
+              <motion.h1
+                variants={itemFadeUp}
+                className="text-2xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-[3.4rem] font-cairo font-black text-white tracking-tight leading-[1.35] sm:leading-[1.3] lg:leading-[1.22] max-w-5xl mx-auto py-1"
+              >
+                نحو مستقبل زراعي{' '}
+                <span className="inline-block bg-gradient-to-r from-[#00C896] via-[#25D5AB] to-[#6EE7B7] bg-clip-text text-transparent drop-shadow-md py-1">
+                  أكثر ذكاءً واستدامة
+                </span>
+              </motion.h1>
+            </div>
 
-            <motion.p
+            {/* 3. Second Line */}
+            <motion.h2
               variants={itemFadeUp}
-              className="text-text-secondary font-noto text-base sm:text-lg leading-[1.95] sm:leading-[2] max-w-2xl font-medium bg-surface/60 p-6 sm:p-7 lg:p-8 rounded-2xl border border-borderColor/60 backdrop-blur-md shadow-md"
-              style={{ borderRadius: '14px' }}
+              className="text-base sm:text-xl lg:text-2xl font-cairo font-bold text-[#6EE7B7] leading-snug max-w-3xl"
             >
-              أول منصة بالشرق الأوسط تجمع التكنولوجيا والزراعة والتسمين، تربط المزارعين والمستثمرين وأصحاب المواشي عبر الذكاء الاصطناعي وسلاسل التوريد المباشرة.
-            </motion.p>
+              اربط إنتاجك الزراعي بالتقنية والتمويل والأسواق في مكان واحد
+            </motion.h2>
 
-            <motion.div variants={itemFadeUp} className="pt-2 flex flex-wrap gap-4">
+            {/* 4. Description in Glassmorphism Card (16px radius) */}
+            <motion.div
+              variants={itemFadeUp}
+              className="max-w-3xl mx-auto p-6 sm:p-7 rounded-[16px] bg-black/45 border border-[#25D5AB]/25 backdrop-blur-md shadow-2xl shadow-black/50"
+            >
+              <p className="text-[#F4F7E8] font-noto text-sm sm:text-base lg:text-lg leading-[1.95] sm:leading-[2] font-medium">
+                منصة رقمية متطورة تجمع المزارعين والمستثمرين ومربي المواشي في منظومة واحدة، باستخدام الذكاء الاصطناعي لتحسين الإنتاج، تسهيل التجارة، وربط المنتجات بالأسواق مباشرة.
+              </p>
+            </motion.div>
+
+            {/* 5. CTAs Buttons with authentic enterprise/agtech icons */}
+            <motion.div variants={itemFadeUp} className="pt-2 flex flex-wrap items-center justify-center gap-4">
               <Link to="/ai-doctor">
-                <Button variant="green" size="lg">
-                  <Stethoscope className="w-5 h-5" /> ابدأ الآن
-                </Button>
+                <button className="flex items-center justify-center gap-2.5 px-8 py-4 rounded-[16px] bg-gradient-to-r from-[#00C896] via-[#25D5AB] to-[#6EE7B7] text-slate-950 font-cairo font-black text-base shadow-lg shadow-[#25D5AB]/25 hover:shadow-xl hover:shadow-[#25D5AB]/40 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 select-none">
+                  <span>ابدأ رحلتك الزراعية</span>
+                  <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
+                </button>
               </Link>
+
               <Link to="/marketplace">
-                <Button variant="white" size="lg">
-                  <Store className="w-5 h-5 text-brand-green" /> استكشف خدماتنا
-                </Button>
+                <button className="flex items-center justify-center gap-2.5 px-8 py-4 rounded-[16px] bg-white/10 hover:bg-white/20 text-[#F4F7E8] border border-white/25 hover:border-[#25D5AB]/60 backdrop-blur-md font-cairo font-black text-base shadow-md hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 select-none">
+                  <Store className="w-5 h-5 text-[#25D5AB]" />
+                  <span>استكشف خدماتنا</span>
+                </button>
               </Link>
             </motion.div>
           </motion.div>
-
-          {/* Hero Visual Ecosystem Animation (zig.ai style) */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:col-span-5"
-          >
-            <HeroWorkflowAnimation />
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Wrapper for remaining sections with vertical spacing */}
-      <div className="space-y-16 lg:space-y-24">
-
-      {/* ==================================================
-          SECTION 4: The 5 Core Services (Aceternity UI HoverEffect Animation)
-      ================================================== */}
-      <section className="relative">
-        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-12 space-y-7">
-          <SectionHeading
-            eyebrow="خدمات المنصة الشاملة"
-            title="منظومة الخدمات الرئيسية"
-            description="خمس بوابات واضحة ومرتبة من اليمين إلى اليسار، لكل بوابة لون تشغيلي يسهّل الوصول السريع للخدمة."
-          />
-
-          <HoverEffect items={coreServices} />
         </div>
       </section>
 
       {/* ==================================================
-          SECTION 5: The 5 Strategic Pillars
+          SECTION 3.5: Trust Metrics & Company Achievements
       ================================================== */}
-      <section className="relative bg-surface-muted/40 py-16 sm:py-20 border-y-2 border-borderColor/60 overflow-hidden isolate">
-        {/* Ambient Glow Decorations */}
-        <div className="absolute top-1/4 -right-24 w-72 h-72 bg-brand-blue-soft/30 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-1/4 -left-24 w-72 h-72 bg-brand-red-soft/30 rounded-full blur-3xl pointer-events-none" />
+      <TrustMetricsSection />
 
-        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-12 space-y-12 relative z-10">
-          {/* Header - Single Line Title & Spacing */}
-          <div className="space-y-3 max-w-5xl mx-auto text-center">
-            <div className="flex justify-center mb-3">
-              <Badge variant="green" className="py-1 px-4 text-xs font-ibm font-bold">رؤيتنا المستقبلية</Badge>
+      {/* ==================================================
+          SECTION 4: The 5 Core Services (Wide Live Feed Command Panel)
+      ================================================== */}
+      <section className="relative py-10 sm:py-14">
+        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-12 space-y-8">
+          
+          {/* Custom Premium Section Header with #be1622 Color & Almarai Typography */}
+          <div className="space-y-3.5 max-w-3xl mx-auto text-center relative z-10">
+            {/* 1. Sleek Eyebrow Badge */}
+            <div className="flex justify-center mb-2">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#be1622]/10 dark:bg-[#be1622]/15 border border-[#be1622]/30 text-[#be1622] text-xs sm:text-sm font-almarai font-extrabold shadow-sm backdrop-blur-md">
+                <span className="w-2 h-2 rounded-full bg-[#be1622] animate-pulse" />
+                <span>خدمات المنصة الشاملة</span>
+              </div>
             </div>
-            <div className="w-full overflow-hidden flex justify-center">
-              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[2.2rem] font-cairo font-black tracking-tight leading-snug py-1 text-gradient-rgb whitespace-nowrap text-ellipsis max-w-full">
-                المحاور الاستراتيجية الخمسة لمنصة جرين فارم
+
+            {/* 2. Main Title in #be1622 with Decorative Tech Lines */}
+            <div className="flex items-center justify-center gap-3 sm:gap-4">
+              <div className="hidden sm:flex items-center gap-1.5 opacity-70">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#be1622]" />
+                <span className="w-8 sm:w-12 h-[1.5px] bg-gradient-to-r from-transparent to-[#be1622]" />
+              </div>
+
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.65rem] font-almarai font-extrabold text-[#be1622] tracking-tight leading-tight drop-shadow-sm">
+                منظومة الخدمات الرئيسية
               </h2>
+
+              <div className="hidden sm:flex items-center gap-1.5 opacity-70">
+                <span className="w-8 sm:w-12 h-[1.5px] bg-gradient-to-l from-transparent to-[#be1622]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#be1622]" />
+              </div>
             </div>
-            <p className="text-text-secondary font-noto text-xs sm:text-sm md:text-base leading-relaxed max-w-2xl mx-auto font-medium pt-2">
-              تكامل الأبعاد التقنية والاقتصادية والبيئية لتطوير سلاسل التوريد والتحول الرقمي
+
+            {/* 3. Description */}
+            <p className="text-slate-600 dark:text-slate-300 font-almarai font-medium text-xs sm:text-sm md:text-base leading-relaxed max-w-2xl mx-auto">
+              خمس بوابات واضحة ومرتبة من اليمين إلى اليسار، لكل بوابة لون تشغيلي يسهّل الوصول السريع للخدمة.
             </p>
           </div>
 
-          {/* Interactive Pillars Tabs & Grid */}
+          <CoreServicesPanel />
+        </div>
+      </section>
+
+      {/* ==================================================
+          SECTION 5: The 5 Strategic Pillars (Almarai + Primary Gradient & Red Accent)
+      ================================================== */}
+      <section className="relative bg-slate-50/50 dark:bg-[#00040d] pt-8 sm:pt-12 pb-0 overflow-hidden isolate" dir="rtl">
+        {/* Ambient Glow Decorations */}
+        <div className="absolute top-1/4 -right-24 w-80 h-80 bg-emerald-500/10 dark:bg-[#25D5AB]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-1/4 -left-24 w-80 h-80 bg-[#be1622]/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-12 space-y-8 relative z-10">
+          
+          {/* Header Area with Almarai Typography */}
+          <div className="space-y-3.5 max-w-4xl mx-auto text-center">
+            <div className="flex justify-center mb-2">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 dark:bg-[#25D5AB]/15 border border-emerald-600/30 dark:border-[#25D5AB]/30 text-emerald-800 dark:text-[#25D5AB] text-xs sm:text-sm font-almarai font-extrabold shadow-sm backdrop-blur-md">
+                <span className="w-2 h-2 rounded-full bg-emerald-600 dark:bg-[#25D5AB] animate-pulse" />
+                <span>رؤيتنا الاستراتيجية 2026</span>
+              </div>
+            </div>
+
+            <div className="w-full flex justify-center py-1">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.65rem] font-almarai font-extrabold text-slate-900 dark:text-white leading-[1.35] sm:leading-[1.4] lg:leading-[1.45] max-w-4xl text-center">
+                المحاور الاستراتيجية الخمسة{' '}
+                <span className="inline-block bg-gradient-to-r from-[#047857] via-[#059669] to-[#047857] dark:from-[#00C896] dark:via-[#25D5AB] dark:to-[#6EE7B7] bg-clip-text text-transparent py-0.5">
+                  لمنصة جرين فارم
+                </span>
+              </h2>
+            </div>
+
+            <p className="text-slate-600 dark:text-slate-300 font-almarai font-normal text-xs sm:text-sm md:text-base leading-[1.7] max-w-2xl mx-auto pt-1">
+              تكامل الأبعاد التقنية والاقتصادية والبيئية لتطوير سلاسل التوريد والتحول الرقمي المستدام
+            </p>
+          </div>
+
+          {/* Interactive Pillars Tabs & Detail Card with BorderGlow */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
-            {/* Left/Right Pillar Selector Tabs */}
-            <div className="lg:col-span-5 space-y-2.5">
+            
+            {/* Left/Right 5 Pillar Selector Tabs */}
+            <div className="lg:col-span-5 space-y-3">
               {strategicPillars.map((pillar, index) => {
                 const Icon = pillar.icon;
                 const isActive = activePillar === index;
                 return (
-                  <button
+                  <BorderGlow
                     key={pillar.id}
+                    edgeSensitivity={30}
+                    borderRadius={20}
+                    glowRadius={35}
+                    glowIntensity={1}
+                    animated={false}
+                    colors={
+                      pillar.isRedAccent
+                        ? ['#be1622', '#f43f5e', '#fb7185']
+                        : ['#047857', '#059669', '#25D5AB']
+                    }
                     onClick={() => setActivePillar(index)}
-                    className={`w-full p-3.5 sm:p-4 rounded-2xl border-2 text-right transition-all duration-300 flex items-center gap-3.5 cursor-pointer select-none ${
-                      isActive
-                        ? pillar.activeTabBg
-                        : 'bg-surface border-borderColor text-text-primary hover:bg-surface-muted'
-                    }`}
-                    style={{ borderRadius: '14px' }}
+                    className="cursor-pointer"
                   >
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border ${isActive ? 'bg-white/20 text-white border-white/20' : pillar.iconBg}`}>
-                      <Icon className="w-5 h-5" />
+                    <div
+                      className={`w-full p-3.5 sm:p-4 text-right transition-all duration-300 flex items-center gap-3.5 select-none ${
+                        isActive
+                          ? `${pillar.activeGradient}`
+                          : 'bg-white dark:bg-[#0a120e] text-slate-800 dark:text-slate-100 hover:bg-slate-50/70 dark:hover:bg-[#0f1b15]'
+                      }`}
+                    >
+                      {/* Icon Box */}
+                      <div
+                        className={`w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 border transition-transform duration-300 ${
+                          isActive
+                            ? 'bg-black/15 text-current border-white/20 scale-105'
+                            : `${pillar.iconBg}`
+                        }`}
+                      >
+                        <Icon className="w-5 h-5" />
+                      </div>
+
+                      {/* Text Details */}
+                      <div className="flex-1 min-w-0">
+                        <span className={`text-[11px] block font-almarai font-extrabold ${isActive ? 'opacity-80' : 'text-slate-400 dark:text-slate-500'}`}>
+                          المحور {index + 1}
+                        </span>
+                        <h4 className={`text-xs sm:text-sm font-almarai font-extrabold truncate ${isActive ? 'text-current' : 'text-slate-900 dark:text-white'}`}>
+                          {pillar.title}
+                        </h4>
+                      </div>
+
+                      <ChevronLeft className={`w-4 h-4 shrink-0 transition-transform duration-300 ${isActive ? 'rotate-90 text-current' : 'text-slate-400'}`} />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <span className={`text-[10px] block font-ibm font-bold ${isActive ? 'text-white/80' : 'text-text-secondary'}`}>المحور {index + 1}</span>
-                      <h4 className={`text-xs sm:text-sm font-cairo font-bold truncate ${isActive ? 'text-white' : pillar.colorClass}`}>{pillar.title}</h4>
-                    </div>
-                    <ChevronLeft className={`w-4 h-4 shrink-0 transition-transform duration-300 ${isActive ? 'rotate-90 text-white' : 'text-text-secondary'}`} />
-                  </button>
+                  </BorderGlow>
                 );
               })}
             </div>
 
-            {/* Selected Pillar Content Display */}
+            {/* Selected Pillar Content Display Glass Card with BorderGlow */}
             <div className="lg:col-span-7">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activePillar}
-                  initial={{ opacity: 0, y: 12 }}
+                  initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -12 }}
+                  exit={{ opacity: 0, y: -15 }}
                   transition={{ duration: 0.25 }}
-                  className="bg-surface/95 backdrop-blur-md border-2 border-borderColor p-6 sm:p-7 shadow-xl space-y-5 text-right"
-                  style={{ borderRadius: '14px' }}
                 >
-                  <div className="flex flex-wrap items-center justify-between border-b border-borderColor pb-3.5 gap-3">
-                    <Badge variant={strategicPillars[activePillar].badgeVariant} className="py-1 px-3.5 text-xs font-ibm font-bold">
-                      المحور الاستراتيجي {activePillar + 1}
-                    </Badge>
-                    <h3 className={`text-lg sm:text-xl font-cairo font-black ${strategicPillars[activePillar].colorClass}`}>
-                      {strategicPillars[activePillar].title}
-                    </h3>
-                  </div>
+                  <BorderGlow
+                    edgeSensitivity={30}
+                    borderRadius={28}
+                    glowRadius={45}
+                    glowIntensity={1.2}
+                    coneSpread={25}
+                    animated={false}
+                    colors={
+                      strategicPillars[activePillar].isRedAccent
+                        ? ['#be1622', '#f43f5e', '#fb7185']
+                        : ['#047857', '#059669', '#25D5AB']
+                    }
+                    className="shadow-xl shadow-slate-200/50 dark:shadow-2xl dark:shadow-[#00040d]"
+                  >
+                    <div className="p-6 sm:p-8 space-y-6 text-right backdrop-blur-md relative overflow-hidden bg-white dark:bg-[#0a120e]">
+                      {/* Subtle card ambient highlight */}
+                      <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/5 dark:bg-[#25D5AB]/5 rounded-full blur-2xl pointer-events-none" />
 
-                  <ul className="space-y-3 text-xs sm:text-sm font-noto font-medium text-text-primary">
-                    {strategicPillars[activePillar].points.map((point, idx) => (
-                      <li key={idx} className="flex items-start gap-3 bg-surface-muted/80 p-3.5 sm:p-4 rounded-xl border border-borderColor/80 shadow-sm transition hover:border-borderColor">
-                        <CheckCircle2 className={`w-4.5 h-4.5 flex-shrink-0 mt-0.5 ${strategicPillars[activePillar].checkColor}`} />
-                        <span className="leading-relaxed">{point}</span>
-                      </li>
-                    ))}
-                  </ul>
+                      {/* Card Header */}
+                      <div className="flex flex-wrap items-center justify-between border-b border-slate-200/80 dark:border-[#1c3628] pb-4 gap-3 relative z-10">
+                        <div className={`px-3.5 py-1.5 rounded-full text-xs font-almarai font-extrabold border ${strategicPillars[activePillar].badgeBg}`}>
+                          {strategicPillars[activePillar].badgeText} • المحور {activePillar + 1}
+                        </div>
+
+                        <h3 className={`text-base sm:text-xl lg:text-2xl font-almarai font-extrabold ${strategicPillars[activePillar].accentColor}`}>
+                          {strategicPillars[activePillar].title}
+                        </h3>
+                      </div>
+
+                      {/* Checkpoints List */}
+                      <ul className="space-y-3.5 relative z-10">
+                        {strategicPillars[activePillar].points.map((point, idx) => (
+                          <li
+                            key={idx}
+                            className="flex items-start gap-3.5 bg-[#f8fafc] dark:bg-[#111e18] p-4 sm:p-5 rounded-[18px] border border-slate-200/80 dark:border-[#1e3b2c] shadow-xs hover:border-emerald-500/40 dark:hover:border-[#25D5AB]/40 transition-all duration-300 group"
+                          >
+                            <CheckCircle2 className={`w-5 h-5 flex-shrink-0 mt-0.5 transition-transform group-hover:scale-110 ${strategicPillars[activePillar].checkColor}`} />
+                            <span className="font-almarai text-xs sm:text-sm font-normal text-slate-700 dark:text-slate-200 leading-relaxed">
+                              {point}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </BorderGlow>
                 </motion.div>
               </AnimatePresence>
             </div>
+
           </div>
         </div>
       </section>
 
       {/* ==================================================
-          SECTION 6: Marketplace Section
+          FUTURISTIC ANIMATED TECH GLOW DIVIDER BETWEEN SECTIONS
       ================================================== */}
-      <section className="relative">
-        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-12 space-y-10">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <SectionHeading
-              eyebrow="السوق التفاعلي المباشر"
-              title="سوق البيع والشراء الزراعي"
-              description="عرض وطلب المنتجات الزراعية والمواشي وقطع الغيار مباشرة"
-              centered={false}
-            />
-
-            <Button variant="green" size="md" onClick={handleAddListingClick}>
-              <PlusCircle className="w-4.5 h-4.5" />
-              <span>إضافة إعلان جديد</span>
-            </Button>
-          </div>
-
-          {/* Category Filter Pills */}
-          <div className="flex items-center gap-2.5 overflow-x-auto no-scrollbar pb-2">
-            {[
-              'الكل',
-              'المواشي والتسمين',
-              'الأشجار والشتلات',
-              'المحاصيل والخضار',
-              'منتجات الألبان',
-              'قطع الغيار ومعدات الري',
-            ].map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 rounded-full text-xs font-ibm font-bold transition border cursor-pointer whitespace-nowrap ${
-                  selectedCategory === cat
-                    ? 'bg-brand-green text-white border-brand-green shadow-md shadow-brand-green/20'
-                    : 'bg-surface border-borderColor text-text-primary hover:bg-surface-muted'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-
-          {/* Product Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {filteredProducts.map((prod) => (
-              <motion.div
-                key={prod.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -6 }}
-                className="bg-surface border-2 border-borderColor rounded-4xl p-6 shadow-soft-card flex flex-col justify-between space-y-5 text-right"
-              >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className={`px-3 py-1 rounded-full text-[11px] font-ibm font-bold border ${prod.accentColor}`}>
-                      {prod.category}
-                    </span>
-                    <span className="text-xs font-ibm font-black text-brand-green">{prod.price}</span>
-                  </div>
-
-                  <h4 className="text-lg font-cairo font-black text-text-primary">{prod.name}</h4>
-                  <p className="text-xs text-text-secondary font-noto font-normal leading-relaxed bg-surface-muted p-3 rounded-2xl border border-borderColor">
-                    {prod.details}
-                  </p>
-                </div>
-
-                <Button variant="white" size="md" fullWidth onClick={handleSellerContact}>
-                  <PhoneCall className="w-4 h-4 text-brand-green" />
-                  <span>تواصل مع البائع</span>
-                </Button>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ==================================================
-          SECTION 7: Smart Transport System
-      ================================================== */}
-      <section className="relative bg-surface-muted/60 py-16 border-y border-borderColor">
-        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-12 space-y-12">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <SectionHeading
-              eyebrow="خدمات الشحن واللوجستيات"
-              title="منظومة النقل الذكي وسلاسل التوريد"
-              description="حجز سيارات نقل المواشي والمحاصيل بأمان وتتبع حي"
-              centered={false}
-            />
-
-            <Button variant="blue" size="md" onClick={handleRequestTruckClick}>
-              <Truck className="w-4.5 h-4.5" />
-              <span>طلب سيارة نقل / إضافة شحنة</span>
-            </Button>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {transportServices.map((service) => {
-              const Icon = service.icon;
-              return (
-                <div
-                  key={service.id}
-                  className="bg-surface border-2 border-borderColor rounded-4xl p-7 shadow-soft-card space-y-4 text-right flex flex-col justify-between"
-                >
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className="w-11 h-11 rounded-2xl bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20 flex items-center justify-center">
-                        <Icon className="w-5.5 h-5.5" />
-                      </div>
-                      <Badge variant="blue" className="font-ibm font-bold">{service.badge}</Badge>
-                    </div>
-
-                    <h4 className="text-lg font-cairo font-black text-text-primary">{service.title}</h4>
-                    <p className="text-xs text-text-secondary font-noto font-normal leading-relaxed">
-                      {service.description}
-                    </p>
-                  </div>
-
-                  <Link to="/transport" className="pt-2">
-                    <Button variant="white" size="sm" fullWidth>
-                      <span>احجز هذه الخدمة</span>
-                      <ChevronLeft className="w-4 h-4" />
-                    </Button>
-                  </Link>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ==================================================
-          SECTION 8: Agricultural Jobs & Opportunities
-      ================================================== */}
-      <section className="relative">
-        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-12 space-y-10">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <SectionHeading
-              eyebrow="سوق التوظيف المجاني"
-              title="ملتقى الوظائف والفرص الزراعية"
-              description="ربط أصحاب المزارع بالمهندسين والعمالة الماهرة"
-              centered={false}
-            />
-
-            <Button variant="green" size="md" onClick={handlePostJobClick}>
-              <PlusCircle className="w-4.5 h-4.5" />
-              <span>إعلان وظيفة / طلب عمل</span>
-            </Button>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {jobListings.map((job) => (
-              <div
-                key={job.id}
-                className="bg-surface border-2 border-borderColor rounded-4xl p-7 shadow-soft-card space-y-4 text-right flex flex-col justify-between"
-              >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <Badge variant={job.badgeVariant} className="font-ibm font-bold">{job.type}</Badge>
-                    <span className="text-xs font-ibm font-bold text-text-secondary">{job.workType}</span>
-                  </div>
-
-                  <h4 className="text-xl font-cairo font-black text-text-primary">{job.title}</h4>
-
-                  <div className="flex flex-wrap gap-4 text-xs font-noto text-text-secondary bg-surface-muted p-3.5 rounded-2xl border border-borderColor">
-                    <span className="flex items-center gap-1 font-noto">📍 المكان: <strong className="text-text-primary font-bold">{job.location}</strong></span>
-                    <span className="flex items-center gap-1 font-noto">💼 الخبرة: <strong className="text-text-primary font-bold">{job.experience}</strong></span>
-                  </div>
-                </div>
-
-                <Button variant="white" size="md" fullWidth onClick={handleSellerContact}>
-                  <Send className="w-4 h-4 text-brand-green" />
-                  <span>{job.type === 'مطلوب للتوظيف' ? 'تقديم على الوظيفة' : 'تواصل مع الفني'}</span>
-                </Button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ==================================================
-          SECTION 9: AI Plant & Animal Pharmacy
-      ================================================== */}
-      <section className="relative bg-surface-muted/60 py-16 border-y border-borderColor">
-        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-12 space-y-10">
-          <SectionHeading
-            eyebrow="الرؤية البصرية والذكاء الاصطناعي"
-            title="صيدلية دكتور النبات والحيوان AI"
-            description="فحص ومعالجة الأمراض بالذكاء الاصطناعي والرؤية البصرية"
-          />
-
-          <div className="bg-surface border-2 border-borderColor rounded-4xl p-8 shadow-soft-card max-w-4xl mx-auto space-y-6 text-right">
-            <div className="space-y-2">
-              <label className="text-sm font-cairo font-black text-text-primary block flex items-center gap-2">
-                <Stethoscope className="w-5 h-5 text-brand-red" />
-                اكتب استفسارك أو وصف الأعراض:
-              </label>
-              <textarea
-                rows={3}
-                value={symptomInput}
-                onChange={(e) => setSymptomInput(e.target.value)}
-                placeholder="مثال: يوجد اصفرار في أطراف أوراق طماطم المزرعة مع بقع بنية..."
-                className="w-full bg-surface-muted border-2 border-borderColor rounded-3xl p-4 text-sm font-noto font-medium text-text-primary focus:border-brand-green outline-none"
-              />
+      <div className="relative py-4 bg-slate-50/50 dark:bg-[#00040d] flex items-center justify-center overflow-hidden w-full z-20 m-0" dir="rtl">
+        {/* Ambient Glow Beam behind line */}
+        <div className="absolute w-96 h-12 bg-gradient-to-r from-transparent via-emerald-500/20 dark:via-[#25D5AB]/30 to-transparent blur-xl pointer-events-none" />
+        
+        <div className="relative max-w-6xl mx-auto px-4 w-full flex items-center justify-center">
+          {/* Right gradient line (RTL start) */}
+          <div className="flex-1 h-[2px] bg-gradient-to-r from-transparent via-emerald-600/40 dark:via-[#25D5AB]/40 to-emerald-600 dark:to-[#25D5AB]" />
+          
+          {/* Glowing Core Tech Diamond */}
+          <div className="relative flex items-center justify-center mx-4 sm:mx-6 group cursor-pointer select-none">
+            <span className="absolute w-8 h-8 rounded-full bg-emerald-500/25 dark:bg-[#25D5AB]/30 animate-ping" />
+            <div className="w-7 h-7 rounded-lg rotate-45 bg-white dark:bg-[#00040d] border-2 border-emerald-600 dark:border-[#25D5AB] flex items-center justify-center shadow-lg shadow-emerald-600/30 dark:shadow-[#25D5AB]/40 transition-transform duration-500 group-hover:rotate-90">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 dark:bg-[#25D5AB] animate-pulse" />
             </div>
-
-            <div className="flex flex-wrap gap-4">
-              <Button variant="red" size="md" onClick={handleRunAiDiagnosis} disabled={aiLoading}>
-                <Zap className="w-4.5 h-4.5 animate-pulse" />
-                <span>{aiLoading ? 'جاري التحليل...' : 'تشخيص بالذكاء الاصطناعي'}</span>
-              </Button>
-
-              <Button variant="white" size="md" onClick={handleAiPhotoUpload}>
-                <Camera className="w-4.5 h-4.5 text-brand-green" />
-                <span>رفع صورة</span>
-              </Button>
-            </div>
-
-            {/* Diagnostic Result Card */}
-            <AnimatePresence>
-              {showAiResult && (
-                <motion.div
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  className="bg-rose-500/10 border-2 border-rose-500/30 rounded-3xl p-6 space-y-4 text-right"
-                >
-                  <div className="flex items-center gap-2 text-rose-600 dark:text-rose-400 font-cairo font-black">
-                    <AlertTriangle className="w-5 h-5" />
-                    <h4>النتيجة والتشخيص المبدئي:</h4>
-                  </div>
-
-                  <p className="text-sm font-noto font-medium text-text-primary leading-relaxed">
-                    بناءً على الأعراض المدخلة، يُرجح إصابة النبات بـ <strong className="text-rose-600 dark:text-rose-400 font-bold">اللفحة المبكرة (Early Blight)</strong> ناتجة عن ارتفاع الرطوبة.
-                  </p>
-
-                  <div className="bg-surface p-4 rounded-2xl border border-rose-500/20 text-xs font-ibm font-bold text-text-primary leading-relaxed">
-                    💚 <strong>التوصية العلاجية:</strong> رش مادة ميثيل التوفانات أو هيدروكسيد النحاس مع تنظيم فترات الري خلال 48 ساعة.
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
           </div>
+          
+          {/* Left gradient line (RTL end) */}
+          <div className="flex-1 h-[2px] bg-gradient-to-l from-transparent via-emerald-600/40 dark:via-[#25D5AB]/40 to-emerald-600 dark:to-[#25D5AB]" />
         </div>
-      </section>
-
-      {/* ==================================================
-          SECTION 10: News & Climate Forecasting
-      ================================================== */}
-      <section className="relative">
-        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-12 space-y-10">
-          <SectionHeading
-            eyebrow="النشرة اليومية والإرشاد"
-            title="البوابة الإخبارية والتنبؤات المناخية"
-            description="متابعة الأسواق وتوصيات الإرشاد الزراعي"
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {newsItems.map((news) => {
-              const Icon = news.icon;
-              return (
-                <div
-                  key={news.id}
-                  className="bg-surface border-2 border-borderColor rounded-4xl p-7 shadow-soft-card space-y-4 text-right flex flex-col justify-between"
-                >
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className={`px-3 py-1 rounded-full text-[11px] font-ibm font-bold border ${news.color}`}>
-                        {news.category}
-                      </span>
-                      <Icon className="w-5 h-5 text-text-secondary" />
-                    </div>
-
-                    <h4 className="text-lg font-cairo font-black text-text-primary">{news.title}</h4>
-                    <p className="text-xs text-text-secondary font-noto font-normal leading-relaxed">
-                      {news.content}
-                    </p>
-                  </div>
-
-                  <Link to="/news" className="pt-2">
-                    <Button variant="white" size="sm" fullWidth>
-                      <span>اقرأ المزيد</span>
-                      <ChevronLeft className="w-4 h-4" />
-                    </Button>
-                  </Link>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
       </div>
+
+      {/* ==================================================
+          SECTION 6: Dazzling AI Plant & Livestock Doctor & Pharmacy
+      ================================================== */}
+      <section className="relative bg-slate-50/50 dark:bg-[#00040d] pt-2 pb-12 sm:pb-16 overflow-hidden isolate m-0" dir="rtl">
+        {/* Ambient Glows */}
+        <div className="absolute top-1/3 -right-32 w-96 h-96 bg-emerald-500/10 dark:bg-[#25D5AB]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-1/4 -left-32 w-96 h-96 bg-[#be1622]/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 space-y-8 relative z-10">
+          
+          {/* Header Area */}
+          <div className="space-y-3.5 max-w-4xl mx-auto text-center">
+            <div className="flex justify-center mb-2">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 dark:bg-[#25D5AB]/15 border border-emerald-600/30 dark:border-[#25D5AB]/35 text-emerald-800 dark:text-[#25D5AB] text-xs sm:text-sm font-almarai font-extrabold shadow-sm backdrop-blur-md">
+                <span className="w-2 h-2 rounded-full bg-emerald-600 dark:bg-[#25D5AB] animate-pulse" />
+                <span>الرؤية الحاسوبية والذكاء الاصطناعي 24/7</span>
+              </div>
+            </div>
+
+            <div className="w-full flex justify-center py-1">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.65rem] font-almarai font-extrabold text-slate-900 dark:text-white leading-[1.35] sm:leading-[1.4] lg:leading-[1.45] max-w-4xl text-center">
+                صيدلية وفحص أمراض النبات والمواشي{' '}
+                <span className="inline-block bg-gradient-to-r from-[#047857] via-[#059669] to-[#047857] dark:from-[#00C896] dark:via-[#25D5AB] dark:to-[#6EE7B7] bg-clip-text text-transparent py-0.5">
+                  بالذكاء الاصطناعي
+                </span>
+              </h2>
+            </div>
+
+            <p className="text-slate-600 dark:text-slate-300 font-almarai font-normal text-xs sm:text-sm md:text-base leading-[1.7] max-w-2xl mx-auto pt-1">
+              شخّص فورياً حالة محاصيلك ومواشيك بدقة تصل إلى 99% واحصل على بروتوكول علاجي معتمد وأسماء الأدوية والمبيدات خلال ثوانٍ
+            </p>
+
+            {/* Diagnostic Category Mode Switcher */}
+            <div className="flex flex-wrap items-center justify-center gap-2.5 pt-3">
+              {[
+                { id: 'plants' as const, label: '🌱 دكتور النبات والمحاصيل', desc: 'كشف الآفات واللفحات' },
+                { id: 'livestock' as const, label: '🐂 صحة ورعاية المواشي', desc: 'فحص أمراض التسمين' },
+                { id: 'soil' as const, label: '💧 تحليل التربة ومياه الري', desc: 'قياس الملوحة والـ pH' },
+              ].map((tab) => {
+                const isCurrent = diagnosisMode === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => {
+                      setDiagnosisMode(tab.id);
+                      setShowAiResult(false);
+                      setSymptomInput('');
+                      setSelectedImageName(null);
+                    }}
+                    className={`px-4 sm:px-5 py-2.5 rounded-2xl font-almarai font-extrabold text-xs sm:text-sm transition-all duration-300 border flex items-center gap-2 cursor-pointer select-none ${
+                      isCurrent
+                        ? 'bg-gradient-to-r from-[#047857] via-[#059669] to-[#047857] dark:from-[#00C896] dark:via-[#25D5AB] dark:to-[#6EE7B7] text-white dark:text-slate-950 border-transparent shadow-lg shadow-emerald-700/25 dark:shadow-[#25D5AB]/25 -translate-y-0.5'
+                        : 'bg-white dark:bg-[#0d1612] border-slate-200/90 dark:border-[#1c3628] text-slate-700 dark:text-slate-300 hover:border-emerald-500/40 dark:hover:border-[#25D5AB]/40 hover:bg-slate-50 dark:hover:bg-[#13241c]'
+                    }`}
+                  >
+                    <span>{tab.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Main Diagnostic Suite Console */}
+          <BorderGlow
+            edgeSensitivity={30}
+            borderRadius={28}
+            glowRadius={50}
+            glowIntensity={1.2}
+            coneSpread={25}
+            animated={false}
+            colors={['#00C896', '#25D5AB', '#6EE7B7']}
+            className="shadow-2xl shadow-slate-200/50 dark:shadow-[#00040d]"
+          >
+            <div className="p-6 sm:p-8 lg:p-10 space-y-7 text-right backdrop-blur-md relative overflow-hidden bg-white dark:bg-[#0d1612]">
+              
+              {/* Top Quick-Select Sample Prompts */}
+              <div className="space-y-2.5">
+                <div className="flex items-center justify-between text-xs font-almarai font-extrabold text-slate-500 dark:text-slate-400">
+                  <span className="flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-[#25D5AB]" />
+                    نماذج أعراض شائعة (اضغط لتجربة الفحص السريع):
+                  </span>
+                  {selectedImageName && (
+                    <span className="text-[#25D5AB] font-bold bg-[#25D5AB]/10 px-2.5 py-0.5 rounded-full border border-[#25D5AB]/30">
+                      ✓ تم إرفاق عينة الفحص
+                    </span>
+                  )}
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {symptomPresets[diagnosisMode].map((preset, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => {
+                        setSymptomInput(preset);
+                        setShowAiResult(false);
+                      }}
+                      className={`text-xs font-almarai font-normal px-3.5 py-1.5 rounded-full border transition-all duration-200 text-right cursor-pointer ${
+                        symptomInput === preset
+                          ? 'bg-[#25D5AB]/15 border-[#25D5AB] text-[#25D5AB] font-bold'
+                          : 'bg-slate-50 dark:bg-[#111e18] border-slate-200/80 dark:border-[#1e3b2c] text-slate-700 dark:text-slate-300 hover:border-[#25D5AB]/50'
+                      }`}
+                    >
+                      {preset}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Symptom Input & Photo Upload Grid */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
+                
+                {/* Text Area */}
+                <div className="lg:col-span-8 space-y-2">
+                  <label className="text-xs sm:text-sm font-almarai font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                    <Stethoscope className="w-4 h-4 text-[#be1622]" />
+                    اكتب تفاصيل الحالة أو استفسارك الطبي:
+                  </label>
+                  <textarea
+                    rows={4}
+                    value={symptomInput}
+                    onChange={(e) => setSymptomInput(e.target.value)}
+                    placeholder={
+                      diagnosisMode === 'plants'
+                        ? 'مثال: يوجد اصفرار في أطراف أوراق طماطم المزرعة مع بقع بنية متحدة المركز...'
+                        : diagnosisMode === 'livestock'
+                        ? 'مثال: ارتفاع في درجة حرارة العجول مع سعال مستمر وإفرازات وفقدان الشهية...'
+                        : 'مثال: ظهور طبقة بيضاء جيرية على سطح التربة واحتراق حواف أوراق الشتلات...'
+                    }
+                    className="w-full bg-[#f8fafc] dark:bg-[#111e18] border border-slate-200/90 dark:border-[#1e3b2c] rounded-2xl p-4 text-xs sm:text-sm font-almarai font-normal text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:border-[#25D5AB] focus:ring-1 focus:ring-[#25D5AB]/30 outline-none transition duration-200"
+                  />
+                </div>
+
+                {/* Camera / Image Dropzone */}
+                <div className="lg:col-span-4 flex flex-col justify-between">
+                  <label className="text-xs sm:text-sm font-almarai font-extrabold text-slate-900 dark:text-white flex items-center gap-2 mb-2">
+                    <Camera className="w-4 h-4 text-[#25D5AB]" />
+                    الفحص البصري عبر الكاميرا:
+                  </label>
+                  <div
+                    onClick={handleAiPhotoUpload}
+                    className="flex-1 min-h-[105px] border-2 border-dashed border-[#25D5AB]/35 hover:border-[#25D5AB] bg-[#25D5AB]/5 dark:bg-[#25D5AB]/5 rounded-2xl p-4 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300 group select-none"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-[#25D5AB]/15 text-[#25D5AB] flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                      <Camera className="w-5 h-5" />
+                    </div>
+                    <span className="text-xs font-almarai font-extrabold text-slate-800 dark:text-slate-100">
+                      {selectedImageName ? 'تم إرفاق صورة العينة' : 'التقاط صورة / رفع عينة فحص'}
+                    </span>
+                    <span className="text-[10px] font-almarai font-normal text-slate-500 dark:text-slate-400 mt-0.5">
+                      JPG, PNG, WebP (تحليل فوري)
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Buttons Bar */}
+              <div className="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-slate-200/80 dark:border-[#1c3628]">
+                <div className="flex flex-wrap items-center gap-3">
+                  <button
+                    onClick={handleRunAiDiagnosis}
+                    disabled={aiLoading}
+                    className="px-6 sm:px-8 py-3.5 rounded-2xl bg-gradient-to-r from-[#047857] via-[#059669] to-[#047857] dark:from-[#00C896] dark:via-[#25D5AB] dark:to-[#6EE7B7] text-white dark:text-slate-950 font-almarai font-black text-xs sm:text-sm shadow-lg shadow-emerald-700/25 dark:shadow-[#25D5AB]/25 hover:shadow-xl hover:shadow-emerald-700/35 dark:hover:shadow-[#25D5AB]/35 transition-all duration-300 flex items-center gap-2.5 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed select-none"
+                  >
+                    {aiLoading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin text-white dark:text-slate-950" />
+                        <span>جاري معالجة البيانات والتشخيص...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Zap className="w-4.5 h-4.5 animate-pulse text-white dark:text-slate-950" />
+                        <span>بدء التشخيص الفوري بالذكاء الاصطناعي</span>
+                      </>
+                    )}
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setSymptomInput('');
+                      setShowAiResult(false);
+                      setSelectedImageName(null);
+                    }}
+                    className="px-4 py-3 rounded-2xl border border-slate-200/90 dark:border-[#1c3628] bg-white dark:bg-[#0d1612] text-slate-600 dark:text-slate-300 font-almarai font-extrabold text-xs hover:bg-slate-50 dark:hover:bg-[#13241c] transition flex items-center gap-1.5 cursor-pointer select-none"
+                  >
+                    <RefreshCw className="w-3.5 h-3.5" />
+                    <span>مسح النموذج</span>
+                  </button>
+                </div>
+
+                <div className="text-[11px] font-almarai text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                  <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-[#25D5AB]" />
+                  <span>نتائج مستندة لبيانات الإرشاد الزراعي والأبحاث المعتمدة</span>
+                </div>
+              </div>
+
+              {/* Comprehensive Diagnostic Result Box */}
+              <AnimatePresence>
+                {showAiResult && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.35 }}
+                    className="mt-6 rounded-[22px] border border-emerald-500/40 dark:border-[#25D5AB]/40 bg-gradient-to-b from-emerald-500/5 to-transparent dark:from-[#25D5AB]/10 p-6 sm:p-7 space-y-6 relative overflow-hidden"
+                  >
+                    {/* Top Result Banner */}
+                    <div className="flex flex-wrap items-center justify-between gap-3 border-b border-emerald-500/20 dark:border-[#25D5AB]/20 pb-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-emerald-500/20 dark:bg-[#25D5AB]/20 text-emerald-700 dark:text-[#25D5AB] flex items-center justify-center">
+                          <Microscope className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-almarai font-extrabold text-emerald-700 dark:text-[#25D5AB]">
+                              نتيجة الفحص المؤكدة:
+                            </span>
+                            <span className="text-[11px] font-almarai font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/10 dark:bg-[#00C896]/15 text-emerald-800 dark:text-[#6EE7B7] border border-emerald-600/30 dark:border-[#00C896]/30">
+                              {diagnosticResultsData[diagnosisMode].confidence} دقة التحليل
+                            </span>
+                          </div>
+                          <h3 className="text-lg sm:text-xl font-almarai font-extrabold text-slate-900 dark:text-white mt-0.5">
+                            {diagnosticResultsData[diagnosisMode].disease}
+                          </h3>
+                        </div>
+                      </div>
+
+                      <div className={`px-3.5 py-1.5 rounded-full text-xs font-almarai font-extrabold border ${diagnosticResultsData[diagnosisMode].severityColor}`}>
+                        {diagnosticResultsData[diagnosisMode].severity}
+                      </div>
+                    </div>
+
+                    {/* Scientific Cause Description */}
+                    <div className="space-y-1.5">
+                      <span className="text-xs font-almarai font-extrabold text-slate-500 dark:text-slate-400">
+                        {diagnosticResultsData[diagnosisMode].pathogen}
+                      </span>
+                      <p className="text-xs sm:text-sm font-almarai font-normal text-slate-700 dark:text-slate-200 leading-relaxed">
+                        {diagnosticResultsData[diagnosisMode].description}
+                      </p>
+                    </div>
+
+                    {/* Prescriptions & Care Cards Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+                      
+                      {/* Approved Treatment */}
+                      <div className="bg-white dark:bg-[#111e18] p-4 sm:p-5 rounded-2xl border border-emerald-500/30 space-y-2 shadow-xs">
+                        <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400 text-xs sm:text-sm font-almarai font-extrabold">
+                          <CheckCircle2 className="w-4.5 h-4.5" />
+                          <span>البروتوكول العلاجي والجرعات المعتمدة:</span>
+                        </div>
+                        <p className="text-xs sm:text-sm font-almarai font-normal text-slate-700 dark:text-slate-200 leading-relaxed">
+                          {diagnosticResultsData[diagnosisMode].treatment}
+                        </p>
+                      </div>
+
+                      {/* Preventive Guidance */}
+                      <div className="bg-white dark:bg-[#111e18] p-4 sm:p-5 rounded-2xl border border-sky-500/30 space-y-2 shadow-xs">
+                        <div className="flex items-center gap-2 text-sky-700 dark:text-sky-400 text-xs sm:text-sm font-almarai font-extrabold">
+                          <ShieldCheck className="w-4.5 h-4.5" />
+                          <span>إرشادات الوقاية والري التشغيلية:</span>
+                        </div>
+                        <p className="text-xs sm:text-sm font-almarai font-normal text-slate-700 dark:text-slate-200 leading-relaxed">
+                          {diagnosticResultsData[diagnosisMode].preventive}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Action Callouts */}
+                    <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-emerald-500/20 dark:border-[#25D5AB]/20">
+                      <div className="flex flex-wrap gap-2.5">
+                        <button
+                          onClick={() => {
+                            toast.success('تم تحويلك إلى المتجر للحصول على الأدوية والمبيدات المعتمدة');
+                            navigate('/marketplace');
+                          }}
+                          className="px-4 sm:px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 dark:bg-[#00C896] dark:hover:bg-[#25D5AB] text-white dark:text-slate-950 font-almarai font-black text-xs transition flex items-center gap-2 cursor-pointer shadow-md"
+                        >
+                          <span>طلب العلاج والمبيدات المعتمدة فوراً</span>
+                          <ArrowLeft className="w-3.5 h-3.5" />
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            toast.info('جاري فتح الاتصال المباشر مع استشاري وقاية النبات...');
+                          }}
+                          className="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-[#1c3628] bg-white dark:bg-[#0d1612] text-slate-700 dark:text-slate-200 font-almarai font-extrabold text-xs hover:bg-slate-50 dark:hover:bg-[#13241c] transition flex items-center gap-1.5 cursor-pointer"
+                        >
+                          <PhoneCall className="w-3.5 h-3.5 text-emerald-700 dark:text-[#25D5AB]" />
+                          <span>تحدث مع استشاري زراعي معتمد</span>
+                        </button>
+                      </div>
+
+                      <span className="text-[11px] font-almarai text-slate-400">
+                        معرّف التقرير الطبي: #GFM-{Math.floor(100000 + Math.random() * 900000)}
+                      </span>
+                    </div>
+
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+            </div>
+          </BorderGlow>
+
+          {/* 3 Value Benefit Highlights */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 pt-4">
+            {[
+              {
+                icon: Microscope,
+                title: 'رؤية حاسوبية فائقة الدقة',
+                desc: 'تدريب على أكثر من 500,000 عينة نباتية وبيطرية لضمان دقة تشخيص فورية تتجاوز 98%.',
+                color: 'text-emerald-700 dark:text-[#25D5AB]',
+                bg: 'bg-emerald-500/10 dark:bg-[#25D5AB]/10 border-emerald-600/25 dark:border-[#25D5AB]/25',
+              },
+              {
+                icon: ShieldCheck,
+                title: 'بروتوكولات علاجية معتمدة',
+                desc: 'توصيات دوائية ومبيدات مصرح بها رسمياً لحماية المحصول والماشية ومطابقة معايير ESG.',
+                color: 'text-[#be1622]',
+                bg: 'bg-[#be1622]/10 border-[#be1622]/25',
+              },
+              {
+                icon: TrendingUp,
+                title: 'خفض 30% من تكاليف العلاج',
+                desc: 'استهداف دقيق للمرض وتفادي الرش العشوائي للمبيدات وتجنب الخسائر في الإنتاج الزراعي والحيواني.',
+                color: 'text-emerald-700 dark:text-[#00C896]',
+                bg: 'bg-emerald-500/10 dark:bg-[#00C896]/10 border-emerald-600/25 dark:border-[#00C896]/25',
+              },
+            ].map((card, i) => {
+              const Icon = card.icon;
+              return (
+                <BorderGlow
+                  key={i}
+                  edgeSensitivity={30}
+                  borderRadius={20}
+                  glowRadius={35}
+                  glowIntensity={1}
+                  colors={card.color.includes('be1622') ? ['#be1622', '#f43f5e', '#fb7185'] : ['#047857', '#059669', '#25D5AB']}
+                  className="shadow-sm"
+                >
+                  <div className="p-5 sm:p-6 bg-white dark:bg-[#0d1612] text-right space-y-3 h-full select-none">
+                    <div className={`w-11 h-11 rounded-2xl flex items-center justify-center border ${card.bg} ${card.color}`}>
+                      <Icon className="w-5.5 h-5.5" />
+                    </div>
+                    <h4 className="text-sm sm:text-base font-almarai font-extrabold text-slate-900 dark:text-white">
+                      {card.title}
+                    </h4>
+                    <p className="text-xs font-almarai font-normal text-slate-600 dark:text-slate-300 leading-relaxed">
+                      {card.desc}
+                    </p>
+                  </div>
+                </BorderGlow>
+              );
+            })}
+          </div>
+
+        </div>
+      </section>
+
+      {/* ==================================================
+          SECTION 6.5: FAQ (Frequently Asked Questions) Section
+      ================================================== */}
+      <FaqSection />
+
+      {/* ==================================================
+          SECTION 6.8: Testimonials & Client Reviews Section
+      ================================================== */}
+      <TestimonialsSection />
+
+      {/* ==================================================
+          SECTION 7: How It Works / User Journey Section
+      ================================================== */}
+      <HowItWorksSection />
     </div>
   );
 };

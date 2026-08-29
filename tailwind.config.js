@@ -41,6 +41,7 @@ export default {
         DEFAULT: 'var(--border-color)',
       },
       fontFamily: {
+        almarai: ['Almarai', 'Cairo', '"Noto Sans Arabic"', 'sans-serif'],
         sans: ['"Noto Sans Arabic"', 'Noto Sans', 'sans-serif'],
         noto: ['"Noto Sans Arabic"', 'sans-serif'],
         cairo: ['Cairo', 'sans-serif'],
