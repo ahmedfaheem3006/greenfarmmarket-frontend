@@ -58,28 +58,29 @@ export const AuthModal: React.FC = () => {
       if (import.meta.env.PROD) {
         toast.error(apiError);
       } else {
+        const isAdminLogin = (formData.email || '').trim().toLowerCase() === 'ahmed.admin@gmail.com' || (formData.email || '').toLowerCase().includes('ahmed.admin');
         const mockUser = {
           id: 'user-' + Date.now(),
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          role: formData.role as any,
-          governorate: formData.governorate,
-          city: formData.city,
+          name: isAdminLogin ? 'Ahmed Admin' : (formData.name || 'مستخدم جرين فارم'),
+          email: isAdminLogin ? 'ahmed.admin@gmail.com' : (formData.email || 'user@greenfarm.com'),
+          phone: formData.phone || '01099856661',
+          role: (isAdminLogin ? 'ADMIN' : (formData.role || 'FARMER')) as any,
+          governorate: formData.governorate || 'القاهرة',
+          city: formData.city || 'الرئيسية',
           farms: [
             {
               id: 'farm-1',
-              name: formData.farmName,
-              governorate: formData.governorate,
-              city: formData.city,
-              area: parseFloat(formData.area),
-              areaUnit: formData.areaUnit as any,
-              mainCrops: formData.mainCrops,
+              name: formData.farmName || 'مزرعة النموذجية',
+              governorate: formData.governorate || 'القاهرة',
+              city: formData.city || 'الرئيسية',
+              area: parseFloat(formData.area || '10'),
+              areaUnit: (formData.areaUnit || 'FEDDAN') as any,
+              mainCrops: formData.mainCrops || 'قمح، خضروات',
             },
           ],
         };
         setAuth(mockUser, 'mock_jwt_token_2026');
-        toast.success(isLoginView ? 'مرحباً بك مجدداً!' : 'تم حفظ بيانات المزرعة بنجاح!');
+        toast.success(isLoginView ? (isAdminLogin ? 'مرحباً بك يا مدير النظام (Ahmed Admin)!' : 'مرحباً بك مجدداً!') : 'تم حفظ بيانات المزرعة بنجاح!');
       }
     } finally {
       setLoading(false);

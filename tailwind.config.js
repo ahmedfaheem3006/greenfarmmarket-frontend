@@ -51,6 +51,13 @@ export default {
         inter: ['Inter', 'sans-serif'],
         nunito: ['Nunito', 'sans-serif'],
       },
+      lineHeight: {
+        'tight': '1.45',
+        'snug': '1.55',
+        'normal': '1.7',
+        'relaxed': '1.85',
+        'loose': '2.1',
+      },
       borderRadius: {
         '4xl': '2rem',
         '5xl': '2.5rem',

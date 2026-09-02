@@ -96,6 +96,16 @@ export const Header: React.FC = () => {
 
   const isActive = (path: string) => location.pathname === path;
 
+  // Exclusive check if current user is the Admin (ahmed.admin@gmail.com)
+  const isAdmin = Boolean(
+    isRegistered &&
+    user &&
+    (
+      user.email?.trim().toLowerCase() === 'ahmed.admin@gmail.com' ||
+      String(user.role).toUpperCase() === 'ADMIN'
+    )
+  );
+
   return (
     <>
       <motion.header
@@ -146,6 +156,22 @@ export const Header: React.FC = () => {
                     </Link>
                   );
                 })}
+
+                {/* Conditional Admin Control Center Tab ONLY for Admin Role */}
+                {isAdmin && (
+                  <Link
+                    to="/admin"
+                    aria-label="لوحة الإدارة والتحكم"
+                    className={`relative flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-black transition-all duration-200 select-none ${
+                      isActive('/admin')
+                        ? 'bg-[#be1622] text-white shadow-md shadow-[#be1622]/40 scale-105'
+                        : 'text-white bg-[#be1622] hover:bg-rose-700 shadow-sm shadow-[#be1622]/30'
+                    }`}
+                  >
+                    <Shield className="w-3.5 h-3.5 text-white" />
+                    <span className="whitespace-nowrap">لوحة الإدارة</span>
+                  </Link>
+                )}
               </nav>
             </div>
 
@@ -187,8 +213,8 @@ export const Header: React.FC = () => {
                           <span className="text-[10px] font-bold text-text-secondary block">الحساب المسجل حالياً:</span>
                           <div className="flex items-center justify-between gap-2">
                             <h4 className="text-xs font-black text-text-primary truncate">{user.name}</h4>
-                            <Badge variant="green" className="text-[10px] py-0.5 px-2 font-black flex-shrink-0">
-                              {user.role === 'ADMIN' ? 'مدير النظام' : user.role === 'FARM_OWNER' ? 'مالك مزرعة' : 'مزارع مسجل'}
+                            <Badge variant={isAdmin ? "red" : "green"} className="text-[10px] py-0.5 px-2 font-black flex-shrink-0">
+                              {isAdmin ? 'مدير النظام (Admin)' : user.role === 'FARM_OWNER' ? 'مالك مزرعة' : 'مزارع مسجل'}
                             </Badge>
                           </div>
                         </div>
@@ -204,14 +230,14 @@ export const Header: React.FC = () => {
                             <span>لوحة تحكّم المزرعة</span>
                           </Link>
 
-                          {user.role === 'ADMIN' && (
+                          {isAdmin && (
                             <Link
                               to="/admin"
                               onClick={() => setUserDropdownOpen(false)}
-                              className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl text-text-primary hover:bg-brand-red-soft hover:text-brand-red-dark font-black transition"
+                              className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl text-white bg-[#be1622] hover:bg-rose-700 font-black transition shadow-sm"
                             >
-                              <Shield className="w-4 h-4 text-brand-red" />
-                              <span>لوحة الإدارة الإشرافية</span>
+                              <Shield className="w-4 h-4 text-white" />
+                              <span>لوحة الإدارة الإشرافية (Admin OS)</span>
                             </Link>
                           )}
 
@@ -358,17 +384,17 @@ export const Header: React.FC = () => {
                             <ChevronLeft className="w-3.5 h-3.5 text-text-secondary" />
                           </Link>
 
-                          {user.role === 'ADMIN' && (
+                          {isAdmin && (
                             <Link
                               to="/admin"
                               onClick={() => setMobileMenuOpen(false)}
-                              className="flex items-center justify-between w-full px-3.5 py-2.5 rounded-xl text-text-primary hover:bg-brand-red-soft hover:text-brand-red-dark font-black text-xs transition bg-surface border border-borderColor"
+                              className="flex items-center justify-between w-full px-3.5 py-2.5 rounded-xl text-white bg-[#be1622] hover:bg-rose-700 font-black text-xs transition shadow-sm"
                             >
                               <div className="flex items-center gap-2.5">
-                                <Shield className="w-4 h-4 text-brand-red" />
+                                <Shield className="w-4 h-4 text-white" />
                                 <span>لوحة الإدارة الإشرافية</span>
                               </div>
-                              <ChevronLeft className="w-3.5 h-3.5 text-text-secondary" />
+                              <ChevronLeft className="w-3.5 h-3.5 text-white/80" />
                             </Link>
                           )}
 

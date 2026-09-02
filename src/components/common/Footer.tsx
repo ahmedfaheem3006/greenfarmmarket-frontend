@@ -150,7 +150,7 @@ export const Footer: React.FC = () => {
 
             {/* Description */}
             <p className="text-xs font-normal text-[#475569] dark:text-[#999999] leading-[1.75] max-w-xs mx-auto md:mx-0">
-              منصة رقمية متكاملة تجمع الزراعة والتكنولوجيا والاستثمار في منظومة واحدة باستخدام الذكاء الاصطناعي.
+              منصة رقمية متكاملة تجمع الزراعة والتكنولوجيا والذكاء الاصطناعي لبناء مستقبل زراعي مستدام.
             </p>
 
             {/* Social Media Icons */}
@@ -262,7 +262,7 @@ export const Footer: React.FC = () => {
                 <div className="flex-1 min-w-0">
                   <span className="text-[9px] font-bold text-slate-400 block leading-tight">المقر والنطاق</span>
                   <span className="text-slate-800 dark:text-slate-200 text-[11px] font-bold truncate block">
-                    بني سويف والقاهرة والمحافظات
+                    القاهرة - العاصمة الإدارية والمحافظات
                   </span>
                 </div>
               </div>

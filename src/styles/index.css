@@ -83,7 +83,8 @@ html.dark {
 body {
   background-color: var(--background);
   color: var(--text-primary);
-  font-family: 'Noto Sans Arabic', 'Cairo', sans-serif;
+  font-family: 'Almarai', 'Cairo', 'Noto Sans Arabic', sans-serif;
+  line-height: 1.75;
   overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
   background-image:
@@ -92,9 +93,33 @@ body {
   background-attachment: fixed;
 }
 
-/* Default Heading Typography — Cairo for sharp geometric titles */
+/* ========================================================
+   GLOBAL ARABIC TYPOGRAPHY & LEADING OPTIMIZATION
+   Guarantees generous line-heights and ZERO font collisions
+======================================================== */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Cairo', sans-serif;
+  font-family: 'Almarai', 'Cairo', sans-serif;
+  letter-spacing: normal !important;
+}
+
+h1 {
+  line-height: 1.45 !important;
+}
+
+h2 {
+  line-height: 1.5 !important;
+}
+
+h3 {
+  line-height: 1.55 !important;
+}
+
+h4, h5, h6 {
+  line-height: 1.6 !important;
+}
+
+p {
+  line-height: 1.8 !important;
 }
 
 /* Specific Font Utility Classes for Rich Typography */

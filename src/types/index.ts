@@ -74,6 +74,7 @@ export interface Diagnosis {
   severityLevel: string;
   recommendedTreatment: string;
   satelliteTemp?: string;
+  disclaimer?: string;
   createdAt: string;
 }
 

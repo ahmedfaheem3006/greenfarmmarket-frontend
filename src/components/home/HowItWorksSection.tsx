@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { BorderGlow } from '../ui/BorderGlow';
 import { toast } from '../../store/toastStore';
+import { api } from '../../services/api';
 import heroImg from '../../assets/Hero.png';
 
 interface StepItem {
@@ -75,18 +76,27 @@ export const HowItWorksSection: React.FC = () => {
     },
   ];
 
-  const handleClaimDiscount = (e: React.FormEvent) => {
+  const handleClaimDiscount = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!emailInput.trim() || !emailInput.includes('@')) {
       toast.info('يرجى إدخال بريد إلكتروني صحيح لتفعيل كود الخصم');
       return;
     }
     setSubmitting(true);
-    setTimeout(() => {
-      setSubmitting(false);
+    try {
+      const response = await api.post('/contact/claim-discount', {
+        email: emailInput.trim().toLowerCase(),
+      });
+      const code = response.data?.data?.discountCode || 'GREENFARM10';
+      setDiscountCode(code);
+      toast.success(`تهانينا! تم تفعيل كود الخصم 10% بنجاح وحفظه في حسابك: ${code}`);
+    } catch {
+      // Graceful fallback
       setDiscountCode('GREENFARM10');
       toast.success('تهانينا! تم تفعيل كود الخصم 10% بنجاح: GREENFARM10');
-    }, 600);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleCopyCode = () => {

@@ -48,6 +48,11 @@ export const authStore = {
     state = { ...state, user, token, isRegistered: true, showAuthModal: false };
     emit();
   },
+  updateUser: (user: User) => {
+    localStorage.setItem('gfm_user', JSON.stringify(user));
+    state = { ...state, user };
+    emit();
+  },
   logout: () => {
     localStorage.removeItem('gfm_token');
     localStorage.removeItem('gfm_user');
@@ -83,6 +88,7 @@ export function useAuth() {
   return {
     ...authState,
     setAuth: authStore.setAuth,
+    updateUser: authStore.updateUser,
     logout: authStore.logout,
     toggleAuthModal: authStore.toggleAuthModal,
   };
