@@ -406,11 +406,11 @@ export const HomePage: React.FC = () => {
             <div className="w-full flex justify-center">
               <motion.h1
                 variants={itemFadeUp}
-                className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.65rem] xl:text-[3rem] font-cairo font-black text-white tracking-tight leading-[1.6] sm:leading-[1.55] lg:leading-[1.5] max-w-5xl mx-auto py-2"
+                className="text-2xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-[3.4rem] font-cairo font-black text-white tracking-tight leading-[1.45] sm:leading-[1.4] lg:leading-[1.38] max-w-5xl mx-auto py-2"
               >
-                المنصة التكنولوجية الأولى بالشرق الأوسط والعالم{' '}
-                <span className="inline-block bg-gradient-to-r from-[#00C896] via-[#25D5AB] to-[#6EE7B7] bg-clip-text text-transparent drop-shadow-md py-1 px-1.5 leading-[1.55] sm:leading-[1.5]">
-                  التي تدمج بين التجارة المباشرة والنقل والتوظيف وتشخيص الأمراض
+                نحو مستقبل زراعي{' '}
+                <span className="inline-block bg-gradient-to-r from-[#00C896] via-[#25D5AB] to-[#6EE7B7] bg-clip-text text-transparent drop-shadow-md py-1 px-1.5 leading-tight">
+                  أكثر ذكاءً واستدامة
                 </span>
               </motion.h1>
             </div>
@@ -418,7 +418,7 @@ export const HomePage: React.FC = () => {
             {/* 3. Second Line */}
             <motion.h2
               variants={itemFadeUp}
-              className="text-base sm:text-xl lg:text-2xl font-cairo font-bold text-[#6EE7B7] leading-[1.5] max-w-3xl pt-1"
+              className="text-base sm:text-xl lg:text-2xl font-cairo font-bold text-[#6EE7B7] leading-[1.55] max-w-3xl pt-1"
             >
               اربط إنتاجك الزراعي بالتقنية والتمويل والأسواق في مكان واحد
             </motion.h2>
@@ -428,8 +428,8 @@ export const HomePage: React.FC = () => {
               variants={itemFadeUp}
               className="max-w-3xl mx-auto p-6 sm:p-7 rounded-[16px] bg-black/45 border border-[#25D5AB]/25 backdrop-blur-md shadow-2xl shadow-black/50"
             >
-              <p className="text-[#F4F7E8] font-noto text-sm sm:text-base lg:text-lg leading-[1.95] sm:leading-[2] font-medium">
-                منصة رقمية متطورة تجمع المزارعين والمستثمرين ومربي المواشي في منظومة واحدة، باستخدام الذكاء الاصطناعي لتحسين الإنتاج، تسهيل التجارة، وربط المنتجات بالأسواق مباشرة.
+              <p className="text-[#F4F7E8] font-noto text-sm sm:text-base lg:text-lg leading-[2] sm:leading-[2.15] font-medium">
+                منصة رقمية خدمية مجانية شاملة تعد الأولى بالشرق الأوسط والعالم التي تدمج التكنولوجيا بالبيع والشراء والنقل والتوظيف بالزراعة والتسمين والانتاج وسلاسل التوريد.
               </p>
             </motion.div>
 
