@@ -423,12 +423,16 @@ export const HomePage: React.FC = () => {
               اربط إنتاجك الزراعي بالتقنية والتمويل والأسواق في مكان واحد
             </motion.h2>
 
-            {/* 4. Description in Glassmorphism Card (16px radius) */}
+            {/* 4. Description in Ultra-Premium Cyan-Glowing Glass Card */}
             <motion.div
               variants={itemFadeUp}
-              className="max-w-3xl mx-auto p-6 sm:p-7 rounded-[16px] bg-black/45 border border-[#25D5AB]/25 backdrop-blur-md shadow-2xl shadow-black/50"
+              className="max-w-4xl mx-auto p-6 sm:p-8 rounded-[24px] bg-black/60 border border-[#38BDF8]/40 backdrop-blur-xl shadow-2xl shadow-[#1597D4]/20 relative overflow-hidden group hover:border-[#38BDF8]/70 transition-all duration-500"
             >
-              <p className="text-[#F4F7E8] font-noto text-sm sm:text-base lg:text-lg leading-[2] sm:leading-[2.15] font-medium">
+              {/* Subtle Ambient Cyan Glow Behind Text */}
+              <div className="absolute -top-12 -right-12 w-48 h-48 bg-[#38BDF8]/15 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-[#1597D4]/20 rounded-full blur-3xl pointer-events-none" />
+
+              <p className="font-almarai text-sm sm:text-base md:text-lg lg:text-xl font-extrabold leading-[2.15] sm:leading-[2.35] tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-[#38BDF8] via-[#7DD3FC] to-[#E0F2FE] drop-shadow-md text-center">
                 منصة رقمية خدمية مجانية شاملة تعد الأولى بالشرق الأوسط والعالم التي تدمج التكنولوجيا بالبيع والشراء والنقل والتوظيف بالزراعة والتسمين والانتاج وسلاسل التوريد.
               </p>
             </motion.div>
@@ -452,11 +456,6 @@ export const HomePage: React.FC = () => {
           </motion.div>
         </div>
       </section>
-
-      {/* ==================================================
-          SECTION 3.5: Trust Metrics & Company Achievements
-      ================================================== */}
-      <TrustMetricsSection />
 
       {/* ==================================================
           SECTION 4: The 5 Core Services (Wide Live Feed Command Panel)
@@ -1228,6 +1227,11 @@ export const HomePage: React.FC = () => {
           SECTION 7: How It Works / User Journey Section
       ================================================== */}
       <HowItWorksSection />
+
+      {/* ==================================================
+          SECTION 8: Trust Metrics & Live Achievements (بأرقامنا نحقق الثقة)
+      ================================================== */}
+      <TrustMetricsSection />
     </div>
   );
 };
