@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import logoLightImg from '../assets/Final_logo.png';
 import logoWhiteImg from '../assets/Logo_white.png';
-import marketplaceImg1 from '../assets/Digital Agricultural Marketplace.png';
-import marketplaceImg2 from '../assets/Digital Agricultural 1 Marketplace.png';
+import marketplaceImg1 from '../assets/Digital Agricultural Marketplace.webp';
+import marketplaceImg2 from '../assets/Digital Agricultural 1 Marketplace.webp';
 import { BorderGlow } from '../components/ui/BorderGlow';
 import {
   Sparkles,

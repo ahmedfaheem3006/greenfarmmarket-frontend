@@ -5,7 +5,7 @@ import { toast } from '../store/toastStore';
 import { api } from '../services/api';
 import { useAuth } from '../store/authStore';
 import { BorderGlow } from '../components/ui/BorderGlow';
-import digitalMarketplaceImg from '../assets/Digital Agricultural 1 Marketplace.png';
+import digitalMarketplaceImg from '../assets/Digital Agricultural 1 Marketplace.webp';
 import {
   PhoneCall,
   Mail,

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import heroBg from '../assets/hero 5.png';
-import aiVeterinaryDoctorImg from '../assets/AI Veterinary Doctor.png';
-import aiAgriculturalDoctorImg from '../assets/AI Agricultural Doctor.png';
+import heroBg from '../assets/hero 5.webp';
+import aiVeterinaryDoctorImg from '../assets/AI Veterinary Doctor.webp';
+import aiAgriculturalDoctorImg from '../assets/AI Agricultural Doctor.webp';
 import { useAuth } from '../store/authStore';
 import { toast } from '../store/toastStore';
 import { CoreServicesPanel } from '../components/home/CoreServicesPanel';

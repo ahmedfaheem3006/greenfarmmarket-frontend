@@ -7,8 +7,8 @@ import { api } from '../services/api';
 import { Diagnosis } from '../types';
 import { BorderGlow } from '../components/ui/BorderGlow';
 
-import aiVeterinaryDoctorImg from '../assets/AI Veterinary Doctor.png';
-import aiAgriculturalDoctorImg from '../assets/AI Agricultural Doctor.png';
+import aiVeterinaryDoctorImg from '../assets/AI Veterinary Doctor.webp';
+import aiAgriculturalDoctorImg from '../assets/AI Agricultural Doctor.webp';
 
 import {
   Stethoscope,

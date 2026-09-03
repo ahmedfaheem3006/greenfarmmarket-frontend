@@ -21,7 +21,7 @@ import {
 import { BorderGlow } from '../ui/BorderGlow';
 import { toast } from '../../store/toastStore';
 import { api } from '../../services/api';
-import heroImg from '../../assets/Hero.png';
+import heroImg from '../../assets/Hero.webp';
 
 interface StepItem {
   id: number;

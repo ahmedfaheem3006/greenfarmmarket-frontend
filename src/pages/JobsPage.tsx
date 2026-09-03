@@ -45,7 +45,7 @@ import {
   Send,
 } from 'lucide-react';
 
-import agriculturalEmploymentImg from '../assets/Agricultural Employment.png';
+import agriculturalEmploymentImg from '../assets/Agricultural Employment.webp';
 
 export const JobsPage: React.FC = () => {
   const [searchParams] = useSearchParams();

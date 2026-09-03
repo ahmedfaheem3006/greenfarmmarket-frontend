@@ -6,7 +6,7 @@ import { toast } from '../store/toastStore';
 import { api } from '../services/api';
 import { Logo } from '../components/common/Logo';
 import { BorderGlow } from '../components/ui/BorderGlow';
-import marketplaceImg from '../assets/Digital Agricultural 1 Marketplace.png';
+import marketplaceImg from '../assets/Digital Agricultural 1 Marketplace.webp';
 import {
   UserPlus,
   User,

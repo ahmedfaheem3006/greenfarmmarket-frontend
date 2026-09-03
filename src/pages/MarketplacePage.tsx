@@ -6,7 +6,7 @@ import { toast } from '../store/toastStore';
 import { api } from '../services/api';
 import { Product } from '../types';
 import { BorderGlow } from '../components/ui/BorderGlow';
-import marketplaceImg from '../assets/Digital Agricultural Marketplace.png';
+import marketplaceImg from '../assets/Digital Agricultural Marketplace.webp';
 import {
   Store,
   PlusCircle,

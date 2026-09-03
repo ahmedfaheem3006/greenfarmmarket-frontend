@@ -41,7 +41,7 @@ import {
   Wrench,
   TrendingUp,
 } from 'lucide-react';
-import smartLogisticsImg from '../assets/Smart Logistics.png';
+import smartLogisticsImg from '../assets/Smart Logistics.webp';
 import coldShippingImg from '../assets/brand/Contact us for Toronto based temperature controlled shipping.jpeg';
 
 export const TransportPage: React.FC = () => {

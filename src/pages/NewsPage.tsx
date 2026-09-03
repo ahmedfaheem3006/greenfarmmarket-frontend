@@ -41,8 +41,8 @@ import {
   Eye,
 } from 'lucide-react';
 
-import marketIntelligenceImg from '../assets/Market Intelligence  Agricultural Exchange.png';
-import agriculturalNewsImg from '../assets/Agricultural News.png';
+import marketIntelligenceImg from '../assets/Market Intelligence  Agricultural Exchange.webp';
+import agriculturalNewsImg from '../assets/Agricultural News.webp';
 
 interface MarketItem {
   id: string;
