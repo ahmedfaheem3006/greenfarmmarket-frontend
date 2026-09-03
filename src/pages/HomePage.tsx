@@ -406,11 +406,11 @@ export const HomePage: React.FC = () => {
             <div className="w-full flex justify-center">
               <motion.h1
                 variants={itemFadeUp}
-                className="text-2xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-[3.4rem] font-cairo font-black text-white tracking-tight leading-[1.45] sm:leading-[1.4] lg:leading-[1.38] max-w-5xl mx-auto py-2"
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.65rem] xl:text-[3rem] font-cairo font-black text-white tracking-tight leading-[1.6] sm:leading-[1.55] lg:leading-[1.5] max-w-5xl mx-auto py-2"
               >
-                نحو مستقبل زراعي{' '}
-                <span className="inline-block bg-gradient-to-r from-[#00C896] via-[#25D5AB] to-[#6EE7B7] bg-clip-text text-transparent drop-shadow-md py-1 px-1.5 leading-tight">
-                  أكثر ذكاءً واستدامة
+                المنصة التكنولوجية الأولى بالشرق الأوسط والعالم{' '}
+                <span className="inline-block bg-gradient-to-r from-[#00C896] via-[#25D5AB] to-[#6EE7B7] bg-clip-text text-transparent drop-shadow-md py-1 px-1.5 leading-[1.55] sm:leading-[1.5]">
+                  التي تدمج بين التجارة المباشرة والنقل والتوظيف وتشخيص الأمراض
                 </span>
               </motion.h1>
             </div>
