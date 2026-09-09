@@ -41,6 +41,11 @@ import {
   Send,
   Eye,
   RotateCcw,
+  Printer,
+  Pill,
+  BadgeCheck,
+  Clock,
+  ExternalLink,
 } from 'lucide-react';
 
 export const AiDoctorPage: React.FC = () => {
@@ -143,16 +148,98 @@ export const AiDoctorPage: React.FC = () => {
   const quickPlantSymptoms = [
     'اصفرار في أطراف الأوراق مع بقع بنية',
     'ذبول مفاجئ وسقوط للأزهار والثمار',
-    'ظهور طبقة بيضاء دقيقة تشبه البودرة',
+    'ظهور طبقة بيضاء دقيقة تشبه البودرة (بياض دقيقي)',
     'ثقوب وتآكل في الأوراق وسيقان النبات',
+    'تبقعات دائرية بنية محاطة بهالة صفراء',
+    'احتراق حواف الأوراق وتوقف نمو القمة النامية',
   ];
 
   const quickAnimalSymptoms = [
-    'فقدان تام للشهية وخمول مع ارتفاع الحرارة',
-    'إفرازات من الأنف وصعوبة في التنفس',
-    'عرج في القائمة الخلفية وتورم في الحافر',
+    'نقاط وعقد جلدية بارزة على الجسم والرقبة',
+    'فقدان تام للشهية وخمول مع ارتفاع درجة الحرارة',
+    'إفرازات من الأنف وسيلان اللعاب وصعوبة التنفس',
+    'عرج في القائمة وتورم أو تعفن في الحافر',
     'التهاب وتورم في الضرع وانخفاض إدرار اللبن',
+    'إسهال حاد أو انتفاخ ملحوظ في منطقة الكرش',
   ];
+
+  // Helper to parse treatment text into structured protocol cards
+  const parseTreatmentProtocol = (text: string) => {
+    if (!text) return [];
+
+    const rawSections = text.split(/(?=(?:^|\n)\s*\d+[\.\-]\s+)/g).filter((s) => s.trim().length > 0);
+
+    if (rawSections.length > 1) {
+      return rawSections.map((sec, idx) => {
+        const clean = sec.trim();
+        const firstLineEnd = clean.indexOf('\n');
+        let title = '';
+        let body = '';
+
+        if (firstLineEnd !== -1) {
+          title = clean.substring(0, firstLineEnd).replace(/^\d+[\.\-]\s*/, '').trim();
+          body = clean.substring(firstLineEnd + 1).trim();
+        } else {
+          const colonIdx = clean.indexOf(':');
+          if (colonIdx !== -1 && colonIdx < 50) {
+            title = clean.substring(0, colonIdx).replace(/^\d+[\.\-]\s*/, '').trim();
+            body = clean.substring(colonIdx + 1).trim();
+          } else {
+            title = `المرحلة ${idx + 1}: إجراء بروتوكول علاجي`;
+            body = clean.replace(/^\d+[\.\-]\s*/, '').trim();
+          }
+        }
+
+        let category: 'medication' | 'biosecurity' | 'nutrition' | 'general' = 'general';
+        const combined = `${title} ${body}`.toLowerCase();
+        if (
+          combined.includes('دواء') ||
+          combined.includes('علاج') ||
+          combined.includes('حقن') ||
+          combined.includes('رش') ||
+          combined.includes('مضاد') ||
+          combined.includes('مبيد') ||
+          combined.includes('جرع')
+        ) {
+          category = 'medication';
+        } else if (
+          combined.includes('عزل') ||
+          combined.includes('وقاي') ||
+          combined.includes('تطهير') ||
+          combined.includes('نظاف') ||
+          combined.includes('مكافح') ||
+          combined.includes('حشرات')
+        ) {
+          category = 'biosecurity';
+        } else if (
+          combined.includes('تغذي') ||
+          combined.includes('علف') ||
+          combined.includes('ماء') ||
+          combined.includes('فيتامين') ||
+          combined.includes('ري') ||
+          combined.includes('تسميد')
+        ) {
+          category = 'nutrition';
+        }
+
+        return {
+          id: idx + 1,
+          title: title || `المرحلة العلاجية ${idx + 1}`,
+          body,
+          category,
+        };
+      });
+    }
+
+    return [
+      {
+        id: 1,
+        title: 'البروتوكول العلاجي والإرشادات المعتمدة',
+        body: text,
+        category: 'medication' as const,
+      },
+    ];
+  };
 
   // Submit AI Diagnosis
   const handleStartDiagnosis = async (e: React.FormEvent) => {
@@ -541,21 +628,80 @@ export const AiDoctorPage: React.FC = () => {
               </div>
             </div>
 
+            {/* Sector Category Switcher: Plants vs Livestock */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-1.5 rounded-2xl bg-slate-100 dark:bg-[#160a0c] border border-slate-200 dark:border-white/5">
+              <button
+                type="button"
+                onClick={() => {
+                  setSubjectType('LIVESTOCK');
+                  if (cropOrAnimal === 'طماطم / خضروات صيفية' || !cropOrAnimal) {
+                    setCropOrAnimal('عجل تسمين');
+                  }
+                }}
+                className={`py-3 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2.5 transition cursor-pointer ${
+                  subjectType === 'LIVESTOCK'
+                    ? 'bg-gradient-to-r from-[#be1622] via-[#d62828] to-[#e63946] text-white shadow-lg shadow-red-600/20'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-[#be1622]'
+                }`}
+              >
+                <Beef className="w-4 h-4 text-amber-400" />
+                <span>فحص المواشي والإنتاج الحيواني (طب بيطري)</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setSubjectType('PLANTS');
+                  if (cropOrAnimal === 'عجل تسمين' || !cropOrAnimal) {
+                    setCropOrAnimal('طماطم / خضروات صيفية');
+                  }
+                }}
+                className={`py-3 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2.5 transition cursor-pointer ${
+                  subjectType === 'PLANTS'
+                    ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg shadow-emerald-600/20'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-emerald-600'
+                }`}
+              >
+                <Leaf className="w-4 h-4 text-emerald-300" />
+                <span>فحص المحاصيل والأشجار الزراعية (وقاية نبات)</span>
+              </button>
+            </div>
+
             {/* Diagnostic Form */}
             <form onSubmit={handleStartDiagnosis} className="space-y-6">
               
               {/* Row 1: Crop/Animal & Governorate */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-xs font-black text-slate-800 dark:text-slate-200 block">
-                    نوع المحصول الزراعي أو الحيوان المراد فحصه *
+                  <label className="text-xs font-black text-slate-800 dark:text-slate-200 flex items-center justify-between">
+                    <span>
+                      {subjectType === 'LIVESTOCK'
+                        ? 'نوع الحيوان أو الماشية المراد فحصها *'
+                        : 'نوع المحصول الزراعي أو الأشجار المراد فحصها *'}
+                    </span>
+                    <span className="text-[10px] text-slate-400 font-bold">
+                      {subjectType === 'LIVESTOCK' ? 'قسم بيطري' : 'قسم زراعي'}
+                    </span>
                   </label>
                   <input
                     type="text"
                     required
                     value={cropOrAnimal}
-                    onChange={(e) => setCropOrAnimal(e.target.value)}
-                    placeholder="مثال: طماطم، قمح، أشجار مانجو، أبقار حلابة، عجول تسمين، دواجن..."
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setCropOrAnimal(val);
+                      const norm = val.toLowerCase();
+                      if (['عجل', 'عجول', 'بقر', 'جاموس', 'ماشية', 'مواشي', 'غنم', 'خروف', 'ماعز', 'دواجن', 'فراخ', 'حصان', 'خيل', 'أرنب', 'بط'].some(k => norm.includes(k))) {
+                        setSubjectType('LIVESTOCK');
+                      } else if (['طماطم', 'قمح', 'شجر', 'أشجار', 'مانجو', 'موالح', 'برتقال', 'فلفل', 'خيار', 'بطاطس', 'محصول', 'نبات'].some(k => norm.includes(k))) {
+                        setSubjectType('PLANTS');
+                      }
+                    }}
+                    placeholder={
+                      subjectType === 'LIVESTOCK'
+                        ? 'مثال: عجل تسمين، أبقار هولشتاين، جاموس حلاب، أغنام برقي، دواجن تسمين...'
+                        : 'مثال: طماطم، قمح، أشجار مانجو، موالح، بطاطس، فراولة...'
+                    }
                     className="w-full bg-slate-50 dark:bg-[#14080a] border border-slate-200 dark:border-white/10 rounded-2xl p-3.5 text-xs font-bold outline-none focus:border-[#be1622]"
                   />
                 </div>
@@ -569,7 +715,7 @@ export const AiDoctorPage: React.FC = () => {
                     required
                     value={governorate}
                     onChange={(e) => setGovernorate(e.target.value)}
-                    placeholder="مثال: البحيرة، بني سويف، الشرقية، الفيوم، النوبارية..."
+                    placeholder="مثال: الإسماعيلية، البحيرة، بني سويف، الشرقية، الفيوم، النوبارية..."
                     className="w-full bg-slate-50 dark:bg-[#14080a] border border-slate-200 dark:border-white/10 rounded-2xl p-3.5 text-xs font-bold outline-none focus:border-[#be1622]"
                   />
                 </div>
@@ -721,7 +867,7 @@ export const AiDoctorPage: React.FC = () => {
       </section>
 
       {/* ========================================================================= */}
-      {/* SECTION 4: FUTURISTIC AI RESULT REPORT */}
+      {/* SECTION 4: FUTURISTIC AI CLINICAL CERTIFICATE & REPORT */}
       {/* ========================================================================= */}
       {result && (
         <section ref={resultRef} className="py-10 max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
@@ -729,127 +875,290 @@ export const AiDoctorPage: React.FC = () => {
           <BorderGlow
             edgeSensitivity={30}
             borderRadius={36}
-            glowRadius={60}
-            glowIntensity={1.4}
+            glowRadius={65}
+            glowIntensity={1.5}
             coneSpread={25}
             animated={false}
-            colors={['#be1622', '#e63946', '#00C896']}
-            className="shadow-2xl shadow-red-600/20"
+            colors={
+              ['عجل', 'عجول', 'تسمين', 'بقر', 'جاموس', 'ماشية', 'مواشي', 'غنم', 'خروف', 'ماعز', 'دواجن', 'فراخ', 'بيطري', 'lumpy', 'mastitis', 'pox'].some(k => `${cropOrAnimal} ${result.detectedDisease}`.toLowerCase().includes(k))
+                ? ['#00C896', '#38bdf8', '#be1622']
+                : ['#be1622', '#e63946', '#00C896']
+            }
+            className="shadow-2xl shadow-emerald-950/20"
           >
-            <div className="p-8 sm:p-12 rounded-[36px] bg-gradient-to-b from-white via-slate-50 to-white dark:from-[#110608] dark:via-[#160a0d] dark:to-[#0f0507] border border-slate-200 dark:border-[#2b1014] space-y-8 text-right">
+            <div className="p-6 sm:p-12 rounded-[36px] bg-gradient-to-b from-white via-slate-50 to-white dark:from-[#0d070a] dark:via-[#140b0e] dark:to-[#0a0507] border-2 border-emerald-500/30 dark:border-[#2d151a] space-y-8 text-right relative overflow-hidden">
               
-              {/* Header Badge */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 dark:border-white/10 pb-6">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="px-3.5 py-1 rounded-full bg-[#be1622]/15 text-[#be1622] dark:text-[#ff6b6b] text-xs font-black border border-[#be1622]/30">
-                      تقرير التشخيص الطبي المعتمد
+              {/* Watermark Logo Background Effect */}
+              <div className="absolute -bottom-10 -left-10 w-96 h-96 opacity-[0.03] dark:opacity-[0.05] pointer-events-none select-none -z-0">
+                {['عجل', 'عجول', 'تسمين', 'بقر', 'جاموس', 'ماشية', 'مواشي', 'غنم', 'خروف', 'ماعز', 'دواجن', 'فراخ', 'بيطري'].some(k => `${cropOrAnimal} ${result.detectedDisease}`.toLowerCase().includes(k)) ? (
+                  <Beef className="w-full h-full text-white" />
+                ) : (
+                  <Leaf className="w-full h-full text-white" />
+                )}
+              </div>
+
+              {/* Certificate Top Verified Seal & Header Bar */}
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200/80 dark:border-white/10 pb-6 relative z-10">
+                <div className="space-y-2">
+                  <div className="flex flex-wrap items-center gap-2">
+                    {/* Official Category Sector Badge */}
+                    <span className={`px-3.5 py-1 rounded-full text-xs font-black border flex items-center gap-1.5 shadow-sm ${
+                      ['عجل', 'عجول', 'تسمين', 'بقر', 'جاموس', 'ماشية', 'مواشي', 'غنم', 'خروف', 'ماعز', 'دواجن', 'فراخ', 'بيطري'].some(k => `${cropOrAnimal} ${result.detectedDisease}`.toLowerCase().includes(k))
+                        ? 'bg-cyan-500/10 text-cyan-700 dark:text-[#38bdf8] border-cyan-500/30'
+                        : 'bg-emerald-500/10 text-emerald-800 dark:text-[#00C896] border-emerald-500/30'
+                    }`}>
+                      {['عجل', 'عجول', 'تسمين', 'بقر', 'جاموس', 'ماشية', 'مواشي', 'غنم', 'خروف', 'ماعز', 'دواجن', 'فراخ', 'بيطري'].some(k => `${cropOrAnimal} ${result.detectedDisease}`.toLowerCase().includes(k)) ? (
+                        <>
+                          <Beef className="w-3.5 h-3.5" />
+                          <span>قسم الطب البيطري وصحة الماشية (Veterinary Healthcare)</span>
+                        </>
+                      ) : (
+                        <>
+                          <Leaf className="w-3.5 h-3.5" />
+                          <span>قسم وقاية النبات والمحاصيل الزراعية (Plant Pathology)</span>
+                        </>
+                      )}
                     </span>
-                    <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-[#00C896] text-[11px] font-bold flex items-center gap-1">
-                      <CheckCircle2 className="w-3.5 h-3.5" />
-                      تم الفحص بالرؤية الحاسوبية
+
+                    {/* Certified Lab Stamp */}
+                    <span className="px-3 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-[#00C896] text-[11px] font-bold flex items-center gap-1 border border-emerald-500/30">
+                      <BadgeCheck className="w-3.5 h-3.5 text-emerald-500" />
+                      <span>تقرير سريري معتمد بالذكاء الاصطناعي</span>
+                    </span>
+
+                    {/* Timestamp */}
+                    <span className="text-[10px] text-slate-400 font-mono flex items-center gap-1">
+                      <Clock className="w-3 h-3 text-slate-400" />
+                      {new Date().toLocaleDateString('ar-EG', { dateStyle: 'long' })}
                     </span>
                   </div>
-                  <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mt-2">
+
+                  <div className="flex items-center gap-2 pt-1">
+                    <span className="text-xs font-mono text-slate-400 dark:text-slate-500">
+                      REF ID: GFM-DX-2026-{(result.id ? result.id.slice(-6) : Math.random().toString(36).slice(-6)).toUpperCase()}
+                    </span>
+                  </div>
+
+                  {/* Primary Diagnosis Headline */}
+                  <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 dark:text-white leading-[1.3] pt-1">
                     {result.detectedDisease}
                   </h2>
                 </div>
 
-                {/* Confidence Meter Badge */}
-                <div className="p-4 rounded-2xl bg-white dark:bg-[#1a0c0f] border border-slate-200 dark:border-[#38151b] text-center shrink-0 space-y-0.5 shadow-sm">
-                  <span className="text-[11px] font-bold text-slate-400 block">نسبة ثقة التشخيص</span>
-                  <span className="text-3xl font-black text-emerald-600 dark:text-[#00C896] font-mono">
-                    {Math.round((result.confidenceScore || 0.95) * 100)}%
-                  </span>
+                {/* Confidence Meter Circular Hub */}
+                <div className="flex items-center gap-4 bg-slate-50 dark:bg-[#190d10] p-4 rounded-3xl border border-slate-200 dark:border-white/10 shrink-0 self-start md:self-auto shadow-inner">
+                  <div className="text-center space-y-0.5">
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">
+                      مؤشر الدقة والمطابقة
+                    </span>
+                    <span className="text-3xl sm:text-4xl font-black text-emerald-600 dark:text-[#00C896] font-mono leading-none block">
+                      {Math.round((result.confidenceScore || 0.95) * 100)}%
+                    </span>
+                    <span className="text-[9px] font-extrabold text-emerald-600 dark:text-[#00C896] bg-emerald-500/10 px-2 py-0.5 rounded-full inline-block">
+                      دقة سريرية عالية
+                    </span>
+                  </div>
+                  <div className="w-12 h-12 rounded-2xl bg-emerald-500/15 text-[#00C896] flex items-center justify-center font-bold">
+                    <Sparkles className="w-6 h-6" />
+                  </div>
                 </div>
               </div>
 
-              {/* Grid: Telemetry & Severity */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {/* Grid: Telemetry & Clinical Matrix (4 Cards) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 relative z-10">
                 
-                <div className="p-4 rounded-2xl bg-white dark:bg-[#14080a] border border-slate-200/80 dark:border-white/5 space-y-1">
-                  <span className="text-xs text-slate-400 font-bold flex items-center gap-1">
-                    <AlertTriangle className="w-4 h-4 text-[#be1622]" />
-                    مستوى الخطورة والحالة:
+                {/* Card 1: Subject */}
+                <div className="p-4 rounded-2xl bg-white dark:bg-[#160c0f] border border-slate-200/80 dark:border-white/5 space-y-1.5 shadow-sm">
+                  <span className="text-xs text-slate-400 font-bold flex items-center gap-1.5">
+                    {['عجل', 'عجول', 'تسمين', 'بقر', 'جاموس', 'ماشية', 'مواشي', 'غنم', 'خروف', 'ماعز', 'دواجن', 'فراخ', 'بيطري'].some(k => `${cropOrAnimal} ${result.detectedDisease}`.toLowerCase().includes(k)) ? (
+                      <Beef className="w-4 h-4 text-[#be1622] dark:text-[#ff6b6b]" />
+                    ) : (
+                      <Leaf className="w-4 h-4 text-emerald-500" />
+                    )}
+                    الكائن والموقع الجغرافي:
                   </span>
                   <strong className="text-sm font-black text-slate-900 dark:text-white block">
-                    {result.severityLevel}
+                    {cropOrAnimal || 'غير محدد'} • {governorate || 'جمهورية مصر العربية'}
                   </strong>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-white dark:bg-[#14080a] border border-slate-200/80 dark:border-white/5 space-y-1">
-                  <span className="text-xs text-slate-400 font-bold flex items-center gap-1">
+                {/* Card 2: Severity */}
+                <div className="p-4 rounded-2xl bg-white dark:bg-[#160c0f] border border-slate-200/80 dark:border-white/5 space-y-1.5 shadow-sm">
+                  <span className="text-xs text-slate-400 font-bold flex items-center gap-1.5">
+                    <AlertTriangle className="w-4 h-4 text-amber-500" />
+                    مستوى الخطورة السريرية:
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className={`w-2.5 h-2.5 rounded-full animate-pulse ${
+                      result.severityLevel?.includes('عالية') || result.severityLevel?.includes('حرجة') || result.severityLevel?.includes('مرتفعة')
+                        ? 'bg-red-500 shadow-lg shadow-red-500/50'
+                        : 'bg-amber-500 shadow-lg shadow-amber-500/50'
+                    }`} />
+                    <strong className="text-sm font-black text-slate-900 dark:text-white block">
+                      {result.severityLevel || 'متوسطة'}
+                    </strong>
+                  </div>
+                </div>
+
+                {/* Card 3: Climate & Environment */}
+                <div className="p-4 rounded-2xl bg-white dark:bg-[#160c0f] border border-slate-200/80 dark:border-white/5 space-y-1.5 shadow-sm">
+                  <span className="text-xs text-slate-400 font-bold flex items-center gap-1.5">
                     <ThermometerSun className="w-4 h-4 text-amber-500" />
-                    المؤشرات البيئية والمناخية:
+                    الظروف البيئية والمناخية:
                   </span>
-                  <strong className="text-sm font-black text-slate-900 dark:text-white block">
-                    {result.satelliteTemp || 'درجة الحرارة 30°م - رطوبة 45%'}
+                  <strong className="text-xs sm:text-sm font-black text-slate-900 dark:text-white block line-clamp-2">
+                    {result.satelliteTemp || 'درجة الحرارة 30°م - الرطوبة 50%'}
                   </strong>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-white dark:bg-[#14080a] border border-slate-200/80 dark:border-white/5 space-y-1">
-                  <span className="text-xs text-slate-400 font-bold flex items-center gap-1">
-                    <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                    نوع الفحص:
+                {/* Card 4: Inspection Technique */}
+                <div className="p-4 rounded-2xl bg-white dark:bg-[#160c0f] border border-slate-200/80 dark:border-white/5 space-y-1.5 shadow-sm">
+                  <span className="text-xs text-slate-400 font-bold flex items-center gap-1.5">
+                    <ScanLine className="w-4 h-4 text-sky-400" />
+                    طريقة الفحص والنموذج:
                   </span>
                   <strong className="text-sm font-black text-slate-900 dark:text-white block">
-                    {result.mode === 'IMAGE' ? 'فحص وتحليل صورة بصرية' : 'فحص سريري للأعراض'}
+                    {result.mode === 'IMAGE' ? 'فحص بصري (رؤية حاسوبية)' : 'فحص سريري (وصف الأعراض)'}
                   </strong>
                 </div>
 
               </div>
 
-              {/* Recommended Treatment Protocol */}
-              <div className="p-6 rounded-3xl bg-gradient-to-r from-emerald-500/10 via-emerald-500/5 to-transparent border border-emerald-500/30 space-y-3">
-                <div className="flex items-center gap-2 text-sm font-black text-emerald-700 dark:text-[#00C896]">
-                  <Sparkles className="w-5 h-5" />
-                  <span>الروشتة العلاجية والبروتوكول المعتمد (Recommended Treatment Protocol):</span>
+              {/* Structured Smart Prescription Protocol */}
+              <div className="space-y-4 relative z-10 pt-2">
+                <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-white/10 pb-3">
+                  <div className="flex items-center gap-2 text-base font-black text-slate-900 dark:text-white">
+                    <Pill className="w-5 h-5 text-[#be1622] dark:text-[#ff6b6b]" />
+                    <span>الروشتة العلاجية والبروتوكول السريري المعتمد (Clinical Prescription)</span>
+                  </div>
+                  <span className="text-xs font-bold text-emerald-600 dark:text-[#00C896] bg-emerald-500/10 px-3 py-1 rounded-full">
+                    جرعات ومواد فعالة
+                  </span>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-800 dark:text-slate-200 font-bold leading-[1.8] whitespace-pre-line">
-                  {result.recommendedTreatment}
-                </p>
+
+                {/* Structured Protocol Cards Grid */}
+                <div className="grid grid-cols-1 gap-4">
+                  {parseTreatmentProtocol(result.recommendedTreatment).map((stage) => {
+                    const isMed = stage.category === 'medication';
+                    const isBio = stage.category === 'biosecurity';
+
+                    return (
+                      <div
+                        key={stage.id}
+                        className={`p-6 rounded-3xl border transition-all duration-300 shadow-sm ${
+                          isMed
+                            ? 'bg-gradient-to-r from-red-500/5 via-transparent to-transparent dark:from-[#200c11] dark:via-[#15070a] dark:to-[#0f0507] border-[#be1622]/30 hover:border-[#be1622]'
+                            : isBio
+                            ? 'bg-gradient-to-r from-sky-500/5 via-transparent to-transparent dark:from-[#0d1620] dark:via-[#080d14] dark:to-[#05080c] border-sky-500/30 hover:border-sky-500'
+                            : 'bg-gradient-to-r from-emerald-500/5 via-transparent to-transparent dark:from-[#0d1c16] dark:via-[#08130e] dark:to-[#050c09] border-emerald-500/30 hover:border-emerald-500'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2.5 mb-3">
+                          <div
+                            className={`w-9 h-9 rounded-xl flex items-center justify-center font-bold shrink-0 ${
+                              isMed
+                                ? 'bg-[#be1622]/15 text-[#be1622] dark:text-[#ff6b6b]'
+                                : isBio
+                                ? 'bg-sky-500/15 text-sky-500'
+                                : 'bg-emerald-500/15 text-emerald-500'
+                            }`}
+                          >
+                            {isMed ? <Pill className="w-5 h-5" /> : isBio ? <ShieldCheck className="w-5 h-5" /> : <Droplets className="w-5 h-5" />}
+                          </div>
+                          <h3 className="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white">
+                            {stage.title}
+                          </h3>
+                        </div>
+
+                        <div className="text-xs sm:text-sm text-slate-700 dark:text-slate-200 font-medium leading-[2.1] whitespace-pre-line pr-2 border-r-2 border-slate-200 dark:border-white/10">
+                          {stage.body}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Direct Marketplace / Pharmacy Bridge */}
+              <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-r from-emerald-600/10 via-emerald-500/5 to-teal-500/10 border border-emerald-500/30 flex flex-col sm:flex-row items-center justify-between gap-4 relative z-10 shadow-sm">
+                <div className="space-y-1 text-right">
+                  <strong className="text-sm font-black text-slate-900 dark:text-white flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-emerald-500" />
+                    توفير الأدوية والمبيدات والمطهرات المعتمدة
+                  </strong>
+                  <p className="text-xs text-slate-500 dark:text-slate-300 font-medium">
+                    يمكنك طلب كافة المواد الفعالة والأدوية والمطهرات الواردة بالتقرير مباشرة عبر سوق المنصة.
+                  </p>
+                </div>
+                <a
+                  href={`/marketplace?search=${encodeURIComponent(
+                    ['عجل', 'عجول', 'تسمين', 'بقر', 'جاموس', 'ماشية', 'مواشي', 'غنم', 'خروف', 'ماعز', 'دواجن', 'فراخ', 'بيطري'].some(k => `${cropOrAnimal} ${result.detectedDisease}`.toLowerCase().includes(k)) ? 'أدوية بيطرية' : 'مبيدات زراعية'
+                  )}`}
+                  className="px-6 py-3 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:opacity-95 text-white text-xs font-black shrink-0 flex items-center gap-2 shadow-md transition"
+                >
+                  <span>تصفح سوق المستلزمات الطبية</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
               </div>
 
               {/* Disclaimer Notice */}
               {result.disclaimer && (
-                <div className="p-4 rounded-2xl bg-[#be1622]/10 border border-[#be1622]/20 flex items-start gap-3 text-xs text-slate-700 dark:text-slate-300 font-medium leading-[1.7]">
-                  <Info className="w-5 h-5 text-[#be1622] shrink-0 mt-0.5" />
+                <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-start gap-3 text-xs text-amber-900 dark:text-amber-200 font-medium leading-[1.8] relative z-10">
+                  <Info className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
                   <p>{result.disclaimer}</p>
                 </div>
               )}
 
-              {/* Action Buttons */}
-              <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-slate-200/80 dark:border-white/10">
-                <button
-                  type="button"
-                  onClick={() => {
-                    window.print();
-                  }}
-                  className="px-6 py-3 rounded-2xl bg-slate-100 dark:bg-white/5 hover:bg-slate-200 text-xs font-black text-slate-800 dark:text-white flex items-center gap-2 transition cursor-pointer"
-                >
-                  <FileText className="w-4 h-4 text-[#be1622]" />
-                  <span>طباعة وحفظ التقرير الطبي</span>
-                </button>
-
-                <div className="flex items-center gap-2">
+              {/* Action Buttons Toolbar */}
+              <div className="flex flex-wrap items-center justify-between gap-3 pt-6 border-t border-slate-200/80 dark:border-white/10 relative z-10">
+                <div className="flex flex-wrap items-center gap-2">
                   <button
                     type="button"
                     onClick={() => {
-                      navigator.clipboard.writeText(window.location.href);
-                      toast.success('تم نسخ رابط التقرير الطبي بنجاح!');
+                      window.print();
                     }}
-                    className="p-3 rounded-2xl bg-slate-100 dark:bg-white/5 hover:bg-slate-200 text-slate-600 dark:text-slate-300 transition cursor-pointer"
-                    title="مشاركة التقرير"
+                    className="px-5 py-3 rounded-2xl bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 text-xs font-black text-slate-800 dark:text-white flex items-center gap-2 transition cursor-pointer"
                   >
-                    <Share2 className="w-4 h-4 text-[#be1622]" />
+                    <Printer className="w-4 h-4 text-[#be1622] dark:text-[#ff6b6b]" />
+                    <span>طباعة الروشتة (Print / PDF)</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const shareText = `تقرير فحص جرين فارم ماركت الطبي:\nالحالة: ${result.detectedDisease}\nنسبة الثقة: ${Math.round((result.confidenceScore || 0.95) * 100)}%\nدرجة الخطورة: ${result.severityLevel}\n${window.location.href}`;
+                      const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
+                      window.open(waUrl, '_blank');
+                    }}
+                    className="px-5 py-3 rounded-2xl bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-700 dark:text-[#00C896] text-xs font-black flex items-center gap-2 transition cursor-pointer border border-emerald-500/20"
+                  >
+                    <Share2 className="w-4 h-4 text-emerald-500" />
+                    <span>مشاركة عبر واتساب</span>
+                  </button>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setResult(null);
+                      setSymptomsText('');
+                      setSelectedFile(null);
+                      setFilePreview(null);
+                      document.getElementById('diagnostic-studio')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="px-5 py-3 rounded-2xl bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 text-slate-700 dark:text-slate-300 text-xs font-black flex items-center gap-2 transition cursor-pointer"
+                  >
+                    <RotateCcw className="w-4 h-4" />
+                    <span>إجراء فحص جديد</span>
                   </button>
 
                   <a
                     href="tel:01099856661"
-                    className="px-6 py-3 rounded-2xl bg-gradient-to-r from-[#be1622] to-[#e63946] text-white text-xs font-black flex items-center gap-2 shadow-md cursor-pointer"
+                    className="px-6 py-3 rounded-2xl bg-gradient-to-r from-[#be1622] via-[#d62828] to-[#e63946] text-white text-xs font-black flex items-center gap-2 shadow-lg shadow-red-600/25 cursor-pointer hover:opacity-95 transition"
                   >
                     <PhoneCall className="w-4 h-4" />
-                    <span>استشارة مهندس أو طبيب بيطري</span>
+                    <span>استشارة طبيب بيطري / استشاري زراعي</span>
                   </a>
                 </div>
               </div>
