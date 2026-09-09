@@ -168,86 +168,95 @@ export const ContactPage: React.FC = () => {
         <div className="absolute top-1/3 left-10 w-96 h-96 bg-[#00C896]/15 rounded-full blur-3xl pointer-events-none -z-10" />
         <div className="absolute top-1/2 right-10 w-80 h-80 bg-[#be1622]/10 rounded-full blur-3xl pointer-events-none -z-10" />
 
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 space-y-6">
-          
-          {/* Eyebrow Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: -15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-block"
-          >
-            <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-emerald-500/10 dark:bg-[#25D5AB]/15 border border-emerald-600/30 dark:border-[#25D5AB]/35 text-emerald-800 dark:text-[#25D5AB] text-xs sm:text-sm font-extrabold shadow-sm backdrop-blur-md">
-              <span className="flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/20 dark:bg-[#25D5AB]/20 animate-pulse">
-                <Globe className="w-3.5 h-3.5 text-emerald-700 dark:text-[#25D5AB]" />
-              </span>
-              <span>قنوات الاتصال والمساندة الذكية 2026</span>
-              <span className="text-slate-400">·</span>
-              <span className="text-xs font-bold text-slate-600 dark:text-slate-300">دعم متواصل 24/7</span>
-            </div>
-          </motion.div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-center">
+            
+            {/* Right Column: Hero Information & Headings (7 cols on lg in RTL) */}
+            <div className="lg:col-span-7 space-y-6 text-right">
+              
+              {/* Eyebrow Badge */}
+              <motion.div
+                initial={{ opacity: 0, y: -15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="inline-block"
+              >
+                <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-emerald-500/10 dark:bg-[#25D5AB]/15 border border-emerald-600/30 dark:border-[#25D5AB]/35 text-emerald-800 dark:text-[#25D5AB] text-xs sm:text-sm font-extrabold shadow-sm backdrop-blur-md">
+                  <span className="flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/20 dark:bg-[#25D5AB]/20 animate-pulse">
+                    <Globe className="w-3.5 h-3.5 text-emerald-700 dark:text-[#25D5AB]" />
+                  </span>
+                  <span>قنوات الاتصال والمساندة الذكية 2026</span>
+                  <span className="text-slate-400">·</span>
+                  <span className="text-xs font-bold text-slate-600 dark:text-slate-300">دعم متواصل 24/7</span>
+                </div>
+              </motion.div>
 
-          {/* Contact US Showcase Image */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="w-full max-w-3xl mx-auto flex items-center justify-center pt-2 pb-2 group select-none"
-          >
-            <img
-              src={contactUsImg}
-              alt="تواصل مع جرين فارم ماركت"
-              className="w-full h-auto max-h-[500px] object-contain rounded-3xl drop-shadow-2xl transition-transform duration-500 group-hover:scale-[1.01]"
-            />
-          </motion.div>
+              {/* Main Title */}
+              <motion.h1
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.2rem] font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.45] sm:leading-[1.4] lg:leading-[1.35] py-1"
+              >
+                تواصل مع{' '}
+                <span className="inline-block bg-gradient-to-r from-[#047857] via-[#059669] to-[#047857] dark:from-[#00C896] dark:via-[#25D5AB] dark:to-[#6EE7B7] bg-clip-text text-transparent drop-shadow-sm py-1">
+                  منظومة جرين فارم
+                </span>{' '}
+                ماركت
+              </motion.h1>
 
-          {/* Main Title */}
-          <motion.h1
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.4rem] font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.45] sm:leading-[1.4] lg:leading-[1.38] max-w-4xl mx-auto py-1.5"
-          >
-            تواصل مع{' '}
-            <span className="inline-block bg-gradient-to-r from-[#047857] via-[#059669] to-[#047857] dark:from-[#00C896] dark:via-[#25D5AB] dark:to-[#6EE7B7] bg-clip-text text-transparent drop-shadow-sm py-1">
-              منظومة جرين فارم
-            </span>{' '}
-            ماركت
-          </motion.h1>
+              {/* Subtitle */}
+              <motion.p
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="text-sm sm:text-base md:text-lg font-medium text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl"
+              >
+                فريقنا جاهز لمساعدتك في خدمات الزراعة الذكية، النقل، الاستثمار، والذكاء الاصطناعي الزراعي، وتقديم الاستشارات الفنية على مدار الساعة.
+              </motion.p>
 
-          {/* Subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-sm sm:text-base md:text-lg font-medium text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl mx-auto"
-          >
-            فريقنا جاهز لمساعدتك في خدمات الزراعة الذكية، النقل، الاستثمار، والذكاء الاصطناعي الزراعي، وتقديم الاستشارات الفنية على مدار الساعة.
-          </motion.p>
+              {/* Telemetry Badges */}
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="flex flex-wrap items-center gap-3 sm:gap-4 pt-2"
+              >
+                <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/70 dark:bg-[#0d1612]/80 border border-slate-200/80 dark:border-[#1e3b2c] text-xs font-extrabold text-slate-800 dark:text-slate-200 backdrop-blur-md shadow-xs">
+                  <Zap className="w-4 h-4 text-[#25D5AB] animate-pulse" />
+                  <span>زمن الاستجابة: أقل من 15 دقيقة</span>
+                </div>
 
-          {/* Telemetry Badges */}
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 pt-2"
-          >
-            <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/70 dark:bg-[#0d1612]/80 border border-slate-200/80 dark:border-[#1e3b2c] text-xs font-extrabold text-slate-800 dark:text-slate-200 backdrop-blur-md shadow-xs">
-              <Zap className="w-4 h-4 text-[#25D5AB] animate-pulse" />
-              <span>زمن الاستجابة: أقل من 15 دقيقة</span>
-            </div>
+                <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/70 dark:bg-[#0d1612]/80 border border-slate-200/80 dark:border-[#1e3b2c] text-xs font-extrabold text-slate-800 dark:text-slate-200 backdrop-blur-md shadow-xs">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                  <span>فريق الدعم متصل 24/7</span>
+                </div>
 
-            <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/70 dark:bg-[#0d1612]/80 border border-slate-200/80 dark:border-[#1e3b2c] text-xs font-extrabold text-slate-800 dark:text-slate-200 backdrop-blur-md shadow-xs">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-              <span>فريق الدعم متصل 24/7</span>
+                <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/70 dark:bg-[#0d1612]/80 border border-slate-200/80 dark:border-[#1e3b2c] text-xs font-extrabold text-slate-800 dark:text-slate-200 backdrop-blur-md shadow-xs">
+                  <MapPin className="w-4 h-4 text-[#be1622]" />
+                  <span>تغطية شاملة لـ 27 محافظة</span>
+                </div>
+              </motion.div>
+
             </div>
 
-            <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/70 dark:bg-[#0d1612]/80 border border-slate-200/80 dark:border-[#1e3b2c] text-xs font-extrabold text-slate-800 dark:text-slate-200 backdrop-blur-md shadow-xs">
-              <MapPin className="w-4 h-4 text-[#be1622]" />
-              <span>تغطية شاملة لـ 27 محافظة</span>
-            </div>
-          </motion.div>
+            {/* Left Column: Contact US Image (5 cols on lg in RTL) */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="lg:col-span-5 flex items-center justify-center"
+            >
+              <div className="relative w-full flex items-center justify-center group select-none">
+                <img
+                  src={contactUsImg}
+                  alt="تواصل مع جرين فارم ماركت"
+                  className="w-full h-auto max-h-[500px] object-contain rounded-3xl drop-shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]"
+                />
+              </div>
+            </motion.div>
 
+          </div>
         </div>
       </section>
 
