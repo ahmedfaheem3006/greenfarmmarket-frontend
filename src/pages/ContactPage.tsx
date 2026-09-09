@@ -5,7 +5,7 @@ import { toast } from '../store/toastStore';
 import { api } from '../services/api';
 import { useAuth } from '../store/authStore';
 import { BorderGlow } from '../components/ui/BorderGlow';
-import digitalMarketplaceImg from '../assets/Digital Agricultural 1 Marketplace.webp';
+import contactUsImg from '../assets/Contact US.png';
 import {
   PhoneCall,
   Mail,
@@ -511,77 +511,15 @@ export const ContactPage: React.FC = () => {
               </BorderGlow>
             </div>
 
-            {/* Left: AI Agriculture Communication Visual (5 cols on lg) */}
-            <div className="lg:col-span-5 flex flex-col">
-              <BorderGlow
-                edgeSensitivity={30}
-                borderRadius={28}
-                glowRadius={45}
-                glowIntensity={1.2}
-                coneSpread={25}
-                animated={false}
-                colors={['#00C896', '#25D5AB', '#6EE7B7']}
-                className="shadow-xl shadow-slate-200/50 dark:shadow-[#00040d] h-full"
-              >
-                <div className="relative rounded-[28px] overflow-hidden p-6 sm:p-7 bg-gradient-to-b from-[#0e1f17] to-[#040906] text-white space-y-5 isolate h-full flex flex-col justify-between">
-                  
-                  {/* Glowing Ambient Lights in Card */}
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-[#25D5AB]/20 rounded-full blur-3xl -z-10 pointer-events-none" />
-                  <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#047857]/30 rounded-full blur-3xl -z-10 pointer-events-none" />
-
-                  {/* Header Badge */}
-                  <div className="flex items-center justify-between border-b border-white/10 pb-3.5 relative z-10">
-                    <div className="flex items-center gap-2">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#25D5AB] animate-ping" />
-                      <span className="text-xs font-extrabold text-[#25D5AB]">شبكة الاتصال والربط الزراعي</span>
-                    </div>
-
-                    <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-[#6EE7B7] text-[11px] font-bold border border-emerald-500/30">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      <span>متصل 24/7</span>
-                    </div>
-                  </div>
-
-                  {/* Visual Image Presentation: Digital Agricultural 1 Marketplace.png */}
-                  <div className="relative flex-1 flex items-center justify-center my-2 group select-none">
-                    <img
-                      src={digitalMarketplaceImg}
-                      alt="Green Farm Market Digital Ecosystem"
-                      className="max-h-[250px] sm:max-h-[290px] w-auto object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.8)] filter brightness-105 group-hover:scale-105 transition-transform duration-500"
-                    />
-
-                    {/* Glowing ring under image */}
-                    <div className="absolute -bottom-2 w-52 h-10 bg-[#25D5AB]/30 rounded-full blur-xl -z-10 pointer-events-none" />
-                  </div>
-
-                  {/* Bottom Glass Telemetry Ribbon */}
-                  <div className="relative z-10 p-4 rounded-2xl bg-black/60 border border-white/10 backdrop-blur-md space-y-3 shadow-lg">
-                    <div className="flex items-center justify-between text-xs font-extrabold">
-                      <span className="text-white flex items-center gap-1.5">
-                        <Sparkles className="w-3.5 h-3.5 text-[#25D5AB]" />
-                        منظومة جرين فارم المتكاملة
-                      </span>
-                      <span className="text-[#25D5AB] font-bold">حماية وتشفير 100%</span>
-                    </div>
-
-                    <div className="grid grid-cols-3 gap-2 pt-1 text-center">
-                      <div className="p-2 rounded-xl bg-white/5 border border-white/5">
-                        <span className="text-[10px] block text-slate-400 font-medium">الاستجابة</span>
-                        <span className="text-xs font-extrabold text-[#6EE7B7]">⚡ فورية</span>
-                      </div>
-                      <div className="p-2 rounded-xl bg-white/5 border border-white/5">
-                        <span className="text-[10px] block text-slate-400 font-medium">الاستشارات</span>
-                        <span className="text-xs font-extrabold text-[#6EE7B7]">👨‍🌾 معتمدة</span>
-                      </div>
-                      <div className="p-2 rounded-xl bg-white/5 border border-white/5">
-                        <span className="text-[10px] block text-slate-400 font-medium">المحافظات</span>
-                        <span className="text-xs font-extrabold text-[#6EE7B7]">🇪🇬 27 محافظة</span>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </BorderGlow>
+            {/* Left: Contact US Image (Clean presentation without rectangle or extra content) */}
+            <div className="lg:col-span-5 flex items-center justify-center">
+              <div className="relative w-full flex items-center justify-center group select-none">
+                <img
+                  src={contactUsImg}
+                  alt="تواصل مع جرين فارم ماركت"
+                  className="w-full h-auto max-h-[580px] object-contain rounded-3xl drop-shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]"
+                />
+              </div>
             </div>
 
           </div>

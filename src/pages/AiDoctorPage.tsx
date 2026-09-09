@@ -7,8 +7,7 @@ import { api } from '../services/api';
 import { Diagnosis } from '../types';
 import { BorderGlow } from '../components/ui/BorderGlow';
 
-import aiVeterinaryDoctorImg from '../assets/AI Veterinary Doctor.webp';
-import aiAgriculturalDoctorImg from '../assets/AI Agricultural Doctor.webp';
+import doctorImg from '../assets/Docker.png';
 
 import {
   Stethoscope,
@@ -408,39 +407,8 @@ export const AiDoctorPage: React.FC = () => {
 
             </div>
 
-            {/* Right Column: Hero Visual Showcase (Interactive Switcher: Plant Doctor vs Veterinary Doctor) */}
-            <div className="lg:col-span-5 space-y-3">
-              
-              {/* Interactive Switcher Buttons */}
-              <div className="flex p-1.5 rounded-2xl bg-white dark:bg-[#160a0c] border border-slate-200 dark:border-[#2b1014] text-xs font-black shadow-sm">
-                <button
-                  type="button"
-                  onClick={() => setSubjectType('PLANTS')}
-                  className={`flex-1 py-2.5 rounded-xl transition cursor-pointer flex items-center justify-center gap-2 ${
-                    subjectType === 'PLANTS'
-                      ? 'bg-gradient-to-r from-[#be1622] to-[#e63946] text-white shadow-md'
-                      : 'text-slate-600 dark:text-slate-400 hover:text-red-500'
-                  }`}
-                >
-                  <Leaf className="w-4 h-4" />
-                  <span>طبيب النبات (AI Plant Doctor)</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setSubjectType('LIVESTOCK')}
-                  className={`flex-1 py-2.5 rounded-xl transition cursor-pointer flex items-center justify-center gap-2 ${
-                    subjectType === 'LIVESTOCK'
-                      ? 'bg-gradient-to-r from-[#be1622] to-[#e63946] text-white shadow-md'
-                      : 'text-slate-600 dark:text-slate-400 hover:text-red-500'
-                  }`}
-                >
-                  <Beef className="w-4 h-4" />
-                  <span>طبيب الحيوان (AI Vet Doctor)</span>
-                </button>
-              </div>
-
-              {/* Showcase Image Border Glow Card */}
+            {/* Right Column: Hero Visual Showcase (Doctor Showcase Image) */}
+            <div className="lg:col-span-5">
               <BorderGlow
                 edgeSensitivity={30}
                 borderRadius={32}
@@ -453,40 +421,10 @@ export const AiDoctorPage: React.FC = () => {
               >
                 <div className="relative rounded-[32px] overflow-hidden bg-slate-900 border border-slate-200/80 dark:border-[#2b1014] group">
                   <img
-                    src={subjectType === 'PLANTS' ? aiAgriculturalDoctorImg : aiVeterinaryDoctorImg}
-                    alt={subjectType === 'PLANTS' ? 'طبيب النبات الذكي' : 'طبيب الحيوان الذكي'}
-                    className="w-full h-[360px] sm:h-[400px] object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                    src={doctorImg}
+                    alt="صيدلية وطبيب جرين فارم ماركت الذكي"
+                    className="w-full h-auto object-cover object-center group-hover:scale-105 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#00040d]/90 via-[#00040d]/20 to-transparent" />
-
-                  {/* Top Floating Status Badge */}
-                  <div className="absolute top-4 right-4 p-2.5 rounded-2xl bg-[#14080a]/90 backdrop-blur-md border border-[#be1622]/40 text-xs text-white flex items-center gap-2 shadow-lg">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff6b6b] opacity-75" />
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-[#be1622]" />
-                    </span>
-                    <span className="font-extrabold text-[11px]">
-                      {subjectType === 'PLANTS' ? 'محرك فحص المحاصيل والأشجار' : 'محرك فحص الثروة الحيوانية والداجنة'}
-                    </span>
-                  </div>
-
-                  {/* Bottom Telemetry Card */}
-                  <div className="absolute bottom-4 right-4 left-4 p-4 rounded-2xl bg-[#100608]/95 backdrop-blur-md border border-white/10 space-y-1.5 text-right">
-                    <div className="flex items-center justify-between">
-                      <strong className="text-white text-xs sm:text-sm font-black flex items-center gap-1.5">
-                        <Microscope className="w-4 h-4 text-[#ff6b6b]" />
-                        نظام التشخيص البيطري والزراعي 2026
-                      </strong>
-                      <span className="px-2 py-0.5 rounded-md bg-emerald-500/20 text-[#00C896] text-[10px] font-bold">
-                        96% دقة فحص
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-slate-300 font-medium leading-[1.6]">
-                      {subjectType === 'PLANTS'
-                        ? 'كشف مبكر عن اللفحات، التبقعات، البياض الدقيقي، ونقص العناصر الصغرى والكبرى.'
-                        : 'تشخيص فوري لالتهابات الضرع، الجلد العقدي، الطفيليات، واضطرابات التغذية.'}
-                    </p>
-                  </div>
                 </div>
               </BorderGlow>
             </div>
