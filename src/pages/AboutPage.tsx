@@ -17,7 +17,6 @@ import {
   Stethoscope,
   Briefcase,
   Newspaper,
-  ShieldCheck,
   TrendingUp,
   Target,
   Compass,
@@ -332,60 +331,36 @@ export const AboutPage: React.FC = () => {
 
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-9">
           
-          {/* Ultra-Premium 3D Floating Logo Showcase Pedestal */}
+          {/* Prominent Logo with Radiant Glow */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="flex justify-center items-center py-1"
+            className="flex justify-center items-center py-2 sm:py-4"
           >
-            <div className="relative group cursor-pointer">
-              
-              {/* Concentric Multi-Color Ambient Glow Rings */}
-              <div className="absolute -inset-6 bg-gradient-to-r from-emerald-500/25 via-[#25D5AB]/30 to-[#be1622]/25 rounded-[36px] blur-2xl opacity-75 group-hover:opacity-100 transition duration-700 pointer-events-none" />
-              
-              {/* Luxury Floating Glass Container */}
-              <div className="relative z-10 p-4 sm:p-6 rounded-[32px] bg-gradient-to-b from-white/95 to-slate-50/90 dark:from-[#0d1612]/95 dark:to-[#070c09]/95 border-2 border-emerald-500/30 dark:border-[#25D5AB]/40 shadow-2xl shadow-emerald-600/15 dark:shadow-[#00040d] backdrop-blur-xl transition-transform duration-500 group-hover:scale-105 group-hover:-translate-y-1">
-                
-                {/* Verified Brand Badge Header */}
-                <div className="flex items-center justify-center gap-1.5 pb-2.5 mb-2 border-b border-slate-200/80 dark:border-[#1e3b2c]">
-                  <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-[#25D5AB]" />
-                  <span className="text-[11px] sm:text-xs font-mono font-extrabold text-emerald-800 dark:text-[#25D5AB] tracking-wide">
-                    GREEN FARM MARKET • منظومة زراعية معتمدة
-                  </span>
-                </div>
+            <div className="relative flex items-center justify-center group cursor-pointer">
+              {/* Outer Radiant Ambient Glow */}
+              <div className="absolute -inset-10 sm:-inset-16 bg-gradient-to-r from-emerald-500/25 via-[#25D5AB]/35 to-emerald-400/25 dark:from-[#00C896]/35 dark:via-[#25D5AB]/45 dark:to-teal-400/30 rounded-full blur-3xl opacity-80 group-hover:opacity-100 transition-all duration-700 pointer-events-none -z-10" />
 
-                {/* The Dynamic Logo View (Light & Dark Mode) */}
-                <div className="px-4 py-1 flex items-center justify-center">
-                  {/* Light Mode Logo */}
-                  <img
-                    src={logoLightImg}
-                    alt="شعار جرين فارم ماركت"
-                    className="block dark:hidden h-28 sm:h-36 md:h-44 w-auto object-contain select-none filter drop-shadow-md transition-all duration-300 group-hover:drop-shadow-xl"
-                  />
-                  {/* Dark Mode Logo */}
-                  <img
-                    src={logoWhiteImg}
-                    alt="شعار جرين فارم ماركت"
-                    className="hidden dark:block h-28 sm:h-36 md:h-44 w-auto object-contain select-none filter drop-shadow-2xl transition-all duration-300 group-hover:drop-shadow-[0_15px_30px_rgba(37,213,171,0.35)]"
-                  />
-                </div>
+              {/* Inner Core Bright Glow */}
+              <div
+                className="absolute w-44 sm:w-64 md:w-80 h-28 sm:h-44 md:h-56 bg-emerald-400/30 dark:bg-[#25D5AB]/45 rounded-full blur-2xl pointer-events-none -z-10 animate-pulse"
+                style={{ animationDuration: '3.5s' }}
+              />
 
-                {/* Bottom Trust Pills */}
-                <div className="flex items-center justify-center gap-2 pt-2.5 mt-2 border-t border-slate-200/80 dark:border-[#1e3b2c]">
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 dark:bg-[#25D5AB]/15 text-emerald-700 dark:text-[#25D5AB]">
-                    ذكاء اصطناعي AI
-                  </span>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#be1622]/10 text-[#be1622]">
-                    تجارة مباشرة 100%
-                  </span>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
-                    لوجستيات ذكية
-                  </span>
-                </div>
-
-              </div>
-
+              {/* The Dynamic Logo View (Light & Dark Mode) */}
+              {/* Light Mode Logo */}
+              <img
+                src={logoLightImg}
+                alt="شعار جرين فارم ماركت"
+                className="block dark:hidden h-36 sm:h-48 md:h-60 lg:h-72 w-auto object-contain select-none filter drop-shadow-[0_12px_28px_rgba(5,150,105,0.25)] transition-all duration-500 group-hover:scale-105 group-hover:drop-shadow-[0_16px_36px_rgba(5,150,105,0.35)]"
+              />
+              {/* Dark Mode Logo */}
+              <img
+                src={logoWhiteImg}
+                alt="شعار جرين فارم ماركت"
+                className="hidden dark:block h-36 sm:h-48 md:h-60 lg:h-72 w-auto object-contain select-none filter drop-shadow-[0_0_35px_rgba(37,213,171,0.5)] transition-all duration-500 group-hover:scale-105 group-hover:drop-shadow-[0_0_55px_rgba(37,213,171,0.7)]"
+              />
             </div>
           </motion.div>
 
