@@ -187,6 +187,20 @@ export const ContactPage: React.FC = () => {
             </div>
           </motion.div>
 
+          {/* Contact US Showcase Image */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="w-full max-w-3xl mx-auto flex items-center justify-center pt-2 pb-2 group select-none"
+          >
+            <img
+              src={contactUsImg}
+              alt="تواصل مع جرين فارم ماركت"
+              className="w-full h-auto max-h-[500px] object-contain rounded-3xl drop-shadow-2xl transition-transform duration-500 group-hover:scale-[1.01]"
+            />
+          </motion.div>
+
           {/* Main Title */}
           <motion.h1
             initial={{ opacity: 0, y: 15 }}
@@ -309,26 +323,22 @@ export const ContactPage: React.FC = () => {
       </section>
 
       {/* ==================================================
-          SECTION 3: CONTACT EXPERIENCE (Two-Column Layout)
+          SECTION 3: CONTACT FORM (Centered Standalone Form)
       ================================================== */}
       <section ref={formRef} className="py-12 sm:py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-            
-            {/* Right: Contact Form (7 cols on lg in RTL) */}
-            <div className="lg:col-span-7 flex flex-col">
-              <BorderGlow
-                edgeSensitivity={30}
-                borderRadius={28}
-                glowRadius={45}
-                glowIntensity={1.1}
-                coneSpread={25}
-                animated={false}
-                colors={['#00C896', '#25D5AB', '#6EE7B7']}
-                className="shadow-xl shadow-slate-200/50 dark:shadow-[#00040d] h-full"
-              >
-                <div className="p-6 sm:p-8 lg:p-10 bg-white dark:bg-[#0d1612] rounded-[28px] text-right space-y-6 relative overflow-hidden backdrop-blur-md h-full flex flex-col justify-between">
+          <BorderGlow
+            edgeSensitivity={30}
+            borderRadius={28}
+            glowRadius={45}
+            glowIntensity={1.1}
+            coneSpread={25}
+            animated={false}
+            colors={['#00C896', '#25D5AB', '#6EE7B7']}
+            className="shadow-xl shadow-slate-200/50 dark:shadow-[#00040d]"
+          >
+            <div className="p-6 sm:p-8 lg:p-10 bg-white dark:bg-[#0d1612] rounded-[28px] text-right space-y-6 relative overflow-hidden backdrop-blur-md">
                   
                   {/* Ambient Highlight */}
                   <div className="absolute top-0 right-0 w-64 h-64 bg-[#25D5AB]/10 rounded-full blur-3xl pointer-events-none -z-10" />
@@ -509,20 +519,6 @@ export const ContactPage: React.FC = () => {
 
                 </div>
               </BorderGlow>
-            </div>
-
-            {/* Left: Contact US Image (Clean presentation without rectangle or extra content) */}
-            <div className="lg:col-span-5 flex items-center justify-center">
-              <div className="relative w-full flex items-center justify-center group select-none">
-                <img
-                  src={contactUsImg}
-                  alt="تواصل مع جرين فارم ماركت"
-                  className="w-full h-auto max-h-[580px] object-contain rounded-3xl drop-shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]"
-                />
-              </div>
-            </div>
-
-          </div>
 
         </div>
       </section>

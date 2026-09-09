@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import logoLightImg from '../assets/Final_logo.png';
 import logoWhiteImg from '../assets/Logo_white.png';
+import aboutImg from '../assets/About.png';
 import marketplaceImg1 from '../assets/Digital Agricultural Marketplace.webp';
 import marketplaceImg2 from '../assets/Digital Agricultural 1 Marketplace.webp';
 import { BorderGlow } from '../components/ui/BorderGlow';
@@ -400,6 +401,20 @@ export const AboutPage: React.FC = () => {
           >
             المنصة التكنولوجية الأولى في الشرق الأوسط التي تدمج التجارة المباشرة، النقل الذكي، التوظيف الزراعي، وتشخيص الأمراض بالذكاء الاصطناعي لإحداث ثورة رقمية مستدامة.
           </motion.p>
+
+          {/* Platform Showcase Image */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.35 }}
+            className="w-full max-w-4xl mx-auto flex items-center justify-center pt-4 pb-2 group select-none"
+          >
+            <img
+              src={aboutImg}
+              alt="عن منصة جرين فارم ماركت"
+              className="w-full h-auto max-h-[520px] object-contain rounded-3xl drop-shadow-2xl transition-transform duration-500 group-hover:scale-[1.01]"
+            />
+          </motion.div>
 
           {/* Two CTA Buttons */}
           <motion.div

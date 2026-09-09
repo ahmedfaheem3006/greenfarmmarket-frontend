@@ -6,7 +6,7 @@ import { toast } from '../store/toastStore';
 import { api } from '../services/api';
 import { Product } from '../types';
 import { BorderGlow } from '../components/ui/BorderGlow';
-import marketplaceImg from '../assets/Digital Agricultural Marketplace.webp';
+import marketplaceImg from '../assets/Market place.png';
 import {
   Store,
   PlusCircle,
@@ -358,72 +358,20 @@ export const MarketplacePage: React.FC = () => {
               </div>
             </motion.div>
 
-            {/* Left: Futuristic Visual Card (5 cols on lg in RTL) */}
+            {/* Left: Marketplace Showcase Image (Clean presentation without rectangular card) */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6 }}
-              className="lg:col-span-5"
+              className="lg:col-span-5 flex items-center justify-center"
             >
-              <BorderGlow
-                edgeSensitivity={30}
-                borderRadius={28}
-                glowRadius={45}
-                glowIntensity={1.2}
-                coneSpread={25}
-                animated={false}
-                colors={['#00C896', '#25D5AB', '#6EE7B7']}
-                className="shadow-2xl shadow-slate-200/50 dark:shadow-[#00040d]"
-              >
-                <div className="relative rounded-[28px] overflow-hidden p-6 sm:p-7 bg-gradient-to-b from-[#0e1f17] to-[#040906] text-white space-y-5 isolate">
-                  
-                  {/* Glowing Ambient Lights in Card */}
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-[#25D5AB]/20 rounded-full blur-3xl -z-10 pointer-events-none" />
-                  <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#047857]/30 rounded-full blur-3xl -z-10 pointer-events-none" />
-
-                  {/* Header Badge */}
-                  <div className="flex items-center justify-between border-b border-white/10 pb-3.5">
-                    <div className="flex items-center gap-2">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#25D5AB] animate-ping" />
-                      <span className="text-xs font-extrabold text-[#25D5AB]">البورصة الزراعية اللحظية</span>
-                    </div>
-
-                    <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-[#6EE7B7] text-[11px] font-bold border border-emerald-500/30">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      <span>تداول مباشر 24/7</span>
-                    </div>
-                  </div>
-
-                  {/* Marketplace Image Showcase */}
-                  <div className="relative flex items-center justify-center my-2 group select-none">
-                    <img
-                      src={marketplaceImg}
-                      alt="Green Farm Digital Marketplace"
-                      className="max-h-[250px] sm:max-h-[290px] w-auto object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.8)] filter brightness-105 group-hover:scale-105 transition-transform duration-500"
-                    />
-
-                    {/* Glowing ring under image */}
-                    <div className="absolute -bottom-2 w-52 h-10 bg-[#25D5AB]/30 rounded-full blur-xl -z-10 pointer-events-none" />
-                  </div>
-
-                  {/* Bottom Stats Banner */}
-                  <div className="grid grid-cols-3 gap-2 pt-1 text-center">
-                    <div className="p-2.5 rounded-2xl bg-white/5 border border-white/5 space-y-0.5">
-                      <span className="text-[10px] block text-slate-400 font-medium">العمولة الوسيطة</span>
-                      <span className="text-xs font-extrabold text-[#6EE7B7]">0% مجاني</span>
-                    </div>
-                    <div className="p-2.5 rounded-2xl bg-white/5 border border-white/5 space-y-0.5">
-                      <span className="text-[10px] block text-slate-400 font-medium">سرعة التواصل</span>
-                      <span className="text-xs font-extrabold text-[#6EE7B7]">⚡ هاتفي فوري</span>
-                    </div>
-                    <div className="p-2.5 rounded-2xl bg-white/5 border border-white/5 space-y-0.5">
-                      <span className="text-[10px] block text-slate-400 font-medium">النقل المتاح</span>
-                      <span className="text-xs font-extrabold text-[#6EE7B7]">🚚 بضغطة زر</span>
-                    </div>
-                  </div>
-
-                </div>
-              </BorderGlow>
+              <div className="relative w-full flex items-center justify-center group select-none">
+                <img
+                  src={marketplaceImg}
+                  alt="سوق جرين فارم ماركت الزراعي"
+                  className="w-full h-auto max-h-[580px] object-contain rounded-3xl drop-shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]"
+                />
+              </div>
             </motion.div>
 
           </div>

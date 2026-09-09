@@ -41,7 +41,7 @@ import {
   Eye,
 } from 'lucide-react';
 
-import marketIntelligenceImg from '../assets/Market Intelligence  Agricultural Exchange.webp';
+import newsImg from '../assets/News.png';
 import agriculturalNewsImg from '../assets/Agricultural News.webp';
 
 interface MarketItem {
@@ -349,7 +349,7 @@ export const NewsPage: React.FC = () => {
 
             </div>
 
-            {/* Right Column: Hero Visual Showcase (Market Intelligence Image) */}
+            {/* Right Column: Hero Visual Showcase (News Image) */}
             <div className="lg:col-span-5">
               <BorderGlow
                 edgeSensitivity={30}
@@ -363,35 +363,10 @@ export const NewsPage: React.FC = () => {
               >
                 <div className="relative rounded-[32px] overflow-hidden bg-slate-900 border border-slate-200/80 dark:border-[#2a1c43] group">
                   <img
-                    src={marketIntelligenceImg}
-                    alt="مركز الذكاء الزراعي والبورصة"
-                    className="w-full h-[360px] sm:h-[400px] object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                    src={newsImg}
+                    alt="أخبار وبورصة جرين فارم ماركت"
+                    className="w-full h-auto object-cover object-center group-hover:scale-105 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#00040d]/90 via-[#00040d]/30 to-transparent" />
-
-                  {/* Floating Badges on Image */}
-                  <div className="absolute top-4 right-4 p-2.5 rounded-2xl bg-[#110b1f]/90 backdrop-blur-md border border-purple-500/30 text-xs text-white flex items-center gap-2 shadow-lg">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#A855F7] opacity-75" />
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-[#7C3AED]" />
-                    </span>
-                    <span className="font-extrabold text-[11px]">مؤشرات الأسواق والبورصة | Live Ticker</span>
-                  </div>
-
-                  <div className="absolute bottom-4 right-4 left-4 p-4 rounded-2xl bg-[#0d0718]/95 backdrop-blur-md border border-white/10 space-y-1.5 text-right">
-                    <div className="flex items-center justify-between">
-                      <strong className="text-white text-xs sm:text-sm font-black flex items-center gap-1.5">
-                        <BarChart3 className="w-4 h-4 text-[#A855F7]" />
-                        منظومة رصد الأسعار والذكاء الزراعي 2026
-                      </strong>
-                      <span className="px-2 py-0.5 rounded-md bg-purple-500/20 text-[#A855F7] text-[10px] font-bold">
-                        Bloomberg Agri
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-slate-300 font-medium leading-[1.6]">
-                      تحديثات لحظية لحركة أسعار القمح، الأعلاف، اللحوم، والخضروات بأسواق الجملة المركزية.
-                    </p>
-                  </div>
                 </div>
               </BorderGlow>
             </div>
