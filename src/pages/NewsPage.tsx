@@ -81,6 +81,25 @@ export const NewsPage: React.FC = () => {
   const [selectedArticleForRead, setSelectedArticleForRead] = useState<Article | null>(null);
   const [showAddNewsModal, setShowAddNewsModal] = useState(false);
   const [showAddMarketModal, setShowAddMarketModal] = useState(false);
+  const [syncingMarket, setSyncingMarket] = useState(false);
+
+  const handleAiSyncMarket = async () => {
+    setSyncingMarket(true);
+    try {
+      const res = await api.post('/news/market/sync');
+      if (res.data?.success) {
+        toast.success(res.data?.message || 'تم تحديث أسعار البورصة اليومية بنجاح!');
+        fetchMarketUpdates();
+      } else {
+        toast.error(res.data?.message || 'فشل التحديث.');
+      }
+    } catch (err: any) {
+      const msg = err?.response?.data?.message || 'تعذر تحديث الأسعار آلياً. يرجى التأكد من تسجيل الدخول كأدمن.';
+      toast.error(msg);
+    } finally {
+      setSyncingMarket(false);
+    }
+  };
 
   // Add News Form State
   const [newArticleData, setNewArticleData] = useState({
@@ -384,12 +403,16 @@ export const NewsPage: React.FC = () => {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200/80 dark:border-[#211634] pb-5">
           <div className="space-y-1">
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <h2 className="text-2xl font-black text-slate-900 dark:text-white">
                 لوحة البورصة وأسعار السلع والمواشي اليوم
               </h2>
               <span className="px-2.5 py-0.5 rounded-full bg-purple-500/15 text-[#A855F7] text-xs font-mono font-bold">
                 {filteredMarketUpdates.length} سلعة مسجلة
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-700 dark:text-[#25D5AB] text-[11px] font-extrabold">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span>محدثة يومياً بأسعار البورصة الفعلية</span>
               </span>
             </div>
             <p className="text-xs text-slate-500 dark:text-slate-400 font-bold">
@@ -397,16 +420,29 @@ export const NewsPage: React.FC = () => {
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             {isAdmin && (
-              <button
-                type="button"
-                onClick={() => setShowAddMarketModal(true)}
-                className="px-4 py-2.5 rounded-2xl bg-gradient-to-r from-[#7C3AED] to-[#A855F7] text-white font-black text-xs flex items-center gap-1.5 shadow-md cursor-pointer"
-              >
-                <PlusCircle className="w-4 h-4" />
-                <span>+ إضافة / تحديث سعر سلعة</span>
-              </button>
+              <>
+                <button
+                  type="button"
+                  onClick={handleAiSyncMarket}
+                  disabled={syncingMarket}
+                  className="px-4 py-2.5 rounded-2xl bg-gradient-to-r from-emerald-600 via-[#00C896] to-[#25D5AB] text-slate-950 font-black text-xs flex items-center gap-1.5 shadow-md hover:shadow-emerald-500/25 transition cursor-pointer disabled:opacity-50"
+                  title="تحديث ومزامنة جميع أسعار السلع وفق مؤشرات الأسواق الرسمية اليومية"
+                >
+                  <Sparkles className={`w-4 h-4 ${syncingMarket ? 'animate-spin' : ''}`} />
+                  <span>{syncingMarket ? 'جاري التحديث...' : '⚡ تحديث البورصة اليومي (Live Sync)'}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setShowAddMarketModal(true)}
+                  className="px-4 py-2.5 rounded-2xl bg-gradient-to-r from-[#7C3AED] to-[#A855F7] text-white font-black text-xs flex items-center gap-1.5 shadow-md cursor-pointer"
+                >
+                  <PlusCircle className="w-4 h-4" />
+                  <span>+ إضافة سلعة يدوياً</span>
+                </button>
+              </>
             )}
 
             <button

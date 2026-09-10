@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import heroBg from '../assets/hero 5.webp';
@@ -86,14 +86,36 @@ export const HomePage: React.FC = () => {
     satelliteTemp?: string;
   } | null>(null);
 
-  // Stock Ticker Items
-  const stockTickerItems = [
-    { label: '🌾 القمح المحلي', price: '2100 ج/إردب', status: 'up' },
-    { label: '🌽 الذرة الصفراء', price: '12,500 ج/طن', status: 'stable' },
-    { label: '🐂 عجل التسمين القائم', price: '175 ج/كيلو', status: 'stable' },
-    { label: '🥭 المانجو الفص', price: '45,000 ج/طن', status: 'up' },
-    { label: '🚛 النقل الذكي', price: 'انخفاض تكاليف الشحن اللوجستي بنسبة 18%', status: 'down' },
-  ];
+  // Dynamic Stock Ticker Items (Connected to Live Agricultural Exchange API)
+  const [stockTickerItems, setStockTickerItems] = useState([
+    { label: '🌾 القمح البلدي الممتاز', price: '2,100 ج.م / إردب', trend: 'UP' },
+    { label: '🌽 الذرة الصفراء', price: '12,650 ج.م / طن', trend: 'DOWN' },
+    { label: '🐂 عجل التسمين القائم', price: '175 ج.م / كجم', trend: 'UP' },
+    { label: '🌱 فول الصويا 44%', price: '21,800 ج.م / طن', trend: 'UP' },
+    { label: '🐔 دواجن بيضاء (مزرعة)', price: '75 ج.م / كجم', trend: 'DOWN' },
+    { label: '🥚 كرتونة بيض أحمر', price: '154 ج.م / كرتونة', trend: 'UP' },
+    { label: '🚛 النقل الذكي', price: 'انخفاض تكاليف الشحن اللوجستي 18%', trend: 'DOWN' },
+  ]);
+
+  useEffect(() => {
+    api.get('/news/market')
+      .then((res) => {
+        if (res.data?.success && Array.isArray(res.data.data) && res.data.data.length > 0) {
+          const items = res.data.data.slice(0, 10).map((m: any) => ({
+            label: m.commodity,
+            price: `${Number(m.price).toLocaleString()} ${m.priceUnit}`,
+            trend: m.trend || (m.change > 0 ? 'UP' : m.change < 0 ? 'DOWN' : 'STABLE'),
+          }));
+          items.push({
+            label: '🚛 النقل الذكي',
+            price: 'انخفاض تكاليف الشحن اللوجستي 18%',
+            trend: 'DOWN',
+          });
+          setStockTickerItems(items);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   // Strategic Pillars Data with High-Contrast Emerald Green in Light Mode & Neon in Dark Mode
   const strategicPillars = [
@@ -334,29 +356,55 @@ export const HomePage: React.FC = () => {
       ================================================== */}
       <div className="bg-surface-muted/90 border-y border-borderColor py-2.5 overflow-hidden select-none relative z-20">
         <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-12 flex items-center gap-4">
-          <div className="flex items-center gap-2 bg-brand-green-soft text-brand-green border border-brand-green/30 px-3.5 py-1 rounded-full text-xs font-ibm font-bold flex-shrink-0 shadow-sm z-10">
+          <Link
+            to="/news#market-dashboard"
+            className="flex items-center gap-2 bg-brand-green-soft text-brand-green hover:bg-brand-green hover:text-white transition border border-brand-green/30 px-3.5 py-1 rounded-full text-xs font-ibm font-bold flex-shrink-0 shadow-sm z-10 cursor-pointer"
+            title="انقر للانتقال إلى جدول البورصة والأسعار الكامل"
+          >
             <TrendingUp className="w-3.5 h-3.5 animate-pulse" />
             <span>البورصة الزراعية المباشرة</span>
-          </div>
+          </Link>
 
           <div className="flex-1 overflow-hidden relative flex items-center select-none" dir="ltr">
             <div className="flex items-center gap-8 shrink-0 min-w-full justify-around animate-marquee py-0.5 pr-8">
               {stockTickerItems.map((item, idx) => (
-                <div key={idx} className="flex items-center gap-2 font-ibm" dir="rtl">
+                <Link
+                  key={idx}
+                  to="/news#market-dashboard"
+                  className="flex items-center gap-2 font-ibm hover:opacity-80 transition cursor-pointer"
+                  dir="rtl"
+                >
                   <span className="text-text-secondary font-noto font-bold">{item.label}:</span>
                   <span className="text-text-primary font-ibm font-black">{item.price}</span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-brand-green" />
-                </div>
+                  {item.trend === 'UP' ? (
+                    <span className="text-emerald-500 text-xs font-bold leading-none">▲</span>
+                  ) : item.trend === 'DOWN' ? (
+                    <span className="text-rose-500 text-xs font-bold leading-none">▼</span>
+                  ) : (
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-green" />
+                  )}
+                </Link>
               ))}
             </div>
 
             <div className="flex items-center gap-8 shrink-0 min-w-full justify-around animate-marquee py-0.5 pr-8" aria-hidden="true">
               {stockTickerItems.map((item, idx) => (
-                <div key={`dup-${idx}`} className="flex items-center gap-2 font-ibm" dir="rtl">
+                <Link
+                  key={`dup-${idx}`}
+                  to="/news#market-dashboard"
+                  className="flex items-center gap-2 font-ibm hover:opacity-80 transition cursor-pointer"
+                  dir="rtl"
+                >
                   <span className="text-text-secondary font-noto font-bold">{item.label}:</span>
                   <span className="text-text-primary font-ibm font-black">{item.price}</span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-brand-green" />
-                </div>
+                  {item.trend === 'UP' ? (
+                    <span className="text-emerald-500 text-xs font-bold leading-none">▲</span>
+                  ) : item.trend === 'DOWN' ? (
+                    <span className="text-rose-500 text-xs font-bold leading-none">▼</span>
+                  ) : (
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-green" />
+                  )}
+                </Link>
               ))}
             </div>
           </div>
