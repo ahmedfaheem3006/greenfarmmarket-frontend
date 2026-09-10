@@ -479,7 +479,11 @@ export const RegisterPage: React.FC = () => {
                     STEP 2: PERSONAL INFORMATION INPUTS
                 ================================================== */}
                 {step === 2 && (
-                  <motion.div
+                  <motion.form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handleNextStep();
+                    }}
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="space-y-4"
@@ -505,6 +509,7 @@ export const RegisterPage: React.FC = () => {
                         <input
                           type="text"
                           required
+                          autoComplete="name"
                           value={name}
                           onChange={(e) => setName(e.target.value)}
                           placeholder="الاسم الثلاثي كما بالبطاقة"
@@ -521,6 +526,7 @@ export const RegisterPage: React.FC = () => {
                         <input
                           type="email"
                           required
+                          autoComplete="email"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="name@example.com"
@@ -537,6 +543,7 @@ export const RegisterPage: React.FC = () => {
                         <input
                           type="tel"
                           required
+                          autoComplete="tel"
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
                           placeholder="01099856661"
@@ -604,6 +611,7 @@ export const RegisterPage: React.FC = () => {
                           <input
                             type={showPassword ? 'text' : 'password'}
                             required
+                            autoComplete="new-password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="6 أحرف على الأقل"
@@ -628,6 +636,7 @@ export const RegisterPage: React.FC = () => {
                         <input
                           type={showPassword ? 'text' : 'password'}
                           required
+                          autoComplete="new-password"
                           value={confirmPassword}
                           onChange={(e) => setConfirmPassword(e.target.value)}
                           placeholder="إعادة إدخال كلمة المرور"
@@ -648,22 +657,22 @@ export const RegisterPage: React.FC = () => {
                       </button>
 
                       <button
-                        type="button"
-                        onClick={handleNextStep}
+                        type="submit"
                         className="px-8 py-3.5 rounded-[20px] bg-gradient-to-r from-[#00C896] via-[#25D5AB] to-[#6EE7B7] text-slate-950 font-black text-xs sm:text-sm shadow-lg shadow-[#25D5AB]/25 hover:shadow-xl hover:shadow-[#25D5AB]/40 hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center gap-2 cursor-pointer"
                       >
                         <span>متابعة إلى خطوة التوثيق</span>
                         <ArrowLeft className="w-4 h-4" />
                       </button>
                     </div>
-                  </motion.div>
+                  </motion.form>
                 )}
 
                 {/* ==================================================
                     STEP 3: ACCOUNT VERIFICATION & CONFIRMATION
                 ================================================== */}
                 {step === 3 && (
-                  <motion.div
+                  <motion.form
+                    onSubmit={handleFinalSubmit}
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="space-y-5"
@@ -811,8 +820,7 @@ export const RegisterPage: React.FC = () => {
                       </button>
 
                       <button
-                        type="button"
-                        onClick={handleFinalSubmit}
+                        type="submit"
                         disabled={loading}
                         className="flex-1 py-4 rounded-[20px] bg-gradient-to-r from-[#00C896] via-[#25D5AB] to-[#6EE7B7] text-slate-950 font-black text-xs sm:text-sm shadow-xl shadow-[#25D5AB]/25 hover:shadow-2xl hover:shadow-[#25D5AB]/40 hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2.5 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed select-none"
                       >
@@ -830,7 +838,7 @@ export const RegisterPage: React.FC = () => {
                       </button>
                     </div>
 
-                  </motion.div>
+                  </motion.form>
                 )}
 
                 {/* Footer Switch */}

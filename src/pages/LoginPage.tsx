@@ -230,6 +230,7 @@ export const LoginPage: React.FC = () => {
                       <input
                         type="text"
                         required
+                        autoComplete="username"
                         value={emailOrPhone}
                         onChange={(e) => setEmailOrPhone(e.target.value)}
                         placeholder="example@greenfarm.com أو 01099856661"
@@ -258,6 +259,7 @@ export const LoginPage: React.FC = () => {
                       <input
                         type={showPassword ? 'text' : 'password'}
                         required
+                        autoComplete="current-password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="••••••••"
